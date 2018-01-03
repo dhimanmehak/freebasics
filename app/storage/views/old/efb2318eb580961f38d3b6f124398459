@@ -1,0 +1,157 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Change Requests</h6>
+                </div>
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project title
+                                </th>
+                                <th>
+                                    Funding goal
+                                </th>
+                                <th>
+                                    Funding Duration
+                                </th>
+                                <th>
+                                    Message
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Createdon
+                                </th>                               
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($requests as $key=>$request): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $request->projecttitle; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $request->fundinggoal; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $request->fundingduration; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $request->message; ?>
+
+                                </td>
+                                <td class="center">
+                                     <?php if($request->status == 1): ?>
+                                     <a  href="<?php echo URL::to('requeststatus?id='); ?><?php echo $request->id; ?>" title="View"><span class="badge_style b_success">Accepted</span> </a>
+                                    <?php elseif($request->status == 2): ?>
+                                    <a href="<?php echo URL::to('requeststatus?id='); ?><?php echo $request->id; ?>" title="View"><span class="badge_style b_pending">Denied</span> </a>
+                                    <?php else: ?>
+                                    <a href="<?php echo URL::to('requeststatus?id='); ?><?php echo $request->id; ?>" title="View"><span class="badge_style b_notDone">Waiting</span> </a>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center">
+                                    <?php echo $request->createdon; ?>
+
+                                </td>
+
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('0', $Change_request)): ?>
+                                    <span><a class="action-icons c-approve" href="<?php echo URL::to('viewrequest?id='); ?><?php echo $request->id; ?>" title="View">View</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('3', $Change_request)): ?>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" onclick="confirmation('<?php echo $request->id; ?>')" href="#" title="Delete">Delete</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project title
+                                </th>
+                                <th>
+                                    Funding goal
+                                </th>
+                                <th>
+                                    Funding Duration
+                                </th>
+                                <th>
+                                    Message
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Createdon
+                                </th>                               
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+            function confirmation(id) {
+            var answer = confirm("Are you sure to delete this record?")
+                    if (answer) {
+            location.href = 'deleterequest?id=' + id;
+            }
+            else {
+            return false;
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

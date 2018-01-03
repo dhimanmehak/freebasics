@@ -1,0 +1,180 @@
+<?php
+use fundstarter\storage\Reward\RewardRepository as RewardRepository;
+use fundstarter\storage\Project\ProjectRepository as ProjectRepository;
+use fundstarter\storage\Backing\BackingRepository as BackingRepository;
+use fundstarter\storage\User\UserRepository as UserRepository;
+use fundstarter\storage\Country\CountryRepository as CountryRepository;
+use fundstarter\storage\Adminsetting\AdminsettingRepository as AdminsettingRepository;
+use fundstarter\storage\Newsletter\NewsletterRepository as NewsletterRepository;
+
+class BackController extends BaseController {
+
+    public function __construct(NewsletterRepository $newsletterRepository, AdminsettingRepository $adminsetting, CountryRepository $countryRepository, UserRepository $userRepository, RewardRepository $rewardRepository, ProjectRepository $projectRepository, BackingRepository $backingRepository) {
+        $this->reward = $rewardRepository;
+        $this->project = $projectRepository;
+        $this->backing = $backingRepository;
+        $this->user = $userRepository;
+        $this->country = $countryRepository;
+        $this->adminsetting = $adminsetting;
+        $this->newsletter = $newsletterRepository;
+    }
+
+    public function index($id) {
+        
+        $selectedlanguage = Session::get('locale');
+        if (Session::has('email')) {
+            $email = Session::get('email');
+            $userid = $this->user->getidbyemail($email);
+            $rewards = $this->reward->getbyprojectid($id);
+            $projectdetails = $this->project->getbyprojectid($id);
+            $alreadybacked = $this->backing->getalreadybacked($userid, $id);
+            if ($projectdetails->userid == $userid) {
+                Session::flash('failed', Lang::get('messages2.youcannotbacktheprojectyoucreated',array(),$selectedlanguage));
+                return Redirect::back();
+            } elseif ($alreadybacked != '[]') {
+                Session::flash('failed', Lang::get('messages2.youcannotbackaprojectmorethanonce',array(),$selectedlanguage));
+                return Redirect::back();
+            } else {
+                return View::make('mainviews.backing.backing', compact('rewards', 'userid', 'projectdetails'));
+            }
+        } else {
+			$requestUrl= Request::url();
+		
+ Session::put('url.intended',$requestUrl);
+            return Redirect::to('login');
+        }
+    }   
+
+    public function backreward($id, $rewardid, $pledge) {
+        $selectedlanguage = Session::get('locale');
+        $email = Session::get('email');
+        $userid = $this->user->getidbyemail($email);
+        $rewards = $this->reward->getbyprojectid($id);
+        $projectdetails = $this->project->getbyprojectid($id);
+        $alreadybacked = $this->backing->getalreadybacked($userid, $id);
+        if ($projectdetails->userid == $userid) {
+            Session::flash('failed', Lang::get('messages2.youcannotbacktheprojectyoucreated',array(),$selectedlanguage));
+            return Redirect::back();
+        } elseif ($alreadybacked != '[]') {
+            Session::flash('failed', Lang::get('messages2.youcannotbackaprojectmorethanonce',array(),$selectedlanguage));
+            return Redirect::back();
+        } else {
+            return View::make('mainviews.backing.backing', compact('rewardid', 'pledge', 'rewards', 'userid', 'projectdetails'));
+        }
+    }
+
+    public function postback() {
+        $rules = array(
+            'reward' => 'required',
+            'pledgeamount' => 'required|numeric|not_in:0',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        $projectid = Input::get('projectid');
+        $projectdetails = $this->project->getbyprojectid($projectid);
+        if ($validator->fails()) {
+            return Redirect::to('back/reward/' . $projectid)
+                            ->withInput()->withErrors($validator);
+        } else {
+            $input = Input::all();
+            if ($input['reward'] != 0) {
+                $temppledgeamount = $this->reward->checkpledge($input['reward']);
+                $pledgeamount = round(($temppledgeamount * $projectdetails->rate) * 100) / 100;
+                if ($pledgeamount > $input['pledgeamount']) {
+                    Session::flash('failed', 'Selected reward less than or equal to pledge amount you entered!!!');
+                    return Redirect::back();
+                } else {
+                    $backingid = $this->backing->create($input);
+                    return Redirect::to('back/paymentdetails/' . $backingid);
+                }
+            } else {
+                $backingid = $this->backing->create($input);
+                return Redirect::to('back/paymentdetails/' . $backingid);
+            }
+        }
+    }
+
+    public function payment($backingid) {
+        if (Session::has('email')) {
+            $countries = $this->country->all();
+            $detail = $this->backing->getbyid($backingid);
+            $userid = $detail['userid'];
+            $projectid = $detail['projectid'];
+            $projectdetail = $this->project->getbyprojectid($projectid);
+            return View::make('mainviews.backing.payment', compact('userid', 'projectdetail', 'detail', 'countries'));
+        } else {
+            return Redirect::to('login');
+        }
+    }
+
+    public function postpayment() {
+        $rules = array(
+            'name' => 'required',
+            'cardnumber' => 'required|numeric|not_in:0',
+            'cvv' => 'required|numeric',
+            'address1' => 'required',
+            'address2' => 'required',
+            'city' => 'required',
+            'postalcode' => 'required|numeric'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        $projectid = Input::get('id');
+        if ($validator->fails()) {
+            return Redirect::to('back/paymentdetails/' . $projectid)
+                            ->withInput()->withErrors($validator);
+        } else {
+           return $input = Input::all();
+            if (Input::has('remember')) {
+                $input['remember'] = 1;
+            } else {
+                $input['remember'] = 0;
+            }
+            $pledgeamount = $this->backing->savepaymentdetails($input);
+            $this->user->updatebackedcount($input['userid']);
+            $this->sendmailtocreator($input['projectid'], $input['userid']);
+            $this->project->updatetotalbacking($input['projectid'], $pledgeamount);
+            if ($input['rewardid'] != 0) {
+                $this->reward->updatebackercount($input['rewardid']);
+            }
+            Session::flash('success', 'Backing Successfully Added');
+            return Redirect::to('backedprojects');
+        }
+    }
+
+    public function sendmailtocreator($projectid, $userid) {
+        $project = $this->project->getbasicdetailsbyid($projectid);
+        $projecttitle = $project->title;
+        $adminsettings = $this->adminsetting->getfirst();
+        $backername = $this->user->getusername($userid);
+        $logo = $adminsettings['logo'];
+        $title = $adminsettings['sitetitle'];
+        $templatename = "projectbacking";
+        $templatedetails = $this->newsletter->getbytemplatename($templatename);
+        $subject = $templatedetails['subject'];
+        $emails = $this->project->getbyprojectidforpledge($projectid);
+        if ($emails != '') {
+            $email = $emails['email'];
+            $data = array(
+                'name' => $emails['name'],
+                'backername' => $backername,
+                'email' => $email,
+                'logo' => $logo,
+                'title' => $title,
+                'projecttitle' => $projecttitle,
+                'projectid' => $projectid,
+                'subject' => $templatedetails['subject'],
+                'sendername' => $templatedetails['sendername'],
+                'senderemail' => $templatedetails['senderemail']
+            );
+            Mail::send('emails.newsletters.' . $templatename, $data, function($message)use ($email, $subject) {
+                $message->to($email)->subject($subject);
+            });
+        }
+    }
+    
+
+    public function testbacking() {
+        $projectid = 7;
+        return $this->backing->getpledgesumbyprojectid($projectid);
+    }
+
+}

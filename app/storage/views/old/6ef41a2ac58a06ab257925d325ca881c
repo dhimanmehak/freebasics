@@ -1,0 +1,541 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12 full_block">
+
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon list"></span>
+                    <h6> View User</h6>   
+                    <div id="widget_tab">
+                        <ul>
+                            <li><a href="#tab1" class="active_tab">Profile</a></li>
+                            <li><a href="#tab2">Created</a></li>
+                            <li><a href="#tab3">Backed</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="widget_content">
+                    <div id="tab1">
+                        <form method="post" action="<?php echo URL::to('posteditbasic'); ?>" class="form_container left_label" enctype='multipart/form-data'>
+                            <?php foreach($users as $user): ?>                            
+                            <ul>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Image<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <img src="<?php echo $user->image; ?>" width="100" height="100" alt="profile" style='margin-left:75px;' onerror="this.src='<?php echo URL::to('main/images/default.png');; ?>'"/><br>
+                                        </div>
+                                    </div>
+                                </li> 
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title" >First Name<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input  name="firstname" type="text" value="<?php echo $user->firstname; ?>" maxlength="100" class="large" disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title" id="llastname" for="lastname">Last Name<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input name="lastname" type="text" value="<?php echo $user->lastname; ?>" maxlength="100" class="large required" disabled>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">User Name<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input name="username" type="text" value="<?php echo $user->username; ?>" maxlength="150" class="large required" disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Email Address<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input name="email" type="text" value="<?php echo $user->email; ?>" maxlength="150" class="large required" disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Mobile<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <?php $mobilecode = strstr($user->mobile, '-', true); ?>
+                                            <select data-placeholder="Select country code" name="mobilecode" style=" width:200px" class="chzn-select required" tabindex="13" disabled>
+                                                <option value=""></option>
+                                                <?php foreach($countries as $country): ?>                                            
+                                                <option value="<?php echo $country->countrymobilecode; ?>" <?php if ($country->countrymobilecode == $mobilecode) { ?> selected='selected'<?php } ?> ><?php echo $country->countryname; ?> (<?php echo $country->countrymobilecode; ?>)</option>
+                                                <?php endforeach; ?> 
+                                            </select>
+                                            <?php $mobilestr = strstr($user->mobile, '-', false); ?>
+                                            <input name="mobile" type="text" maxlength="50" value='<?php echo str_replace('-','',$mobilestr);; ?>' style="width: 230px !important; margin-left:10px; !important"  class="required" disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Country<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <select data-placeholder="Select Country" name="country" style=" width:350px" class="chzn-select required" tabindex="13" disabled>
+                                                <option value=""></option>
+                                                <?php foreach($countries as $country): ?>                                            
+                                                <option value="<?php echo $country->countryname; ?>" <?php if ($country->countryname == $user->country) { ?> selected='selected' <?php } ?> ><?php echo $country->countryname; ?></option>
+                                                <?php endforeach; ?> 
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Address<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <textarea name="address" cols="50" rows="5" class="required" disabled><?php echo $user->address; ?></textarea>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Postal Code<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input name="postalcode" type="text" maxlength="50" value="<?php echo $user->postalcode; ?>" class="large required" disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Web Url<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input name="weburl" type="text" maxlength="50" value="<?php echo $user->weburl; ?>" class="large required" disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Gender<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <select data-placeholder="Select Gender" name="gender" style=" width:350px" class="chzn-select required" tabindex="13" disabled>
+                                                <?php if($user->gender=='male'): ?>
+                                                <option value="male" selected='selected'>Male</option>
+                                                <option value="female">Female</option>
+                                                <?php else: ?>
+                                                <option value="male">Male</option>
+                                                <option value="female" selected='selected'>Female</option>
+                                                <?php endif; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>    
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Biography<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <textarea name="biography" cols="50" rows="8" class="required" disabled><?php echo $user->biography; ?></textarea>
+                                        </div>
+                                    </div>
+                                </li>                                
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title" >Facebook Link<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input  name="facebooklink" type="text" value="<?php echo $user->facebook; ?>" maxlength="100" class="large" disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Googleplus Link<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input name="googlepluslink" type="text" value="<?php echo $user->google; ?>" maxlength="100" class="large" disabled>
+                                        </div>
+                                    </div>
+                                </li>                               
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Twitter Link<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input name="twitterlink" type="text" maxlength="50" value="<?php echo $user->twitter; ?>" class="large" disabled/>
+                                        </div>
+                                    </div>
+                                </li> 
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title" >Logintype<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input  name="logintype" type="text" value="<?php echo $user->logintype; ?>" maxlength="100" class="large" disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title" id="llastname" for="lastname">Mobile Status<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <select data-placeholder="Select Gender" name="mobilestatus" style=" width:350px" class="chzn-select required" tabindex="13" disabled>
+                                                <?php if($user->mobilestatus==0): ?>
+                                                <option value="0" selected='selected'>Not Verified</option>
+                                                <option value="1">Verified</option>
+                                                <?php else: ?>
+                                                <option value="0">Not Verified</option>
+                                                <option value="1"  selected='selected'>Verified</option>
+                                                <?php endif; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Email Status<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <select data-placeholder="Select Gender" name="emailstatus" style=" width:350px" class="chzn-select required" tabindex="13" disabled>
+                                                <?php if($user->emailstatus==0): ?>
+                                                <option value="0" selected='selected'>Not Verified</option>
+                                                <option value="1">Verified</option>
+                                                <?php else: ?>
+                                                <option value="0">Not Verified</option>
+                                                <option value="1"  selected='selected'>Verified</option>
+                                                <?php endif; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Last Login Date</label>
+                                        <div class="form_input">
+                                            <input name="lastlogindate" type="text" value="<?php echo $user->lastlogindate; ?>" maxlength="150" class="large " disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Login IP</label>
+                                        <div class="form_input">
+                                            <input name="loginip" type="text" value="<?php echo $user->lastloginip; ?>" maxlength="150" class="large " disabled/>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">State<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input type='text' class="large required" name='state' value='<?php echo $user->state; ?>' disabled>
+                                        </div>
+                                    </div>
+                                </li> 
+
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">City<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input type='text' class="large required" name='city' value='<?php echo $user->city; ?>' disabled>
+                                        </div>
+                                    </div>
+                                </li> 
+                                <li class="li1" style='margin:20px 0 20px 0;'>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Secuirty Question<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <?php $selected = $user->question; ?>
+                                            <select name="question" class="large required" disabled>
+                                                <option value=''>-- <?php echo trans('messages.selectsecurityquestion'); ?> --</option>
+                                                <option value="What was your childhood nickname?" <?php if ($selected == 'What was your childhood nickname?') echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion1'); ?></option>
+                                                <option value="What is the name of your favorite childhood friend?" <?php if ($selected == 'What is the name of your favorite childhood friend?') echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion2'); ?></option>
+                                                <option value="What is your favorite team?" <?php if ($selected == 'What is your favorite team?') echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion3'); ?></option>
+                                                <option value="What is the name of person you first kissed?" <?php if ($selected == 'What is the name of person you first kissed?') echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion4'); ?></option>
+                                                <option value="What was the name of your elementary / primary school?" <?php if ($selected == 'What was the name of your elementary / primary school?') echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion5'); ?></option>
+                                                <option value="What is your pet's name?" <?php if ($selected == "What is your pet's name?") echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion6'); ?></option>
+                                                <option value="In what year was your father born?" <?php if ($selected == 'In what year was your father born?') echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion7'); ?></option>
+                                                <option value="What was the name of the first company you worked?" <?php if ($selected == 'What was the name of the first company you worked?') echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion8'); ?></option>
+                                                <option value="In which city did you get married?" <?php if ($selected == 'In which city did you get married?') echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion9'); ?></option>
+                                                <option value="What is your best friend's first name?" <?php if ($selected == "What is your best friend's first name?") echo ' selected="selected"' ?>><?php echo trans('messages.securityquestion10'); ?></option>
+                                            </select>
+                                            <?php if($errors->has('question')): ?> <p class="help-block"><?php echo $errors->first('question'); ?></p> <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Answer<span class="req">*</span></label>
+                                        <div class="form_input">
+                                            <input type='text' class="large required" name='answer' value='<?php echo $user->answer; ?>' disabled>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Login Hit</label>
+                                        <div class="form_input">
+                                            <input type='text' class="large" name='loginhit' value='<?php echo $user->loginhit; ?>' disabled>
+                                        </div>
+                                    </div>
+                                </li>   
+
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Backed projects count</label>
+                                        <div class="form_input">
+                                            <input type='text' class="large" value="<?php echo $backingscount; ?>" name='backed' disabled>
+                                        </div>
+                                    </div>
+                                </li>   
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Created projects count</label>
+                                        <div class="form_input">
+                                            <input type='text' value="<?php echo $projectscount; ?>" class="large" name='created' disabled>
+                                        </div>
+                                    </div>
+                                </li>   
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Admin Remarks</label>
+                                        <div class="form_input">
+                                            <textarea  class="large" rows="5" name='adminremarks' disabled><?php echo $user->adminremarks; ?></textarea>
+                                        </div>
+                                    </div>
+                                </li>   
+
+                            </ul>
+                            <?php endforeach; ?>
+                        </form>
+                    </div>
+                    <div id="tab2">
+                        <div class="widget_content">     
+                            <table class="display data_tbl" id="projecttable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            S.No
+                                        </th>
+                                        <th>
+                                            Project Name
+                                        </th>
+                                        <th>
+                                            Category 
+                                        </th>
+                                        <th>
+                                            Funding Goal
+                                        </th>
+                                        <th>
+                                            Total Backings
+                                        </th>
+                                        <th>
+                                            Pledge Amount
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>
+                                            Isfunded
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr> 
+                                </thead>
+                                <tbody>
+                                    <?php foreach($projects as $key=>$project): ?>
+                                    <tr>
+                                        <td class="center">
+                                            <?php echo $key+1; ?>
+
+                                        </td>
+                                        <td class="center"> 
+                                            <a target="_blank" href="<?php echo URL::to('viewproject?id='); ?><?php echo $project->id; ?>"><?php echo $project->title; ?></a>
+                                        </td>
+                                        <td class="sdate center">
+                                            <?php echo $project->categoryname; ?>
+
+                                        </td>
+                                        <td class="center">
+                                            <?php echo $project->fundinggoal; ?>
+
+                                        </td>
+                                        <td class="center sdate">
+                                            <?php echo $project->totalbacking; ?>
+
+                                        </td>
+                                        <td class="center sdate">
+                                            <?php echo $project->totalpledgeamount; ?>
+
+                                        </td>
+                                        <td class="center">
+                                            <?php if($project->projectverified ==0): ?>
+                                            <button type="button" class="badge_style b_offline">Draft</button>
+                                            <?php elseif($project->projectverified ==1): ?>
+                                            <button type="button" class="badge_style b_medium" >Pending</button>
+                                            <?php elseif($project->projectverified ==2): ?>
+                                            <button type="button" class="badge_style b_done" >Approved</button>
+                                            <?php else: ?> 
+                                            <button type="button" class="badge_style b_suspend" >Suspended</button>
+                                            <?php endif; ?>
+                                        </td>                                       
+                                        <td class="center sdate">
+                                            <?php echo $project->isfunded; ?>
+
+                                        </td>
+                                        <td class="center">
+                                            <?php if($priv == 'all' || in_array('0', $Project)): ?>
+                                            <span><a class="action-icons c-approve" href="<?php echo URL::to('viewproject?id='); ?><?php echo $project->id; ?>" original-title="View">View</a></span>
+                                            <?php endif; ?>
+                                            <?php if($priv == 'all' || in_array('2', $Project)): ?>
+                                            <span><a class="action-icons c-edit" href="<?php echo URL::to('addprojectdetails?id='); ?><?php echo $project->id; ?>" title="Edit">Edit</a></span>
+                                            <?php endif; ?>
+                                            <?php if($priv == 'all' || in_array('3', $Project)): ?>
+                                            <?php $name = Session::get('adminname'); ?>
+                                            <?php if($name=="demo"): ?>
+                                            <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                            <?php else: ?>
+                                            <span><a class="action-icons c-delete" href="#" onclick="confirmation('<?php echo $project->id; ?>')" title="delete">Delete</a></span>
+                                            <?php endif; ?>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>   
+                                    <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>
+                                            S.No
+                                        </th>
+                                        <th>
+                                            Project Name
+                                        </th>
+                                        <th>
+                                            Category 
+                                        </th>
+                                        <th>
+                                            Funding Goal
+                                        </th>
+                                        <th>
+                                            Total Backings
+                                        </th>
+                                        <th>
+                                            Pledge Amount
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>                                        
+                                        <th>
+                                            Isfunded
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr> 
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="tab3">
+                        <div class="widget_content">    
+                            <table class="display data_tbl">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            S.No
+                                        </th>
+                                        <th>
+                                            Project Title
+                                        </th> 
+                                        <th>
+                                            Pledge Amount
+                                        </th>
+                                        <th>
+                                            Funding Goal
+                                        </th>
+                                        <th>
+                                            Pledge on
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($getdetails as $key=>$detail): ?>
+                                    <tr>
+                                        <td class="sdate center">
+                                            <?php echo $key+1; ?>
+
+                                        </td>                                
+                                        <td class="sdate center">
+                                            <?php echo $detail->title; ?>
+
+                                        </td>
+                                        <td class="center">
+                                            <?php echo $detail->pledgeamount; ?>
+
+                                        </td> 
+                                        <td class="center sdate">
+                                            <?php echo $detail->fundinggoal; ?>
+
+                                        </td>
+                                        <td class="center sdate">
+                                            <?php echo $detail->createdon; ?>
+
+                                        </td>
+                                        <td class="center">
+                                            <?php if($priv == 'all' || in_array('3', $Backing)): ?>
+                                            <?php $name = Session::get('adminname'); ?>
+                                            <?php if($name=="demo"): ?>
+                                            <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                            <?php else: ?>
+                                            <span><a class="action-icons c-delete" onclick="confirmation('<?php echo $detail->id; ?>')" href="#" title="delete">Delete</a></span>
+                                            <?php endif; ?>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>
+                                            S.No
+                                        </th>
+                                        <th>
+                                            Project Title
+                                        </th> 
+                                        <th>
+                                            Pledge Amount
+                                        </th>
+                                        <th>
+                                            Funding Goal
+                                        </th>
+                                        <th>
+                                            Pledge on
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="clear"></span>
+    <span class="clear"></span>
+    <?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

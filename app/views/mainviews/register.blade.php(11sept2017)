@@ -1,0 +1,79 @@
+@extends('layouts.mainlayout')
+@section('content')
+
+<section class="fb-signup-section">
+    <div class="container">
+      <div class="fb-signup-box">
+        <div class="fb-signup-left"></div>
+        <div class="fb-signup-right">
+          <p class="fb-signup-top-text">Be the first of your friends to join the global revolution. <strong>Sign up now!</strong></p>
+          <div class="fb-section-head-wrap fb-signup-head-wrap">
+            <h3 class="fb-section-head" style="text-transform:uppercase;">{{trans('messages.signup')}}</h3>
+          </div>
+          <div class="fb-signup-form-wrapper">
+            <form action="postsignup" method="post" id="formzip">
+              <ul class="fb-signup-form-list">
+                <li>
+                  <input type="text" class="fb-input-text @if($errors->has('firstname')) has-error @endif" placeholder="Full Name" required="required" id="fullName" name='firstname'/>
+                 @if ($errors->has('firstname')) <p class="help-block">{{ $errors->first('firstname') }}</p> @endif
+                </li>
+                <li>
+                  <input type="text" class="fb-input-text @if($errors->has('email')) has-error @endif" placeholder="Email" required="required" id="Email" name='email'/>
+                @if ($errors->has('email')) <p class="help-block">{{ $errors->first('email') }}</p> @endif
+                </li>
+                <li>
+                  <input type="password" class="fb-input-text @if($errors->has('password')) has-error @endif" placeholder="Password" required="required" id="password" name='password'/>
+                 @if ($errors->has('password')) <p class="help-block">{{ $errors->first('password') }}</p> @endif
+                </li>
+                <li class="fb-signup-btn-wrapper">
+                  <button class="fb-signup-btn">
+                    <p>I'm ready to start. Sign me up!</p>
+                    <i class="icon-checked"></i>
+                  </button>
+                </li>
+                <li>
+                  <span class="fb-signup-or-text"><i>or</i></span>
+                </li>
+                <li class="fb-facebook-signup-btn-wrapper">
+                  <button type="button" class="fb-facebook-signup-btn">Sign up with Facebook</button>
+                </li>
+                <li>
+                  <span class="fb-alredy-member-text">Already a FreeBasics Citizen? <a href="{{URL::to('login')}}">Login</a></span>
+                </li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<script>
+    $(".fb-input-text").each(function () {
+        $(this).keypress(function () {
+            $(this).next().fadeOut();
+            $(this).removeClass('has-error');
+        });
+        $(this).change(function () {
+            $(this).next().fadeOut();
+            $(this).removeClass('has-error');
+        });
+    }); // <-- time in milliseconds
+</script>
+
+
+<script>
+    $('#formzip').on('submit', function () {
+//    function are_cookies_enabled()
+//    {
+        var x = "Cookies enabled: " + navigator.cookieEnabled;
+        if (navigator.cookieEnabled == false) {
+            $("#cookie-error").css('display', 'block');
+             return false;
+        }
+//    }
+    });
+</script>
+@stop
+

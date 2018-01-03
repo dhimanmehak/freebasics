@@ -1,0 +1,67 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta property="fb:app_id" content="<?php echo Config::get('adminconfig.facebookappid'); ?>"/>
+	
+    <?php if(isset($ogimage)): ?>
+    <meta property="og:image" content="<?php echo URL::to($ogimage); ?>" />
+
+    <?php else: ?> 
+    
+<meta property="og:image" content="<?php echo URL::to('uploads/images/fbsharenew.jpg'); ?>" />
+ <meta property="og:url" content="<?php echo URL::to('/align/goal'); ?>" />
+ <meta property="og:type" content="website" />
+ 
+ 
+    <?php endif; ?>
+    <?php if(isset($ogtitle)): ?>
+    <meta property="og:title" content="<?php echo $ogtitle; ?>" />
+    <?php else: ?> 
+    <meta property="og:title" content="<?php echo Config::get('adminconfig.sitetitle'); ?>" />
+    <?php endif; ?>
+    <?php if(isset($ogdescription)): ?>
+    <meta property="og:description" content="<?php echo $ogdescription; ?>" />
+    <?php else: ?> 
+    <meta property="og:description" content="<?php echo Config::get('adminconfig.metadescription'); ?>" />
+    <?php endif; ?>
+    
+    <?php if(isset($metatitle) && $metatitle!=''): ?>
+    <title><?php echo $metatitle.'-fundstarter'; ?></title>   
+    <?php else: ?>
+    <title><?php echo Config::get('adminconfig.sitetitle');; ?></title>
+    <?php endif; ?>
+    <link href="<?php echo URL::to(''); ?>/<?php echo Config::get('adminconfig.favicon');; ?>" rel="icon" type="image/x-icon">
+    <?php if(isset($metatitle)): ?>
+    <meta name="Title" content="<?php echo $metatitle; ?>"/>
+    <?php else: ?> 
+    <meta name="Title" content="<?php echo Config::get('adminconfig.metatitle');; ?>" />
+    <?php endif; ?>    
+    <?php if(isset($metakeyword)): ?>
+    <meta name="keywords" content="<?php echo $metakeyword; ?>" />
+    <?php else: ?>
+    <meta name="keywords" content="<?php echo Config::get('adminconfig.metakeyword');; ?>" />
+    <?php endif; ?>
+    <?php if(isset($metadescription)): ?>
+    <meta name="description" content="<?php echo $metadescription; ?>"/>
+    <?php else: ?>
+    <meta name="description" content="<?php echo Config::get('adminconfig.metadescription');; ?>" />
+    <?php endif; ?>	
+    <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/bootstrap.css');; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/icomoon.css');; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/magnific-popup.css');; ?>">
+    <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/animate.css');; ?>" type="text/css" />
+    <!-- <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/jquery-ui-1.8.18.custom.css');; ?>"> -->
+     <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/jquery-ui.structure.css');; ?>" type="text/css" />
+    <link href="<?php echo URL::asset('main/css/jquery-ui.theme.css');; ?>" rel="stylesheet" media="screen">
+    <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/fb-styles.css');; ?>" type="text/css" />
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+	
+
+<link rel="manifest" href="<?php echo URL::asset('main/images/manifest.json');; ?>">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="<?php echo URL::asset('main/images/ms-icon-144x144.png');; ?>">
+<meta name="theme-color" content="#ef244d">
+
+    
+
+</head>

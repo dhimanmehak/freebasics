@@ -1,0 +1,70 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta property="fb:app_id" content="<?php echo Config::get('adminconfig.facebookappid'); ?>"/>
+    <?php if(isset($ogimage)): ?>
+    <meta property="og:image" content="<?php echo URL::to($ogimage); ?>" />
+    <?php else: ?> 
+    <meta property="og:image" content="<?php echo URL::to('uploads/images/fbsharenew.jpg'); ?>" />
+    <?php endif; ?>
+    <?php if(isset($ogtitle)): ?>
+    <meta property="og:title" content="<?php echo $ogtitle; ?>" />
+    <?php else: ?> 
+    <meta property="og:title" content="<?php echo Config::get('adminconfig.sitetitle'); ?>" />
+    <?php endif; ?>
+    <?php if(isset($ogdescription)): ?>
+    <meta property="og:description" content="<?php echo $ogdescription; ?>" />
+    <?php else: ?> 
+    <meta property="og:description" content="<?php echo Config::get('adminconfig.metadescription'); ?>" />
+    <?php endif; ?>
+    
+    <?php if(isset($metatitle) && $metatitle!=''): ?>
+    <title><?php echo $metatitle.'-fundstarter'; ?></title>   
+    <?php else: ?>
+    <title><?php echo Config::get('adminconfig.sitetitle');; ?></title>
+    <?php endif; ?>
+    <link href="<?php echo URL::to(''); ?>/<?php echo Config::get('adminconfig.favicon');; ?>" rel="icon" type="image/x-icon">
+    <?php if(isset($metatitle)): ?>
+    <meta name="Title" content="<?php echo $metatitle; ?>"/>
+    <?php else: ?> 
+    <meta name="Title" content="<?php echo Config::get('adminconfig.metatitle');; ?>" />
+    <?php endif; ?>    
+    <?php if(isset($metakeyword)): ?>
+    <meta name="keywords" content="<?php echo $metakeyword; ?>" />
+    <?php else: ?>
+    <meta name="keywords" content="<?php echo Config::get('adminconfig.metakeyword');; ?>" />
+    <?php endif; ?>
+    <?php if(isset($metadescription)): ?>
+    <meta name="description" content="<?php echo $metadescription; ?>"/>
+    <?php else: ?>
+    <meta name="description" content="<?php echo Config::get('adminconfig.metadescription');; ?>" />
+    <?php endif; ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/oldcss/twitter-bootstrap.css');; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/oldcss/bootstrap-min.css');; ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/icomoon.css');; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/oldcss/content.css');; ?>">
+    <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/oldcss/font-awesome.css');; ?>" type="text/css" />
+    <!-- <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/oldcss/jquery-ui-1.8.18.custom.css');; ?>"> -->
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<?php echo URL::asset('main/css/icomoon.css');; ?>">
+    <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/oldcss/main.css');; ?>" type="text/css" />
+    <link href="<?php echo URL::asset('main/css/oldcss/bootstrap-datetimepicker.min.css');; ?>" rel="stylesheet" media="screen">
+    <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/oldcss/style.css');; ?>" type="text/css" />
+    <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/oldcss/style-responsive.css');; ?>" type="text/css" />
+    <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/oldcss/date/datepicker.css');; ?>" type="text/css" />
+    <link rel="stylesheet" media="all" href="<?php echo URL::asset('main/css/ldcss/cssCharts.css');; ?>" type="text/css" />
+
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/1.10.min.js');; ?>"></script>
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/bootstrap.min.js');; ?>"></script>
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/bootstrap.js');; ?>"></script>    
+
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/bootstrap-datetimepicker.js');; ?>"></script>
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/locales/bootstrap-datetimepicker.uk.js');; ?>"></script> 
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/date/bootstrap-datepicker.js');; ?>"></script>
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/jquery.chart.js');; ?>"></script>
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/commonscript.js');; ?>"></script>
+    <script type="text/javascript" src="<?php echo URL::asset('main/js/old/jquery.validate.min.js');; ?>"></script>
+
+
+</head>

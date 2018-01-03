@@ -1,0 +1,133 @@
+@extends('layouts.mainlayout')
+@section('content')
+
+<style type="text/css">
+.terms ul li
+{
+	padding:10px;
+	list-style-type:disc;
+}
+</style>
+<section class="fb-signup-section">
+    <div class="container">
+    
+       @if(Session::has('success'))
+        <div class="alert-message success">
+            {{Session::get('success');}}
+        </div>
+        @endif
+        @if(Session::has('failed'))
+        <div class="alert alert-warning text-center">
+            {{Session::get('failed');}}
+        </div>
+        @endif
+		
+		<div class="col-md-12 terms">
+		<h3 class="fb-section-head">Terms and Conditions</h3>
+		<p style="font-size:20px;">At FreeBasics Inc., we are committed to facilitating crowdfunding for creative and not-for-profit projects. We have developed this policy to describe the process and respective obligations of the users of the Website and project creators. This includes how the money is collected, whether project backing can be changed or cancelled and how project creators can contact users to provide project rewards.</P>
+		<h3>These are the terms that apply when you’re backing a project:</h3>
+		
+		<ul style="font-size:20px;" style="list-style-type:disc !important;">
+		
+<li>You are only charged if the project reaches its fundraising goal. You agree to provide your payment information when you pledge but your payment will only be collected if, at the time of the project’s funding deadline, the project has reached its fundraising goal. The exact amount you pledged is the amount FreeBasics Inc. will collect. If the campaign hasn’t reached its fundraising goal, you will not be charged, no funds will be collected, and no money will change hands.</li>
+<li>In order to contribute to a Campaign, you will be required to provide FreeBasics information regarding its credit card or other payment instrument. You represent and warrant to FreeBasics that such information is true and that you are authorized to use the payment instrument. You agree that a certain minimum Donation amount may apply, and that all Donation payments are final and will not be refunded unless FreeBasics, in its sole discretion, agrees to issue a refund.  You may have the option to contribute recurring period Donations, and in electing to contribute on a recurring basis, you, (i) agree to promptly update your account information with any changes (for example, a change in your billing address or credit card expiration date) that may occur and to pay the Donation amount that you specify, and (ii) hereby authorize FreeBasicsto bill your payment instrument in advance on a periodic basis until you terminate such periodic payments, which can be done at any time through the Platform.</li>
+
+<li>In some cases we reserve the right to charge your credit card to be held in escrow for the project creator. FreeBasics Inc. at its sole discretion and its payment partners may authorize or reserve a charge on your credit card (or whatever payment method you use) for any amount up to the full pledge, at any time between the pledge and the collection of funds.</li>
+
+<li>You can change or cancel your pledge at any time before the project’s funding deadline (with one exception). You can increase, decrease, or cancel your pledge at any time during the campaign, with one exception. During the last 24 hours of the campaign, you can’t decrease or cancel your pledge without contacting customer support first — if that action would drop the project below its funding goal. Once the project has been funded, you can only cancel or change your pledge by making special arrangements directly with the project creator.</li>
+
+<li>You acknowledge and understand that projects are not charities to which you can make tax-deductible charitable contributions. You understand and acknowledge that FreeBasics is not a charity.As used in this Agreement, the term "Project" does not refer to a Charity, and you acknowledge that contributions to Campaigns are not deductible under your jurisdiction’s applicable tax laws and regulations.</li>
+
+<li>The services rendered by Freebasicsare an administrative platform only. FreeBasics facilitates the Donation transaction between Project Creators and Users, but is not a party to any agreement between a Project Creator and a User, or between any user and a Charity. FreeBasics is not a broker, agent, financial institution, creditor or insurer for any user. FreeBasics has no control over the conduct of, or any information provided by, a Campaign Organizer or a Charity, and FreeBasics hereby disclaims all liability in this regard to the fullest extent permitted by applicable law.</li>
+
+<li>FreeBasics does not guarantee that a Campaign will obtain a certain amount of Donations or any Donations at all. We do not personally endorse any Project, or ProjectCreator, and we make no guarantee, explicit or implied, that any information provided through the Services by a user is accurate. We expressly disclaim any liability or responsibility for the success of any Project, or the outcome of any fundraising purpose. You, as a Donor, must make the final determination as to the value and appropriateness of contributing to any Project, or Project Creator.</li>
+<li>We do not and cannot verify the information that Project Creators supply, nor do we guarantee that the Donations will be used in accordance with any fundraising purpose prescribed by a Project Creator. We assume no responsibility to verify whether the Donations are used in accordance with any applicable laws; such responsibility rests solely with the Project Creator, as applicable. While we have no obligation to verify that the use of any funds raised is in accordance with applicable law and these Terms of Service, we take possible fraudulent activity and the misuse of funds raised very seriously.</li> 
+
+<li>From time to time, FreeBasics may place a hold on a Campaign account (a "Hold"), restricting Withdrawals (defined herein) by a Project Creator. Some of the reasons that we may place a Hold on a Campaign Account include the following: (i) if we have reason to believe (in our sole discretion) that information provided by a Campaign Organizer is false, misleading, or fraudulent, or that funds are being used in a prohibited manner, (ii) if the funds available should be provided directly to a person other than the Campaign Organizer (such as a legal beneficiary or person entitled by law to act on behalf of a Campaign Organizer), (iii) if we have reason to believe that a Campaign or Campaign Organizer has violated these Terms of Service, or (iv) if required in order to comply with a court order, subpoena, writ, injunction, or as otherwise required under applicable laws and regulations. If you have questions about a Hold we may have placed on your Campaign account, or need information about how to resolve the Hold, please contact us at support@FreeBasics.com.</li>
+
+<li>You acknowledge and agree that the provision of a reward is at the sole discretion of the Project Creator and that Freebasics Inc. makes no representations or warranties with respect to the provision of a project reward.  Rewards are incentives designated by the Project Creators themselves, therefore Freebasics Inc. is not responsible for any alterations to a reward at any point during or after a project. You further acknowledge and agree that the provision of a reward is in no way indicative of charitable giving and will not be tax-deductible.  The date listed on each reward is the project creator’s estimate of when they will provide the reward — not a guarantee to fulfill by that date. The schedule may change as the creator works on the project. We ask creators to think carefully, set a date they feel confident they can work toward, and communicate with backers about any changes.</li>
+
+<li>To deliver rewards, the creator might need information from you, such as your mailing address. They will request that information after the campaign has succeeded. To receive the reward, you will need to provide the information in a reasonable amount of time.</li>
+
+<li>FreeBasics Inc. does not offer refunds. Responsibility for finishing a project lies entirely with the project creator. FreeBasics Inc. does not hold funds on the projectcreators behalf, cannot guarantee the project creator’s work, and does not offer refunds.FreeBasics Inc. will in no way be liable for project creator’s failure to deliver a reward to a user.</li>
+</ul>
+		
+		<h3>I am a project creator seeking crowdfunding</h3>
+		<p style="font-size:20px;">These are the terms that apply when you’re backing a project:</p>
+		
+		<ul style="font-size:20px;" style="list-style-type:disc;">
+		<li>You, as a Project Creator, represent, warrant, and covenant that (i) all information you provide in connection with a Campaign is accurate, complete, and not otherwise designed to mislead, defraud, or deceive any user; (ii) all Donations contributed to your Campaign will be used solely as described in the materials that you post; (iii) you will comply with your jurisdiction’s applicable laws and regulations when you solicit funds, particularly, but not limited to, laws relating to your marketing and solicitation for your project; and (iv) to the extent you share with us any personal data of any third party for any purpose, including the names, email addresses and phone numbers of your personal contacts, you have the authority (including any necessary consents), as required under applicable law, to provide us with such personal data and allow us to use such personal data for the purposes for which you shared it with us. You authorize FreeBasics, and FreeBasics reserves the right to, provide information relating to your Campaign with donors and beneficiaries of your Campaign, and with law enforcement or to assist in any investigation.</li>
+		
+<li>You agree that payment will only be collected from users if, at the time of the project’s funding deadline, the project has reached its fundraising goal. The exact amount pledged for the project is the amount FreeBasics Inc. will collect from users, less any applicable fees and taxes. If the campaign has not reached its fundraising goal, no funds will be collected, and no money will change hands.</li>
+
+<li>Users can change or cancel their pledge at any time before the project’s funding deadline (with one exception). Users can increase, decrease, or cancel your pledge at any time during the campaign, with one exception. During the last 24 hours of the campaign, users can not decrease or cancel your pledge without contacting customer support first — if that action would drop the project below its funding goal. Once the project has been funded, you can only cancel or change your pledge by making special arrangements directly with the creator.</li>
+
+<li>The date provided to users is your best estimate as to when you believe you will be able to provide a reward.  You acknowledge that, while there is no guarantee to provide the reward by that date, that you will make best efforts to fulfill the reward by the listed date.  The schedule may change as the project progresses. You agree to think carefully, set a date that you feel confident you can work toward, and communicate with users about any changes.</li>
+
+<li>You agree that you and your organization are solely responsible for fulfillment of reward obligations and delivery of rewards to users.  You agree that any obligations with respect to rewards are between you and the user and that FreeBasics Inc. shall in no way be liable for any failure on the part of the project creator to fulfill the reward.</li>
+
+<li>FreeBasics Inc. does not offer refunds. Responsibility for finishing a project lies entirely with the project creator. FreeBasics Inc. does not hold funds on the project creators’ behalf, cannot guarantee creators’ work, and does not offer refunds.</li>
+
+
+		</ul>
+		</p>
+		
+		<h3>Fees Charged by FreeBasics Inc.</h3>
+		<p style="font-size:20px;">FreeBasics does not charge a Project Creator any upfront fees for initiating a Campaign. FreeBasics retains a flat percentage of each Donation contributed to a Campaign. An additional payment processing fee is also deducted from each Donation (the "Payment Processing Fee," and together with any other imposed taxes or fees, the "Fees"). Donors acknowledge that by contributing a Donation to a Campaign, the Donor is agreeing to any and all applicable terms and conditions set forth by our payment partners, in addition to these Terms of Service, including WePay's terms of service, Stripe's terms of service, Adyen's terms of service, and PayPal Giving Fund’s terms of service.<br/> 	
+        Creating an account on FreeBasics Inc. is free. If you create a project that is successfully funded, we (and our payment partners) collect fees in the amount of 5%, in addition to any fees from our payment partners. Our partners’ fees may vary based on your location.<br/>
+        We will not collect any fees without giving you a chance to review and accept them. If our fees ever change, we will announce that on our Website. Some funds pledged by backers are collected by payment providers. Each payment provider is its own company, and FreeBasics Inc. is not responsible for its performance.<br/>
+        You are responsible for paying any additional fees or taxes associated with your use of FreeBasics Inc.
+</p>
+		
+		<div class="text-center"><a href="{{URL::to('align/goal')}}" class="fb-primary-action-btn fb-take-action-btn"><i class="icon-right-arrow"></i> <span>TAKE ACTION</span></a>
+          </div>
+		</div>
+      <div class="fb-login-box" style="display:none;">
+        <div class="fb-signup-right">
+          <!-- <p class="fb-signup-top-text">Be the first of your friends to join the global revolution. <strong>Sign up now!</strong></p> -->
+                   <div class="fb-signup-form-wrapper">
+            <form action="{{URL::to('dologin');}}"  method="post" id="formzip">
+            
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="{{url::asset('main/js/bootstrap.min.js');}}"></script>
+<script src="{{url::asset('main/js/jquery-ui.min.js');}}"></script>
+<?php $baseurl = url(); ?>
+ <script>
+
+  $('.FAB').on('click', function () {
+  $(this).closest('.user-input').toggleClass('show-input');
+  $(this).find(".icon-add").toggleClass("rotate");
+});
+
+   
+        $('#currencyselect').on('selectmenuchange', function () {
+            var url = '<?php echo $baseurl; ?>';
+            dataString = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: url + "/setcurrencysession",
+                data: "currency=" + dataString,
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        });
+
+    </script>
+
+      <script>
+        setInterval(function () {
+            //alert("Hello"); 
+        }, 86400000);
+    </script>
+
+
+
+@stop

@@ -1,0 +1,12 @@
+.timeline-Widget{width: 100% !important;max-width: none !important;}
+.timeline-TweetList{width: 100%;}
+.timeline-TweetList > li{display: inline-block;width: 100%;margin-bottom: 30px;vertical-align: top;}
+.timeline-TweetList > li:nth-child(3){margin-right: 0;}
+.SandboxRoot.env-bp-660 .TweetAuthor-name, .SandboxRoot.env-bp-820 .TweetAuthor-name, .SandboxRoot.env-bp-970 .TweetAuthor-name{color: #4a4a4a;font-family: 'Source Sans Pro', sans-serif;font-size: 12px !important;}
+.SandboxRoot.env-bp-820 .timeline-Tweet-text{font-family: 'Source Sans Pro', sans-serif !important;font-size: 12px !important;font-weight: 300 !important;line-height: 19px !important;color: #4a4a4a !important;}
+.timeline-Tweet-media{display: none;}
+
+.timeline-TweetList > li{margin-bottom: 6px;}
+.SandboxRoot.env-bp-430 .timeline-Tweet-text{font-size: 14px !important;line-height: 19px !important;}
+.timeline-Tweet:hover{background: rgba(244, 242, 242, 0.8) !important;}
+.fb-single-twitter-feed .timeline-TweetList-tweet{width: 100% !important;}

@@ -1,0 +1,317 @@
+<?php $__env->startSection('content'); ?>
+<style type="text/css">
+.overflow {
+      height: 200px;
+    }
+</style>
+<?php if(Session::has('failed')): ?>
+        <div class="alert-message error">
+            <?php echo Session::get('failed');; ?>
+
+        </div>
+        <?php endif; ?>
+
+<?php 
+$url_segment = \URL::current();
+$url=explode("/",$url_segment);
+$url_new=array_reverse($url);
+
+$p_id=Crypt::decrypt($url_new[0]);
+
+
+?>
+<section class="fb-projects-section">
+    <div class="container">
+      <div class="fb-section-head-wrap">
+        <h1 class="fb-section-head">Create Project</h1>
+      </div>
+    </div>
+  </section>
+  <section class="fb-pd-tab-section fb-projects-tab-section">
+    <div class="container">
+      <div class="fb-create-project-box">
+        <div class="fb-cp-steps-trigger-wrapper">
+          <ul class="fb-cp-steps-trigger">
+            <li>
+              <button class="fb-cp-step-button fb-cp-step-one-trigger clickable">
+                <span class="fb-cp-step-count">1</span>
+                <span class="fb-cp-step-completed-icon" style="display: none;"><i class="icon-checked"></i></span>
+                <span class="fb-cp-step-name">Project Details</span>
+              </button>
+            </li>
+            <li>
+              <button class="fb-cp-step-button fb-cp-step-two-trigger" disabled="disabled">
+                <span class="fb-cp-step-count">2</span>
+                <span class="fb-cp-step-completed-icon" style="display: none;"><i class="icon-checked"></i></span>
+                <span class="fb-cp-step-name">Financial Details</span>
+              </button>
+            </li>
+            <li>
+              <button class="fb-cp-step-button fb-cp-step-three-trigger" disabled="disabled">
+                <span class="fb-cp-step-count">3</span>
+                <span class="fb-cp-step-completed-icon" style="display: none;"><i class="icon-checked"></i></span>
+                <span class="fb-cp-step-name">Submit for Review</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="fb-cp-steps-content-wrapper">
+          <div class="fb-cp-step-content fb-cp-step-one-content">
+            <form action="<?php echo URL::to('postbasicupdate/project/'); ?>/<?php echo $url_new[0];?>" method="post" id="form" enctype="multipart/form-data">
+
+              <input name='id' type='hidden' value='<?php echo $projectdetails->id; ?>'>
+                        
+            
+                        <input type="hidden" value="<?php echo Session::get('locale'); ?>" name="language" id="language">
+              <ul class="fb-cp-form-list fb-cp-form-list-left">
+                <li>
+                  <label class="fb-cp-form-label">Choose which SDG your project falls under</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select name='category'>
+                     <?php foreach($categories as $category): ?>
+                                        <option value='<?php echo $category->id; ?>' <?php if($category->id==$projectdetails->categoryid): ?>selected="selected" <?php endif; ?> ><?php echo $category->categoryname; ?></option>
+                                        <?php endforeach; ?>
+                    </select>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label required">Project Title</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <input type="text" class="fb-input-text <?php if($errors->has('title')): ?> has-error <?php endif; ?>"  name='title' required="" value="<?php echo e($projectdetails->title); ?>"/> <?php if($errors->has('title')): ?> <p class="help-block"><?php echo $errors->first('title'); ?></p> <?php endif; ?>
+                    <i class="fb-form-hint">This will be the main title through which donors can find your title</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label required">Country</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select name="country" id="country">
+                          <?php foreach($countries as $country): ?>
+                                        <option value='<?php echo $country->id; ?>' <?php if($country->id==$projectdetails->location): ?>selected="selected" <?php endif; ?> ><?php echo $country->countryname; ?></option>
+                                        <?php endforeach; ?>
+                    </select>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label required">Feature Photograph</label>
+                  <span class="fb-cp-form-input-wrapper">
+                         <img class="preview" id="myImg" style="width:112px;height:112px;" src="<?php echo URL::to(''); ?>/<?php echo $projectdetails->projectimage; ?>" onerror="this.src='<?php echo URL::To('main/images/projectdefault.png');; ?>'">
+
+                    <div class="custom-file-upload <?php if($errors->has('image')): ?> has-error <?php endif; ?>">
+                        <input type="file" id="file" name="image" />
+                        <?php if($errors->has('image')): ?> <p class="help-block"><?php echo $errors->first('image'); ?></p> <?php endif; ?>
+                    </div>
+                    <i class="fb-form-hint">This will be the main image anyone looking at your story will see. JPEG, PNG, 5MB file limit. Atleast 1024 x 768</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label required">Appeal Message</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <textarea class="fb-input-textarea <?php if($errors->has('shortblurb')): ?> has-error <?php endif; ?>" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required="" placeholder="Please give as much as you can and help" name="shortblurb"><?php if($projectdetails->shortblurb!=''): ?><?php echo e($projectdetails->shortblurb); ?><?php else: ?><?php echo Input::old('shortblurb'); ?><?php endif; ?></textarea>
+                    <?php if($errors->has('shortblurb')): ?> <p class="help-block"><?php echo $errors->first('shortblurb'); ?></p> <?php endif; ?>
+                  </span>
+                </li>
+                <li>
+
+                  <label class="fb-cp-form-label">Feature Video</label>
+                   <?php if($projectdetails->projectvideo!=''): ?>
+                    <label class="titl-left-side col-md-3" ><span id="textchage"><?php echo trans('messages.projectvideo'); ?></span> </label>
+                            <?php if($projectdetails->projectvideo!=''): ?>
+                            <a href="javascript:void(0)"> <span  class="round-button" onclick="deletevideo(<?php echo $projectdetails->id; ?>);">x</span></a>
+                            <?php endif; ?>
+                                <?php
+                                $array = explode('/', $projectdetails->projectvideo);
+                                $explodedata = explode('.', $array[4]);
+                                ?>
+                                <?php if(Str::contains("www.youtube.com",$array)): ?>
+                                <iframe src="<?php echo $projectdetails->projectvideo; ?>"
+                                        width="100%" height="300px" frameborder="0" allowfullscreen></iframe>
+                                <?php else: ?> 
+                                <?php
+                                if ($explodedata[1] == 'JPEG' || $explodedata[1] == 'PNG' || $explodedata[1] == 'GIF' || $explodedata[1] == 'BMP' ||
+                                        $explodedata[1] == 'jpeg' || $explodedata[1] == 'png' || $explodedata[1] == 'gif' || $explodedata[1] == 'bmp' || $explodedata[1] == 'jpg') {
+                                    ?>                                  
+                                    <img class="preview" id="img" style="width:100%;height:100%;" src="<?php echo URL::to('');; ?>/<?php echo $projectdetails->projectvideo; ?>" >
+                                <?php } else { ?>
+                                    <video width="100%" height="100%" controls>
+                                        <source src="<?php echo URL::to('');; ?>/<?php echo $projectdetails->projectvideo; ?>" >
+                                        <?php echo trans('messages.novideosupport'); ?>.
+                                    </video>
+                                <?php } ?>
+                                <?php endif; ?>
+                                <?php endif; ?>
+                  <span class="fb-cp-form-input-wrapper">
+                    <div class="custom-file-upload">
+                        <input type="file" name="projectvideo"  />
+                       
+                      
+
+                        <?php if($errors->has('projectvideo')): ?> <p class="help-block"><?php echo $errors->first('projectvideo'); ?></p> <?php endif; ?>
+                    </div>
+                  </span>
+                  <span class="fb-cp-form-or-text">OR</span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <input type="text" class="fb-input-text" placeholder="Paste Youtube Video URL" name="youtubelink"/>
+                    <i class="fb-form-hint">This will be the main video for your project. Make sure it talks about why the donee needs money, what they are doing right now and what they will be doing once they get the money.</i>
+                    <?php if($errors->has('youtubelink')): ?> <p class="help-block"><?php echo $errors->first('youtubelink'); ?></p> <?php endif; ?>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label required">Description</label>
+                  <span class="fb-cp-form-input-wrapper">
+                      
+
+                    <textarea class="fb-input-textarea <?php if($errors->has('description')): ?> has-error <?php endif; ?>" name="description" required="" ><?php if($projectdetails->description!=''): ?><?php echo e($projectdetails->description); ?><?php else: ?><?php echo Input::old('description'); ?><?php endif; ?></textarea>
+                    <i class="fb-form-hint">This gives people a sense of who you are trying to help and how.</i>
+                    <?php if($errors->has('description')): ?> <p class="help-block help-editor"><?php echo $errors->first('description'); ?></p> <?php endif; ?>
+                  </span>
+                </li>
+              </ul>
+              <ul class="fb-cp-form-list fb-cp-form-list-right">
+                <li>
+                  <label class="fb-cp-form-label required">Risks and challenges</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <textarea class="fb-input-textarea" name="risks" required><?php if(Input::old('risks')!=''): ?><?php echo Input::old('risks'); ?><?php else: ?><?php echo $projectdetails->risks; ?><?php endif; ?></textarea>
+                     <?php if($errors->has('risks')): ?> <p class="help-block"><?php echo $errors->first('risks'); ?></p> <?php endif; ?>
+                    <i class="fb-form-hint">A hint text will go here ...</i>
+                  </span>
+                </li>
+                <li style="display:none;">
+                  <label class="fb-cp-form-label">Sponsored By</label>
+                  <span class="fb-cp-form-input-wrapper fb-sponsored-field">
+                    <span class="fb-cp-sponsor-image-wrap"><img src="<?php echo URL::asset('main/images/testimonial-image-2.jpeg');; ?>" alt="testimonial image 2"/></span>
+                    <textarea class="fb-input-textarea"></textarea>
+                    <i class="fb-form-hint">This gives people a sense of who you are trying to help and how.</i>
+                  </span>
+                </li>
+                <li style="display:none;">
+                  <label class="fb-cp-form-label">Description</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <textarea class="fb-input-textarea"></textarea>
+                    <i class="fb-form-hint">Explain in detail who you have started this project for, their past, their present and what they plan to do with the money.</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Donee Information</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <input type="text" class="fb-input-text" placeholder="Name of Donee"/>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select id="doneecountry">
+                      <option value=''><?php echo trans('messages.selectcountry'); ?></option>
+                     <?php foreach($countries as $country): ?>
+                        <option value="<?php echo $country->id; ?>"><?php echo $country->countryname; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select>
+                      <option value="">Religion</option>
+                      <option value="">Hindu</option>
+                      <option value="">Christian</option>
+                      <option value="">Muslim</option>
+                    </select>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper fb-date-picker-wrapper">
+                    <input type="text" class="fb-input-text" value="DOB" id="datepicker"/>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select>
+                      <option value="">Gender</option>
+                      <option value="">Male</option>
+                      <option value="">Female</option>
+                    </select>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <div class="custom-file-upload">
+                        <input type="file" name="prrofimage" />
+                    </div>
+                    <i class="fb-form-hint">Upload Beneficiary Document (ID Proof)</i>
+                  </span>
+                </li>
+              </ul>
+              <div class="fb-submit-btn-wrapper">
+                <button type="submit" class="fb-submit-btn"><i class="icon-right-arrow"></i><span>NEXT</span></button>
+              </div>
+            </form>
+          </div>
+         
+      </div>
+    </div>
+  </section>
+
+   
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="<?php echo URL::asset('main/js/bootstrap.min.js');; ?>"></script>
+
+<script src="<?php echo URL::asset('main/js/jquery-ui.min.js');; ?>"></script>
+<script src="<?php echo URL::asset('main/js/custom.js');; ?>"></script>
+<script src="<?php echo URL::asset('main/js/create-project.js');; ?>"></script>
+
+<script>
+    function InvalidMsg(textbox) {
+    var lang = $('#language').val();
+    if(lang){
+        if (textbox.value == '') {
+            textbox.setCustomValidity('<?php echo trans("messages2.required"); ?>');
+        }
+        else {
+            textbox.setCustomValidity('');
+        }
+        return true;
+    }
+}
+
+</script>
+<script>
+$( function() {
+    
+    $( "select" ).selectmenu().selectmenu( "menuWidget" )
+        .addClass( "overflow" );
+
+         $( "select#country" ).selectmenu().selectmenu( "menuWidget" )
+        .addClass( "overflow" );
+
+  $( "select#doneecountry" ).selectmenu().selectmenu( "menuWidget" )
+        .addClass( "overflow" );
+        
+
+ 
+    $('#datepicker').datepicker({
+      inline: true,
+      nextText: '&rarr;',
+      prevText: '&larr;',
+      showOtherMonths: true,
+      dateFormat: 'dd MM yy',
+      showOn: "both",
+      buttonImage: "<?php echo url::asset('main/images/calendar.svg');; ?>",
+      buttonImageOnly: true,
+      buttonText: "",
+      changeYear:true,
+      changeMonth: true,
+      yearRange: '1950:+0'
+     
+    });
+});
+
+</script>
+
+<script>
+            function deletevideo(id) {
+          
+            if (id != '') {
+            $.ajax({
+            url: "deletevideo",
+                    type: "post",
+                    data: {'videoid':id},
+                    success: function(data) {
+                    if (data != 0) {
+                    window.location.href = "";
+                    }
+                    }
+            });
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

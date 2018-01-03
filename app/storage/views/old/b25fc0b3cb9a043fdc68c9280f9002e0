@@ -1,0 +1,228 @@
+<?php $__env->startSection('content'); ?>
+<style type="text/css">
+.overflow {
+      height: 200px;
+    }
+</style>
+
+<div class="container text-center">
+
+ <?php if(Session::has('failed')): ?>
+                <div class="alert-message error">
+                    <?php echo Session::get('failed');; ?>
+
+                </div>
+                <?php endif; ?>
+</div>
+
+<section class="fb-donate-section">
+    <div class="container">
+   
+                <div class="col-md-12 col-sm-12">
+                    
+
+                    <h3 class="rewd-text"><?php echo trans('messages2.cardinformation'); ?> </h3>
+                    
+                    </div>
+      <div class="fb-donate-box">
+          <div class="fb-section-head-wrap">
+         
+            <h1 class="fb-section-head"><?php echo e($projectdetail->title); ?></h1>
+            <p class="fb-signup-top-text">by <?php echo e($projectdetail->firstname); ?> <?php echo e($projectdetail->lastname); ?> <span style="float:right">Your pledge amount is: <strong><?php echo $projectdetail->currencysymbol; ?><?php echo $pledgeamount; ?></strong></span></p>
+			
+          </div>
+         <form action="<?php echo URL::to('poststripepayment'); ?>" method="post" name="form">
+           <input type="hidden" name="projectid" value="<?php echo $projectdetail->id; ?>">
+                            <input type="hidden" name="rewardid" value="<?php echo $rewardid; ?>">
+                            <input type="hidden" name="userid" value="<?php echo $userid; ?>">
+                            <input type="hidden" name="pledgeamount" value="<?php echo $pledgeamount; ?>">
+                            <input type="hidden" value="<?php echo Session::get('locale'); ?>" name="language" id="language">
+            <div class="fb-donate-form-box">
+              <div class="fb-donate-form-box-left" style="display:none;">
+                <textarea class="fb-input-textarea fb-donation-amount-input"><?php echo $projectdetail->currencysymbol; ?><?php echo $pledgeamount; ?></textarea>
+              </div>
+              <div class="fb-donate-form-box">
+                <ul class="fb-donate-form-list">
+                  <li class="col-md-6">
+                    <input type="text" class="fb-input-text" placeholder="Card Holder Name" name="name" class="<?php if($errors->has('name')): ?> has-error <?php endif; ?>" style="text-transform: uppercase;" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required/>
+                     <?php if($errors->has('name')): ?> <p class="help-block"><?php echo $errors->first('name'); ?></p> <?php endif; ?>
+                  </li>
+                  <li class="col-md-6">
+                    <input type="text" class="fb-input-text" placeholder="Card Number" name="cardnumber" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required/>
+                     <?php if($errors->has('cardnumber')): ?> <p class="help-block"><?php echo $errors->first('cardnumber'); ?></p> <?php endif; ?>
+                                    <span class="cardnumber_error" style="color:red;margin-top: -22px;"></span>
+                  </li>
+                  <li class="col-md-4">
+                  <select name="month" oninvalid="InvalidCountry(this);" oninput="InvalidCountry(this);" required="">
+                                        <option value="">--<?php echo trans('messages2.month'); ?>--</option>
+                                        <?php for ($m = 1; $m <= 12; $m++) { ?>
+                                            <option value="<?php echo sprintf("%02d", $m);; ?>" ><?php echo sprintf("%02d", $m);; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                   
+                   
+                  </li>
+				  <li class="col-md-4">
+				   <select name="year" oninvalid="InvalidCountry(this);" oninput="InvalidCountry(this);" required="">
+                                        <option value="">--<?php echo trans('messages2.year'); ?>--</option>
+                                        <?php
+                                        $currentdate = date('Y');
+                                        for ($i = $currentdate; $i < $currentdate + 20; $i++) {
+                                            ?>
+                                            <option value='<?php echo $i; ?>'><?php echo $i; ?></option>
+                                        <?php } ?>  
+                                    </select>
+				  </li>
+                  <li class="col-md-4"><input class="fb-input-text <?php if($errors->has('cvv')): ?> has-error <?php endif; ?>" placeholder="CVV" name="cvv" id="cvv" type="password" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required="">
+                                        <?php if($errors->has('cvv')): ?> <p class="help-block"><?php echo $errors->first('cvv'); ?></p> <?php endif; ?>
+
+                  </li>
+
+                   <li class="col-md-6">
+                               
+
+                                    <?php echo Form::select('country',array(trans('messages.country')) + $countries->lists('countryname', 'countryname'), 'default', array('class' => 'cnt-selct','required'=>'true' ,'id' => 'country', Input::old('country'))); ?>
+
+                                    <span class="country_error" style="color:red;float: right;margin-right: -275px;margin-top: -22px;"></span>    
+                              
+
+                            </li> 
+
+                            <li class="col-md-6">
+                                
+                                    <input placeholder="<?php echo trans('messages.address'); ?> 1" type="text" name="address1" class="fb-input-text <?php if($errors->has('address1')): ?> has-error <?php endif; ?>" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required>
+                                    <?php if($errors->has('address1')): ?> <p class="help-block"><?php echo $errors->first('address1'); ?></p> <?php endif; ?>
+                                    <span class="address1_error" style="color:red;float: right;margin-right: -275px;margin-top: -22px;"></span>
+                               
+
+                            </li>
+
+<li class="col-md-12">
+                                
+                                
+                                    <input placeholder="<?php echo trans('messages.address'); ?> 2" type="text" name="address2" class="fb-input-text <?php if($errors->has('address2')): ?> has-error <?php endif; ?>" >
+                                    <?php if($errors->has('address2')): ?> <p class="help-block"><?php echo $errors->first('address2'); ?></p> <?php endif; ?>
+                                    <span class="address2_error" style="color:red;float: right;margin-right: -275px;margin-top: -22px;"></span>
+                                
+
+                            </li>
+                            <li class="col-md-6">
+                                
+                                    <input placeholder="<?php echo trans('messages.city'); ?>" type="text" id="city" name="city" class="fb-input-text <?php if($errors->has('city')): ?> has-error <?php endif; ?>" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required>
+                                    <?php if($errors->has('city')): ?> <p class="help-block"><?php echo $errors->first('city'); ?></p> <?php endif; ?>
+                                    <span class="city_error" style="color:red;float: right;margin-right: -275px;margin-top: -22px;"></span>
+                               
+
+                            </li>
+
+                            <li class="col-md-6">
+                               
+                                    <input placeholder="<?php echo trans('messages2.postalcode'); ?>" type="text" id="postalcode" name="postalcode" class="fb-input-text <?php if($errors->has('postalcode')): ?> has-error <?php endif; ?>" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required>
+                                    <?php if($errors->has('postalcode')): ?> <p class="help-block"><?php echo $errors->first('postalcode'); ?></p> <?php endif; ?>
+                                    <span class="postalcode_error" style="color:red;float: right;margin-right: -275px;margin-top: -22px;"></span>
+                               
+
+                            </li>
+
+                </ul>
+                <ul class="fb-card-type-list">
+                  <li>
+                  
+                    <img src="<?php echo URL::asset('main/images/visa.png');; ?>" alt="visa" />
+                  </li>
+                  <li>
+                    <img src="<?php echo URL::asset('main/images/mastercard.png');; ?>" alt="visa" />
+                  </li>
+                  <li>
+                    <img src="<?php echo URL::asset('main/images/maestro.png');; ?>" alt="visa" />
+                  </li>
+                  <li>
+                    <img src="<?php echo URL::asset('main/images/cirrus.png');; ?>" alt="visa" />
+                  </li>
+                </ul>
+              </div>
+              <div class="fb-donate-form-submit-btn-wrapper">
+                <a href="<?php echo URL::to('project/detail/'); ?>/<?php echo $projectdetail->id; ?>" class="fb-donate-cancel-btn"><span>CANCEL</span></a>
+                <button type="submit" class="fb-donate-submit-btn"><i class="icon-checked"></i><p>SHOW MY SUPPORT</p></button>
+              </div>
+            </div>
+          </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fade fb-modal fb-cp-success-modal" id="donationSuccessModal" tabindex="-1" role="dialog" aria-labelledby="donationSuccessModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="icon-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="fb-create-project-success-modal-content">
+            <span class="fb-create-project-success-modal-icon"><i class="icon-checked"></i></span>
+            <h4 class="fb-create-project-success-modal-head">Well done!</h4>
+            <p class="fb-create-project-success-modal-para">You have successfully <strong>donated.</strong>  Share the message and spread the smile! :)</p>
+            <ul class="fb-modal-share-list">
+              <li><a href="#"><i class="icon-facebook"></i></a></li>
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-google-plus"></i></a></li>
+              <li><a href="#"><i class="icon-linkedin"></i></a></li>
+            </ul>
+            <a href="#" type="button" class="fb-cpsm-thanks-btn">Take me back to the project</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="<?php echo URL::asset('main/js/bootstrap.min.js');; ?>"></script>
+<script src="<?php echo URL::asset('main/js/jquery-ui.min.js');; ?>"></script>
+<script src="<?php echo URL::asset('main/js/custom.js');; ?>"></script>
+<script>
+$(".fb-donate-submit-btn").click(function(){
+    //   $('#donationSuccessModal').modal('show');
+});
+</script>
+
+<script>
+    function InvalidMsg(textbox) {
+    var lang = $('#language').val();
+    if(lang){
+        if (textbox.value == '') {
+            textbox.setCustomValidity('<?php echo trans("messages2.required"); ?>');
+        }
+        else {
+            textbox.setCustomValidity('');
+        }
+        return true;
+    }
+}
+function InvalidCountry(textbox) {
+    var lang = $('#language').val();
+    if(lang){
+        if (textbox.value == '') {
+            textbox.setCustomValidity('<?php echo trans("messages2.requiredcountry"); ?>');
+        }
+        else {
+            textbox.setCustomValidity('');
+        }
+        return true;
+    }
+}
+</script> 
+
+<script>
+$( function() {
+    
+   $( "select" ).selectmenu();
+	$( "select#country" ).selectmenu().selectmenu( "menuWidget" )
+        .addClass( "overflow" );
+
+});
+</script>   
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

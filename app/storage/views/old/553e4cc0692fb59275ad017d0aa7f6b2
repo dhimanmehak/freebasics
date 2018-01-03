@@ -1,0 +1,145 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6><?php echo $getdetails[0]['title']; ?></h6>
+                    <a href="<?php echo URL::to('exportbackers?id=');; ?><?php echo $projectid; ?>" class="badge_style b_medium" style="float: right;margin-top: -3.4%;margin-right: 36px;padding: 10px;">Export backers</a>
+                </div>
+                <div class="widget_content">
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>                             
+                                <th>
+                                    Backer Name
+                                </th>  
+                                <th>
+                                    Email
+                                </th>  
+                                <th>
+                                    Contact
+                                </th>  
+                                <th>
+                                    Pledge Amount
+                                </th>
+                                <th>
+                                    Reward
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($getdetails as $key=>$detail): ?>
+                            <tr>
+                                <td class="sdate center">
+                                    <?php echo $key+1; ?>
+
+                                </td> 
+                                <td class="center">
+                                    <?php echo e($detail->firstname); ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo e($detail->email); ?>
+
+                                </td>
+                                <td class="center">
+                                     <?php if($detail->mobile==''): ?>
+                                     -
+                                    <?php else: ?>
+                                    <?php echo $detail->mobile; ?>
+
+                                    <?php endif; ?>
+                                </td>                               
+                                <td class="center">
+                                    <?php echo $detail->pledgeamount; ?>
+
+                                </td> 
+                                <td class="center">
+                                    <?php if($detail->description==''): ?>
+                                    No Reward
+                                    <?php else: ?>
+                                    <?php echo e($detail->description); ?>
+
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('3', $Backing)): ?>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" onclick="confirmation('<?php echo $detail->id; ?>')" href="#" title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>                              
+                                <th>
+                                    Backer Name
+                                </th>  
+                                <th>
+                                    Email
+                                </th>  
+                                <th>
+                                    Contact
+                                </th>  
+                                <th>
+                                    Pledge Amount
+                                </th>
+                                <th>
+                                    Reward
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+            function confirmation(id) {
+            var answer = confirm("Are you sure to delete this record?")
+                    if (answer) {
+            location.href = 'deletebacking?id=' + id;
+            }
+            else {
+            return false;
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

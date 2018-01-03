@@ -1,0 +1,671 @@
+@extends('layouts.mainlayoutold')
+@section('content')
+<section>
+    <style>
+        .request-btn{
+            padding: 8px;
+            font-size: 13px;
+            margin-left: 25%;
+            font-weight: bold;  
+        }
+        #map_JSChart_graph img{
+            display:none;
+        }
+
+    </style>
+	<input type="hidden" id="refreshed" value="no">
+<script type="text/javascript">
+onload=function() {
+		var e=document.getElementById("refreshed");
+		if(e.value=="no")
+		e.value="yes";
+		else{
+		e.value="no";location.reload();
+	}
+}
+</script>
+
+<div class="col-md-12 text-center">
+
+  
+  
+   @if ($projectdetails->projectverified == 2)
+	   
+   <div class="stepwizard">
+ <div class="stepwizard-row setup-panel">
+   
+      <div class="stepwizard-step">
+        <a href="{{URL::to('project/basic')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-primary btn-circle active">1</a>
+        <p>Project Details</p>
+      </div>
+      <div class="stepwizard-step">
+        <a href="{{URL::to('project/reward')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">2</a>
+        <p>Incentives to supporters</p>
+      </div>
+      <div class="stepwizard-step">
+        <a href="{{URL::to('project/story')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">3</a>
+        <p>Social Impact</p>
+      </div>
+	  <div class="stepwizard-step">
+        <a href="{{URL::to('project/preview')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">4</a>
+        <p>Submit</p>
+      </div>
+	  <div class="stepwizard-step">
+        <a href="{{URL::to('project/updates')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">5</a>
+        <p>Updates</p>
+      </div>
+	   <div class="stepwizard-step">
+        <a href="{{URL::to('project/backers')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">6</a>
+        <p>Donors</p>
+      </div>
+	  
+	   <div class="stepwizard-step">
+        <a href="{{URL::to('project/faq')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">7</a>
+        <p>FAQ's</p>
+      </div>
+    </div>
+	
+	</div>
+	
+
+	 <ul class="project_circle_edit" style="display:none;">  
+	  
+  <li class="active"><a href="{{URL::to('project/basic')}}/{{Crypt::encrypt($projectdetails->id)}}">1</a><span><a href="{{URL::to('project/basic')}}/{{Crypt::encrypt($projectdetails->id)}}">Project Details</a></span></li>
+  <li><a href="{{URL::to('project/reward')}}/{{Crypt::encrypt($projectdetails->id)}}">2</a><span><a href="{{URL::to('project/reward')}}/{{Crypt::encrypt($projectdetails->id)}}">Incentives to supporters</a></span></li>
+  <li><a href="{{URL::to('project/story')}}/{{Crypt::encrypt($projectdetails->id)}}">3</a><span><a href="{{URL::to('project/story')}}/{{Crypt::encrypt($projectdetails->id)}}">Social Impact</a></span></li>
+  <li><a href="{{URL::to('project/preview')}}/{{Crypt::encrypt($projectdetails->id)}}">4</a><span><a href="{{URL::to('project/preview')}}/{{Crypt::encrypt($projectdetails->id)}}">Submit</a></span></li>
+   <li><a href="{{URL::to('project/updates')}}/{{Crypt::encrypt($projectdetails->id)}}">5 </a><span><a href="{{URL::to('project/updates')}}/{{Crypt::encrypt($projectdetails->id)}}">Updates</a></span></li>
+  <li><a href="{{URL::to('project/backers')}}/{{Crypt::encrypt($projectdetails->id)}}">6 </a><span><a href="{{URL::to('project/backers')}}/{{Crypt::encrypt($projectdetails->id)}}">Donors</a></span></li>
+  <li><a href="{{URL::to('project/faq')}}/{{Crypt::encrypt($projectdetails->id)}}">7</a><span><a href="{{URL::to('project/faq')}}/{{Crypt::encrypt($projectdetails->id)}}">FAQ's</a></span></li>
+   </ul>         
+				
+				
+@else
+	
+
+<div class="stepwizard">
+ <div class="stepwizard-row setup-panel">
+ 
+ 
+      <div class="stepwizard-step">
+        <a href="#" type="button" class="btn btn-default btn-circle">1</a>
+        <p>Project Type</p>
+      </div>
+      <div class="stepwizard-step">
+        <a href="{{URL::to('project/basic')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-primary btn-circle active">2</a>
+        <p>Project Details</p>
+      </div>
+      <div class="stepwizard-step">
+        <a href="{{URL::to('project/reward')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">3</a>
+        <p>Incentives to supporters</p>
+      </div>
+	  <div class="stepwizard-step">
+        <a href="{{URL::to('project/story')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">4</a>
+        <p>Social Impact</p>
+      </div>
+	  <div class="stepwizard-step">
+        <a href="{{URL::to('project/preview')}}/{{Crypt::encrypt($projectdetails->id)}}" type="button" class="btn btn-default btn-circle">5</a>
+        <p>Submit</p>
+      </div>
+    </div>
+	
+	</div>
+	
+<ul class="project_circle" style="display:none;">
+<li>1<span>Project Type</span></li>
+  <li  class="active"><a href="{{URL::to('project/basic')}}/{{Crypt::encrypt($projectdetails->id)}}">2</a><span>Project Details</span></li>
+  <li><a href="{{URL::to('project/reward')}}/{{Crypt::encrypt($projectdetails->id)}}">3</a><span>Incentives to supporters</span></li>
+  <li><a href="{{URL::to('project/story')}}/{{Crypt::encrypt($projectdetails->id)}}">4</a><span>Social Impact</span></li>
+  <li><a href="{{URL::to('project/preview')}}/{{Crypt::encrypt($projectdetails->id)}}">5</a><span>Submit</span></li>	
+               
+  
+</ul> 
+ @endif   
+</div>
+
+    <div class="steps">
+        <div class="container">
+            <div class="step-head" style="display:none;">
+                <ol id="" class="steps-navgiaton">
+                    <li  class="stp1 ">
+                        <a class="a" href="{{URL::to('project/basic')}}/{{Crypt::encrypt($projectdetails->id)}}" @if($basicstatus==1)style=" color:#020;font-weight: bold;"@endif><i class="fa fa-check-circle" @if($basicstatus==1)style="color:#2bde73;"@endif></i> {{trans('messages.basics')}} </a>
+                    </li>
+                    <li class="stp1 ">
+                        <a class="a" href="{{URL::to('project/reward')}}/{{Crypt::encrypt($projectdetails->id)}}" @if($rewardstatus==1)style="color:#020;font-weight: bold;"@endif><i class="fa fa-check-circle" @if($rewardstatus==1)style="color:#2bde73;"@endif></i> {{trans('messages.rewards')}} </a>
+                    </li>
+                    <li class="stp1">
+                        <a class="a" href="{{URL::to('project/story')}}/{{Crypt::encrypt($projectdetails->id)}}" @if($storystatus==1)style="color:#020;font-weight: bold;"@endif><i class="fa fa-check-circle" @if($storystatus==1)style="color:#2bde73;"@endif></i> {{trans('messages.story')}} </a>
+                    </li>
+                </ol>
+                <ol id="" class="steps-navgiaton">
+                    <li class="stp1">
+                        <a class="a" href="{{URL::to('project/preview')}}/{{Crypt::encrypt($projectdetails->id)}}"> {{trans('messages.preview')}} </a>
+                    </li>
+                </ol>
+                @if ($projectdetails->projectverified == 2)
+
+                <ol id="" class="steps-navgiaton">
+                    <li class="stp1">
+                        <a class="a" href="{{URL::to('project/updates')}}/{{Crypt::encrypt($projectdetails->id)}}"> {{trans('messages.updates')}} </a>
+                    </li>
+                </ol>
+
+                <ol id="" class="steps-navgiaton">
+                    <li class="stp1">
+                        <a class=a"" href="{{URL::to('project/backers')}}/{{Crypt::encrypt($projectdetails->id)}}"> {{trans('messages.capsbackers')}} </a>
+                    </li>
+                </ol>
+
+                <ol id="" class="steps-navgiaton">
+                    <li class="stp1">
+                        <a class="a" href="{{URL::to('project/faq')}}/{{Crypt::encrypt($projectdetails->id)}}"> {{trans('messages.faq')}} </a>
+                    </li>
+                </ol>
+                @endif
+            </div>
+
+            <div class="title-lined">
+
+                <span>{{trans('messages.startbuilding')}}!</span>
+                <p>{{trans('messages.addanimage')}},{{trans('messages.agoal')}},{{trans('messages.otherdetails')}}.</p>
+                @if(Session::has('success'))
+                <div class="alert-message success">
+                    {{Session::get('success');}}
+                </div>
+                @endif
+                @if(Session::has('failed'))
+                <div class="alert-message error">
+                    {{Session::get('failed');}}
+                </div>
+                @endif
+            </div>
+            <div class="middle-containers">
+                <form class="basicpageform" action="{{URL::to('postbasic/update')}}/{{$projectdetails->id}}" method="post" id="form" enctype="multipart/form-data">
+
+				@if($projectdetails->projectimage!='')
+                        <input type="hidden" value="1" name="uploaded">
+                        @else 
+                        <input type="hidden" value="0" name="uploaded" id="uploaded">
+                        @endif
+						
+                    <ul class="middle-left">
+                        <input name='id' type='hidden' value='{{$projectdetails->id}}'>
+						
+                        <input type="hidden" value="{{Session::get('locale')}}" name="language" id="language">
+                        <li>
+                            <label class="titl-left-side col-md-3" >{{trans('messages.projectimage')}}</label>
+
+                            <div class="col-md-9">
+                                <div class="upload @if($errors->has('image')) has-error @endif">
+                                    <div class="image-clip">
+                                        <img class="preview" id="myImg" style="width:112px;height:112px;" src="{{URL::to('')}}/{{$projectdetails->projectimage}}" onerror="this.src='{{URL::To('main/images/projectdefault.png');}}'">
+                                    </div>
+                                    <input id="project_photo" name="image" class="photo file" type="file" >
+                                    <strong class="center">
+                                        {{trans('messages.pictureinfo')}}
+                                        <span class="has_file_hide">{{trans('messages.projectimageinfo')}}!</span>
+                                        <span>JPEG, PNG, GIF, or BMP • 5MB {{trans('messages.picturelimit')}}</span>
+                                        <span>{{trans('messages.atleast')}} 1024x768 pixels • 4:3 {{trans('messages.aspectratio')}}</span>
+                                    </strong>
+                                </div>
+                                @if ($errors->has('image')) <p class="help-block">{{ $errors->first('image') }}</p> @endif
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="titl-left-side col-md-3" >{{trans('messages.projecttitle')}}</label>
+                            <div class="col-md-9">
+                                <div class="chr-ful-wapr">
+                                    <input id="title" type="text" class="tile-proj @if($errors->has('title')) has-error @endif" maxlength="60" name="title" value="{{{$projectdetails->title}}}" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required="">
+                                    <span class="character_counter_container">
+                                        <span class="character_counter" rel="#project_name" id="title_length">60</span>
+                                        /60
+                                    </span>
+                                </div>
+                                @if ($errors->has('title')) <p class="help-block">{{ $errors->first('title') }}</p> @endif
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="titl-left-side col-md-3" >{{trans('messages.shortblurb')}}</label>
+                            <div class="col-md-9">
+                                <div class="chr-ful-wapr">
+                                    <textarea id="project_blurb" name="shortblurb" maxlength="135" class="required textarea @if($errors->has('shortblurb')) has-error @endif" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required="">@if($projectdetails->shortblurb!=''){{{$projectdetails->shortblurb}}}@else{{ Input::old('shortblurb') }}@endif</textarea>
+                                    <span class="character_counter_container" style="float: right; margin-right: 10px;">
+                                        <span class="character_counter" rel="#project_name"  id="textarea_feedback">135</span>
+                                        /135
+                                    </span>
+                                </div>
+                                @if ($errors->has('shortblurb')) <p class="help-block">{{ $errors->first('shortblurb') }}</p> @endif
+                            </div>
+                        </li>
+                        <li>
+                            <label class="titl-left-side col-md-3" >{{trans('messages.category')}}</label>
+                            <div class="col-md-9">
+                                <div class="chr-ful-wapr-sel @if($errors->has('category')) has-error @endif">
+                                    <select name='category' required="">
+                                        @foreach($categories as $category)
+                                        <option value='{{$category->id}}' @if($category->id==$projectdetails->categoryid)selected="selected" @endif >{{$category->categoryname}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="titl-left-side col-md-3" >{{trans('messages.projectlocation')}}</label>
+                            <div class="col-md-9">
+                                <div class="chr-ful-wapr-sel @if($errors->has('location')) has-error @endif">
+                                    <select name='location' required="">
+                                        @foreach($countries as $country)
+                                        <option value='{{$country->id}}' @if($country->id==$projectdetails->location)selected="selected" @endif >{{$country->countryname}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="titl-left-side col-md-3" >{{trans('messages.fundingduration')}}</label>
+                            <div class="col-md-9">
+                                <div class="date-structure calenders">
+                                    <div class="top-date">
+                                        <label class="option_label" for="duration_duration">
+                                            <strong>{{trans('messages.endondate')}}</strong>
+                                        </label>
+                                        <div class="calendr-container">
+                                            <input type="text" name="fundingduration" placeholder="yyyy-mm-dd"  class="input-group date form_date col-md-5 nokeypress" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required="" @if($projectdetails->endingon!='0000-00-00')value="{{$projectdetails->endingon}}"@endif  @if(($projectdetails->projectverified)!=2) id="fundingdur" @endif  @if(($projectdetails->projectverified)==2) readonly @endif>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if ($errors->has('fundingduration')) <p class="help-block">{{ $errors->first('fundingduration') }}</p> @endif
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="titl-left-side col-md-3" >{{trans('messages.fundinggoal')}}</label>
+
+                            <div class="col-md-4">
+                                <div class="chr-ful-wapr">
+                                    <span style=" float: left; margin-top: 9px; margin-left: 5px;" id="currency-symbol">{{$projectdetails->currencysymbol}}</span>
+                                    <input  type="text" style="padding-left:20px;" class="only-numbers tile-proj @if($errors->has('fundinggoal')) has-error @endif" name="fundinggoal" value="@if($projectdetails->fundinggoal!=''){{round($projectdetails->fundinggoal)}}@else{{ Input::old('fundinggoal') }}@endif" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" @if(($projectdetails->projectverified)==2) readonly @endif required="">
+                                </div>  
+                                @if ($errors->has('fundinggoal')) <p class="help-block">{{ $errors->first('fundinggoal') }}</p> @endif
+
+                            </div>
+                            <label class="titl-left-side col-md-2" >{{trans('messages.currency')}}</label>
+
+                            <div class="col-md-3">
+                                <div class="chr-ful-wapr-sel">
+                                    <select name='currencyid' required="" id="currency_select" style="width:100%;">
+                                        @if(Session::get('currency')=="")
+                                        <?php
+                                        $currency = Config::get('adminconfig.currency');
+                                        Session::put('currency', $currency);
+                                        ?>
+                                        @endif
+                                        @foreach($currencies as $currency)
+                                        <option value="{{$currency->id}}"  @if($projectdetails->currencyid=='') @if((Session::has('currency'))&&(Session::get('currency')==$currency->currencytype))selected="selected" @endif @else  @if($projectdetails->currencyid==$currency->id)selected="selected" @endif  @endif @if($projectdetails->projectverified==2) style="display:none;" @endif>{{$currency->currencytype}}</option>
+                                        @endforeach
+                                    </select>                                
+                                </div>  
+                            </div>
+
+                        </li>
+                        <li class='banner-section'>
+						<label class="titl-left-side col-md-3">&nbsp;&nbsp;</label>
+                          <div class="col-md-9"><input type="submit" class=' btns-green' style='line-height: 0px; min-height: 45px;  margin-left: 38%;' value="{{trans('messages.updateandcntue')}}"></div>
+                        </li>
+                    </ul>
+
+                </form>
+                <div class="middle-right">
+
+                    <div id="project-card-preview">
+                        <div class="project-card project-card-tall" >
+                            <div class="project-thumbnail">
+                                <img class="project-thumbnail-img" width="100%" src="{{URL::to('')}}/{{$projectdetails->projectimage}}" onerror="this.src='{{URL::to('main/images/projectdefault.png')}}'" alt="Project image">
+                            </div>
+                            <div class="project-card-content">
+                                <h6 class="project-title">
+                                    <a target="" href="#">{{{$projectdetails->title}}}</a>
+                                </h6>
+                                <p class="project-byline">{{{$projectdetails->firstname}}} {{{$projectdetails->lastname}}}</p>
+                                <p class="project-blurb"> {{{$projectdetails->shortblurb}}} </p>
+                            </div>
+                            <div class="project-card-footer">
+                                <div class="project-location">
+                                    <a href="#">
+                                        <span class="ksr-icon__location" aria-hidden="true"></span>
+                                        <span class="location-name">{{$projectdetails->countryname}}</span>
+                                    </a>
+                                </div>
+                                @if($projectdetails->fundinggoal!=0)
+                                <div class="project-stats-container">
+                                    @if(round((($projectdetails->totalpledgeamount/$projectdetails->fundinggoal)*100)>=100)&&($projectdetails->dayscount<0))
+                                    <div class="project-pledged-successful">
+                                        <strong>{{trans('messages.successfullyfunded')}}!</strong>
+                                    </div>
+                                    @elseif(round((($projectdetails->totalpledgeamount/$projectdetails->fundinggoal)*100)<100)&&($projectdetails->dayscount<0))
+                                    <div class="project-pledged-successful" style="background:#D8000C;">
+                                        <strong>{{trans('messages.expired')}}!</strong>
+                                    </div>
+                                    @else
+                                    <div class="project-progress-bar">
+                                        <div class="project-percent-pledged" style="width: {{round(($projectdetails->totalpledgeamount/$projectdetails->fundinggoal)*100)}}%"></div>
+                                    </div>
+                                    @endif
+                                    <ul class="project-stats">
+                                        <li>
+                                            <div class="project-stats-value">{{round(($projectdetails->totalpledgeamount/$projectdetails->fundinggoal)*100)}}%</div>
+                                            <span class="project-stats-label">{{trans('messages.smallfunded')}}</span>
+                                        </li>
+                                        <li>
+                                            <div class="project-stats-value">
+                                                <span class="money usd no-code">{{$projectdetails->currencysymbol}}{{round($projectdetails->totalpledgeamount)}}</span>
+                                            </div>
+                                            <span class="project-stats-label">{{trans('messages.pledged')}}</span>
+                                        </li>
+                                        <li style="display: none;">
+                                            <div class="project-stats-value">{{trans('messages.funded')}}</div>
+                                            <span class="project-stats-label"> </span>
+                                        </li>  
+                                        @if(round((($projectdetails->totalpledgeamount/$projectdetails->fundinggoal)*100)>=100)&&($projectdetails->dayscount<0))
+                                        <li class="ksr_page_timer">
+                                            <div class="project-stats-value text" data-word="left">{{trans('messages.fundedon')}}</div>
+                                            <div class="project-stats-label">
+                                                <div class="num">{{$projectdetails->enddate}}</div>
+                                            </div>                                        
+                                        </li>
+                                        @elseif(round((($projectdetails->totalpledgeamount/$projectdetails->fundinggoal)*100)<100)&&($projectdetails->dayscount<0))
+                                        <li class="ksr_page_timer">
+                                            <div class="project-stats-value text " data-word="left">{{trans('messages.expiredon')}}</div>
+                                            <div class="project-stats-label">
+                                                <div class="num">{{$projectdetails->enddate}}</div>
+                                            </div>
+                                        </li>
+                                        @else
+                                        <li class="ksr_page_timer">
+                                            <div class="project-stats-value">
+                                                <div class="num">{{$projectdetails->dayscount}}</div>
+                                            </div>
+                                            <div class="project-stats-label text" data-word="left">{{trans('messages.daystogo')}}</div>
+                                        </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                                @else 
+                                <div class="project-progress-bar">
+                                    <div class="project-percent-pledged" style="width: 0%"></div>
+                                </div>
+                                <ul class="project-stats">
+                                    <li>
+                                        <div class="project-stats-value">0%</div>
+                                        <span class="project-stats-label">{{trans('messages.smallfunded')}}</span>
+                                    </li>
+                                    <li>
+                                        <div class="project-stats-value">
+                                            <span class="money usd no-code">{{$projectdetails->currencysymbol}}0</span>
+                                        </div>
+                                        <span class="project-stats-label">{{trans('messages.pledged')}}</span>
+                                    </li>
+                                    <li class="ksr_page_timer">
+                                        <div class="project-stats-value">
+                                            <div class="num">0</div>
+                                        </div>
+                                        <div class="project-stats-label text" data-word="left">{{trans('messages.daystogo')}}</div>
+                                    </li>
+                                    @endif
+                            </div>
+                        </div>
+                        @if(($projectdetails->projectverified==2))
+                        <div class="project-card project-card-tall" style="width: 100%;">
+                            <div class="project-card-content">
+                                <h6 class="project-title" style='color:#333;text-align:center'>
+                                    {{trans('messages.requestadmin')}}  
+                                </h6>
+                                <p class="project-blurb" style='text-align:center'>{{trans('messages.requestinfo')}}.</p>
+                                <a class="pro-btn request-btn" href="#" data-toggle="modal" data-target="#Requestmodal" >{{trans('messages.sendrequest')}}</a>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+
+
+                </div>
+
+            </div>
+            <ul class="alt-tools right list-inline ml1 mt2">
+                <li class="mr2">
+                    <i class="fa fa-close"></i>
+                   <!--  <a class="inline-block py1 delete-project grey-dark h5" href="{{URL::to('project/delete');}}/{{Crypt::encrypt($projectdetails->id)}}" title="Delete this project"> -->
+				   <a class="inline-block py1 delete-project grey-dark h5" href="#" title="Delete this project" data-id="{{Crypt::encrypt($projectdetails->id)}}">
+                        {{trans('messages.deleteproject')}}
+                    </a></li>
+            </ul>
+        </div>
+
+        <div class="modal modal-forg fade" id="Requestmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel">{{trans('messages.requesttitle')}}</h4>
+                    </div> <!-- /.modal-header -->
+                    <div class="modal-body">
+                        <form class="pop-forms" style="margin-top: 20px;" method='post' action='{{URL::to('postrequest')}}' >
+                            <ul>
+                                <input  type="hidden" value='{{{$projectdetails->title}}}' name="projecttitle">
+                                <input  type="hidden" value='{{$projectdetails->id}}' name="projectid">
+                                <li>
+                                    <label class="titl-left-side col-md-4" >{{trans('messages.fundinggoal')}}*</label>
+                                    <div class="col-md-8"  style='margin-bottom:20px;'>
+                                        <div class="chr-ful-wapr">                                            
+                                            <input  type="text" class="tile-proj only-numbers" name="requestfundinggoal" placeholder='{{trans('messages.newfundinggoal')}}' required="">
+                                        </div>  
+                                    </div>                            
+                                </li>
+                                <li>
+                                    <label class="titl-left-side col-md-4" >{{trans('messages.fundingduration')}}*</label>
+
+                                    <div class="col-md-8" style='margin-bottom:20px;'>
+                                        <div class="chr-ful-wapr">                                            
+                                            <input  type="text" class="tile-proj only-numbers" name="requestfundingduration" placeholder='{{trans('messages.newfundingduration')}}' required="">
+                                        </div>  
+                                    </div>                            
+                                </li>
+                                <li>
+                                    <label class="titl-left-side col-md-4" >{{trans('messages.message')}}*</label>
+
+                                    <div class="col-md-8" style='margin-bottom:20px;'>
+                                        <div class="chr-ful-wapr">                                            
+                                            <textarea class="tile-proj" name="requestmessage" placeholder='{{trans('messages.yourmessage')}}' required=""></textarea>
+                                        </div>  
+                                    </div>                            
+                                </li>
+                                <li>
+                                    <input style='margin-left: 40%;' class="popup-btn" value="{{trans('messages.sendrequest')}}" type="submit">
+                                </li>
+                            </ul>
+
+                        </form>
+                    </div> <!-- /.modal-body -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+</section>
+
+<script>
+    $(function () {
+        $(":file").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded;
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+
+    function imageIsLoaded(e) {
+        $('#myImg').attr('src', e.target.result);
+    }
+    ;
+</script>
+<script>
+    $(document).ready(function () {
+        var text_max = 135;
+        var text_length = $('#project_blurb').val().length;
+        if (text_length === 0) {
+            $('#textarea_feedback').html(text_max);
+        } else {
+            $('#textarea_feedback').html(text_max - text_length);
+        }
+
+        $('#project_blurb').keyup(function () {
+            var text_length = $('#project_blurb').val().length;
+            var text_remaining = text_max - text_length;
+
+            $('#textarea_feedback').html(text_remaining);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var text_max = 60;
+        var text_length = $('#title').val().length;
+        if (text_length === 0) {
+            $('#title_length').html(text_max);
+        } else {
+            $('#title_length').html(text_max - text_length);
+        }
+
+        $('#title').keyup(function () {
+            var text_length = $('#title').val().length;
+            var text_remaining = text_max - text_length;
+
+            $('#title_length').html(text_remaining);
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        //called when key is pressed in textbox
+        $(".nokeypress").keypress(function (e) {
+            return false;
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        //called when key is pressed in textbox
+        $(".only-numbers").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                return false;
+            }
+        });
+    });
+</script>
+
+
+
+<script type="text/javascript">
+    $('#fundingdur').datetimepicker({
+        startDate: "+1d",
+        language: 'en',
+        endDate: "+60d",
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
+
+<script>
+    /*$('#form').data('serialize', $('#form').serialize()); // On load save form current state
+     var confirmationMessage = 'It looks like you have been editing something.';
+     confirmationMessage += 'If you leave before saving, your changes will be lost.';
+     $(window).bind('beforeunload', function (e) {
+     if ($('#form').serialize() != $('#form').data('serialize'))
+     return confirmationMessage;
+     else
+     e = null; // i.e; if form state change show warning box, else don't show it.
+     });*/
+</script>
+<script>
+    $(document).ready(function () {
+        var formdata = $('#form').serialize();
+        $('.a').on('click', function () {
+            if (formdata != $('#form').serialize()) {
+                if (window.onbeforeunload = function () {
+                    var confirmationMessage = 'It looks like you have been editing something.';
+                    confirmationMessage += 'If you leave before saving, your changes will be lost.';
+                    return confirmationMessage;
+                })
+                    ;
+            }
+        });
+    });
+    $('form').submit(function () {
+        window.onbeforeunload = null;
+    });
+</script>
+
+<script>
+    $('#currency_select').on('change', function () {
+        var url = '<?php echo url(); ?>';
+        dataString = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: url + "/getcurrencysymbol",
+            data: "currency=" + dataString,
+            success: function (data) {
+                $('#currency-symbol').html(data);
+            }
+        });
+    });
+
+</script>
+<!--<script type="text/javascript">
+  window.onload = function() { 
+      window.location.href = '';
+  };
+ 
+</script>-->
+
+<script>
+    function InvalidMsg(textbox) {
+    var lang = $('#language').val();
+    if(lang){
+        if (textbox.value == '') {
+            textbox.setCustomValidity('{{trans("messages2.required")}}');
+        }
+        else {
+            textbox.setCustomValidity('');
+        }
+        return true;
+    }
+}
+
+$('a.delete-project').click(function(e){
+	var id=$(this).attr('data-id');
+	
+	var r=confirm("Are you sure want to delete this project?");
+	if(r == 1)
+	{
+		window.location.href="{{URL::to('project/postdelete');}}/"+id;
+	}
+	else
+	{
+		return false;
+	}
+	
+});
+</script>
+@stop
+

@@ -1,0 +1,92 @@
+@extends('layouts.mainlayoutold')
+@section('content')
+<section class="fb-projects-section">
+
+ <div class="fb-cp-step-content fb-cp-step-three-content">
+            <div class="fb-cp-step-three-content-inner-wrapper">
+              <h2 class="fb-cp-step-three-content-head">The finance details can't be changed once submitted.</h2>
+              <p class="fb-cp-step-three-para">You can edit the project details section once it has started.<br />Campaigner details will be added from your profile. You can change it <a href="#">here.</a></p>
+              <div class="fb-cp-step-three-submit-btn-wrapper">
+                  <input type="hidden" value="{{$projectdetails->id}}" name="projectid" id="projectid">
+                <button type="button" class="fb-delete-project-btn" data-toggle="modal" data-target="#projectDeleteModal"><span>DELETE PROJECT</span></button>
+                
+                  <form method="post" action="{{URL::to('publishproject');}}" style="display:inline;">
+                                    <input type="hidden" name="projectid" value="{{$projectdetails->id}}">
+                                    <button type="submit" class="fb-submit-btn"><i class="icon-right-arrow"></i><span>SUBMIT FOR REVIEW</span></button>
+                                </form>
+               <!-- <button type="button" class="fb-submit-btn"><i class="icon-right-arrow"></i><span>SUBMIT FOR REVIEW</span></button> -->
+              </div>
+            </div>
+          </div>
+
+         
+
+
+
+          <!-- Delete Project Modal -->
+<div class="modal fade fb-modal fb-ac-modal" id="projectDeleteModal" tabindex="-1" role="dialog" aria-labelledby="projectDeleteModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center" role="document">
+      <div class="modal-content">
+        <div class="modal-header fb-customized-modal-header">
+          <h4 class="modal-title">Delete your project</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="icon-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="fb-dp-modal-content">
+            <p>Are you sure you want to delete your <strong>Daatha Needs Help </strong> project? This action cannot be undone and will immediately delete this project from the system.</p>
+            <p>Enter your Freebasics password for verification:</p>
+          </div>
+          <div class="fb-dp-passwordinput-wrapper">
+            <input type="password" class="fb-input-text"/>
+          </div>
+          <div class="fb-dp-btns-wrapper">
+            <button type="button" class="fb-dp-btn">Delete your project</button>
+            <button type="button" class="fb-dp-cancel-btn">No nevermind</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Success Modal -->
+<div class="modal fade fb-modal fb-cp-success-modal" id="projectSubmittedModal" tabindex="-1" role="dialog" aria-labelledby="projectSubmittedModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="icon-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="fb-create-project-success-modal-content">
+            <span class="fb-create-project-success-modal-icon"><i class="icon-checked"></i></span>
+            <h4 class="fb-create-project-success-modal-head">Congrats!</h4>
+            <p class="fb-create-project-success-modal-para">Your project has been successfully submitted to our team for review.
+Please wait 3-5 days for confirmation.</p>
+            <a href="#" type="button" class="fb-cpsm-thanks-btn">Ok, Thanks!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="{{URL::asset('main/js/bootstrap.min.js');}}"></script>
+<script src="{{URL::asset('main/js/jquery-ui.min.js');}}"></script>
+<script src="{{URL::asset('main/js/custom.js');}}"></script>
+<script src="{{URL::asset('main/js/create-project.js');}}"></script>
+
+@if(!empty(Session::get('open_modal')) && Session::get('open_modal') == 1)
+<script>
+$(function() {
+    $('#projectSubmittedModal').modal('show');
+});
+</script>
+@endif
+
+@stop
+
+
+
+

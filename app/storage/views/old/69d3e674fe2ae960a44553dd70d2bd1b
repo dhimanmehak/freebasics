@@ -1,0 +1,140 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <?php if(Session::has('failed')): ?>
+            <div class="login_invalid">
+                <span class="icon"></span> <?php echo Session::get('failed');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Prefooter List</h6>
+                </div>
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Prefooter Title
+                                </th>
+                                <th>
+                                    Prefooter Link
+                                </th>
+                                <th>
+                                    Prefooter Image
+                                </th>
+                                <th>
+                                    Status
+                                </th>                               
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($prefooters as $prefooter): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $prefooter->id; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $prefooter->title; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $prefooter->footerlink; ?>
+
+                                </td>    
+                                <td class="center">
+                                    <img src="<?php echo $prefooter->image; ?>" width="56" height="56" alt="prefooter" >
+                                </td>   
+                                <td class="center">
+                                    <?php if($prefooter->status=='active'): ?>
+                                    <a title="Click to inactive" class="tip_top" href="javascript:confirm_status('prefooterstatus/<?php echo $prefooter->id; ?>/<?php echo $prefooter->status; ?>');">
+                                        <span class="badge_style b_done"><?php echo $prefooter->status; ?></span></a>
+                                    <?php else: ?>
+                                    <a title="Click to active" class="tip_top" href="javascript:confirm_status('prefooterstatus/<?php echo $prefooter->id; ?>/<?php echo $prefooter->status; ?>');">
+                                        <span class="badge_style b_pending"><?php echo $prefooter->status; ?></span></a>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('2', $Prefooter)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('editprefooter?id='); ?><?php echo $prefooter->id; ?>" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php $name = Session::get('adminname'); ?>                                    
+                                    <?php if($priv == 'all' || in_array('3', $Prefooter)): ?>                                    
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" href="#" onclick="confirmation('<?php echo $prefooter->id; ?>')" title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Prefooter Title
+                                </th>
+                                <th>
+                                    Prefooter Link
+                                </th>
+                                <th>
+                                    Prefooter Image
+                                </th>
+                                <th>
+                                    Status
+                                </th>                               
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+            function confirmation(id) {
+            var answer = confirm("Are you sure to delete this record?")
+                    if (answer) {
+            location.href = 'deleteprefooter?id=' + id;
+            }
+            else {
+            return false;
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

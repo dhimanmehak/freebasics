@@ -1,0 +1,48 @@
+<?php $__env->startSection('content'); ?>
+<section>
+    <div class="login">
+        <?php if(Session::has('success')): ?>
+        <div class="alert-message success">
+            <?php echo Session::get('success');; ?>
+
+        </div>
+        <?php endif; ?>
+        <?php if(Session::has('failed')): ?>
+        <div class="alert-message error">
+            <?php echo Session::get('failed');; ?>
+
+        </div>
+        <?php endif; ?>
+
+        <div class="login-container col-md-4">
+            <div class="holder">               
+                <form method="post" action="<?php echo URL::to('postforgotpwd');; ?>">
+                    <p class="center h5 grey-dark"><?php echo trans('messages.forgotpasswordinfo'); ?></p><br>
+                    <ol class="login-form">
+                        <li class="li1">
+                            <input id="user_session_email" class="input-text full-width js-auto_focus email <?php if($errors->has('email')): ?> has-error <?php endif; ?>" type="text" placeholder="<?php echo trans('messages.email'); ?>" name="email" autofocus="autofocus" value="<?php echo Input::old('email'); ?>">
+                             <?php if($errors->has('email')): ?> <p class="help-block"><?php echo $errors->first('email'); ?></p> <?php endif; ?>
+                        </li> 
+            
+              
+                        <li class="clearfix restlv">
+                            
+                            <div class="center">
+                                <input class="button button_green submit" type="submit" value="<?php echo trans('messages.continue'); ?>" name="commit">
+                            </div>
+                        </li>
+                    </ol>
+                </form>
+               
+            </div>
+
+            <div class="footer-bootom">
+               <?php echo trans('messages.haveaccount'); ?>?
+                <a class="bold" href="<?php echo URL::to('login'); ?>"><?php echo trans('messages.login'); ?>!</a>
+            </div>
+        </div>
+    </div>
+</section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

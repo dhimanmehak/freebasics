@@ -1,0 +1,134 @@
+<?php $__env->startSection('content'); ?>
+<div class="border-top" id="content-wrap">
+    <div class="container" id="content">
+        <div class="NS_projects__cancel">
+            <?php if(Session::has('failed')): ?>
+            <div class="alert-message error">
+                <?php echo Session::get('failed');; ?>
+
+            </div>
+            <?php endif; ?>
+            <?php if(Session::has('success')): ?>
+            <div class="alert-message success">
+                <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="grey-frame grey-frame-narrow">
+                <div class="grey-frame-inner">
+                    <div id="intro">
+                        <h2><?php echo trans('messages.hateseeyougo'); ?>!</h2>
+                        <h3>
+                            <?php echo trans('messages.insteaddelete'); ?>
+
+                        </h3><br>
+                        <a class="button button_outline_grey submit button_small" type='submit' href="<?php echo URL::to('unsubscribeemails'); ?>" ><?php echo trans('messages.unsubscribeemails'); ?></a>
+                    </div>
+                    <div id="will_and_not">
+                        <h3>
+                            <?php echo trans('messages.deleteentirely'); ?>
+
+                        </h3>
+                        <div class="will_not">
+                            <h4>
+                                <?php echo trans('messages.deletingaccount'); ?> <em><?php echo trans('messages.willnot'); ?></em>
+                            </h4>
+                            <ul>
+                                <li>
+                                    <?php echo trans('messages.removenamefromcomments'); ?>
+
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="will">
+                            <h4>
+                                <?php echo trans('messages.deletingaccount'); ?> <em><?php echo trans('messages.will'); ?></em>
+                            </h4>
+                            <ul>
+                                <li>
+                                    <?php echo trans('messages.deletelogin'); ?>
+
+                                </li>
+                                <li>
+                                    <?php echo trans('messages.deleteprofile'); ?>
+
+                                </li>
+                                <li>
+                                    <?php echo trans('messages.stopallnotifications'); ?> <?php echo Session::get('email');; ?>
+
+                                </li>
+                                <li>
+                                    <?php echo trans('messages.cancelprojects'); ?>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p>
+                        <?php echo trans('messages.please'); ?> <a href="/contact" class="Contact-me-popup" data-dismiss="modal" data-toggle="modal" data-target="#ReportModal"><?php echo trans('messages.contactus'); ?></a> <?php echo trans('messages.haveanyquestions'); ?>.
+                    </p>
+                    <form accept-charset="UTF-8" action="<?php echo URL::to('account/postdelete'); ?>" method="post">
+                        <fieldset>
+                            <label for="password"><?php echo trans('messages.passwordforverification'); ?></label>
+                            <input class="password <?php if($errors->has('password')): ?> has-error <?php endif; ?>" id="password" name="password" type="password">
+                            <?php if($errors->has('password')): ?> <p class="help-block"><?php echo $errors->first('password'); ?></p> <?php endif; ?>
+                            <br>
+                            <div class="left"><input class="button button_outline_grey submit" name="commit" type="submit" value="<?php echo trans('messages2.deleteaccountpermanently'); ?>" style=' background: #FC7; margin-top: 18px;'></div>
+                            <div class="left" style="margin: 20px 0 0 20px"><a class="cancel" href="<?php echo URL::To('myaccount'); ?>"><?php echo trans('messages.cancel'); ?></a></div>
+                        </fieldset>
+                    </form>
+                    <p>
+                        <?php echo trans('messages.forgotyourpassword'); ?>?
+                        <a href="<?php echo URL::to('user/forgotpassword'); ?>"><?php echo trans('messages.sendemailtoreset'); ?></a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<?php if(Session::has('email')): ?>
+<div class="modal modal-forg fade" id="ReportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo trans('messages.sendmessage'); ?> <?php echo trans('messages.smallto'); ?> Fundstarter</h4>
+            </div> <!-- /.modal-header -->
+
+            <div class="modal-body">
+                <span><b><?php echo trans('messages.to'); ?>:</b></span> Fundstarter<br>
+                <form class="pop-forms" style="margin-top: 20px;" method='post' action='<?php echo URL::to('postfundstarter'); ?>' >
+                    <input type="hidden" value="<?php echo Session::get('name'); ?>" name="name"> 
+                    <input type="hidden" value="<?php echo Session::get('email'); ?>" name="email" > 
+                    <input type="text" placeholder="Subject" name="subject" style="width:100%;margin-bottom:20px;" required=""> 
+                    <textarea name="message" rows="5" placeholder="Message" required=""></textarea>
+                    <input class="popup-btn" value="<?php echo trans('messages.sendmessage'); ?>" type="submit">
+                </form>
+
+
+            </div> <!-- /.modal-body -->
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<?php else: ?>
+<div class="modal modal-forg fade" id="ReportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo trans('messages.loginrequired'); ?>!</h4>
+            </div> <!-- /.modal-header -->
+
+            <div class="modal-body">
+                <p><?php echo trans('messages.loginrequiredmessage'); ?>!</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,287 @@
+<?php
+
+use fundstarter\storage\Country\CountryRepository as CountryRepository;
+use fundstarter\storage\User\UserRepository as UserRepository;
+use fundstarter\storage\Project\ProjectRepository as ProjectRepository;
+use fundstarter\storage\Backing\BackingRepository as BackingRepository;
+use fundstarter\storage\Adminsetting\AdminsettingRepository as AdminsettingRepository;
+use fundstarter\storage\Newsletter\NewsletterRepository as NewsletterRepository;
+
+class UserController extends BaseController {
+
+    public function __construct(AdminsettingRepository $adminsettingRepository, NewsletterRepository $newsletterRepository, BackingRepository $backingRepository, ProjectRepository $projectRepository, CountryRepository $countryRepository, UserRepository $userRepository) {
+        $this->country = $countryRepository;
+        $this->user = $userRepository;
+        $this->project = $projectRepository;
+        $this->backing = $backingRepository;
+        $this->adminsetting = $adminsettingRepository;
+        $this->newsletter = $newsletterRepository;
+    }
+    public function index() {
+        $recents = $this->user->getrecentusers();
+        $usercount = $this->user->getusercount();
+        $newusers = $this->user->getnewusers();
+        $newusercount = $this->user->getnewusercount();
+        $referredusers = $this->user->getreferredusers();
+        //print_r(count($referredusers));exit;
+        $inactiveusers = $this->user->getinactiveuserscount();
+        $activeusers = $this->user->getactiveuserscount();
+        $backerscount = $this->user->getbackerscount();
+        $creatorscount = $this->user->getcreatorscount();
+        $idlecount = $this->user->getidlecount();
+        return View::make('adminviews.user.dashboard', compact('idlecount', 'backerscount', 'creatorscount', 'activeusers', 'inactiveusers', 'referredusers', 'newusers', 'recents', 'usercount', 'newusercount'));
+    }
+
+    public function adduser() {
+        $countries = $this->country->all();
+        return View::make('adminviews.user.adduser', compact('countries'));
+    }
+
+    public function postuser() {
+        $input = Input::all();
+        $result = $this->user->create($input);
+        if ($result == 0) {
+            Session::flash('error', 'Mail already exists!!');
+            return Redirect::back();
+        } else {
+            Session::flash('success', 'User successfully added!!!');
+            return Redirect::to('userlist');
+        }
+    }
+
+    public function edituser() {
+        $id = Input::get('id');
+        $countries = $this->country->all();
+        $users = $this->user->getbyid($id);
+        $projectscount = $this->user->getprojectcountbyuserid($id);
+        $backingscount = $this->user->getbackingcountbyuserid($id);
+        return View::make('adminviews.user.edituser', compact('users', 'countries', 'projectscount', 'backingscount'));
+    }
+
+    public function viewuser() {
+        $id = Input::get('id');
+        $countries = $this->country->all();
+        $users = $this->user->getbyid($id);
+        $projectscount = $this->user->getprojectcountbyuserid($id);
+        $backingscount = $this->user->getbackingcountbyuserid($id);
+        $projects = $this->project->getallbyuserforadmin($id);
+        $getdetails = $this->backing->getbackingbyuser($id);
+        return View::make('adminviews.user.viewuser', compact('getdetails', 'projects', 'users', 'countries', 'projectscount', 'backingscount'));
+    }
+
+    public function posteditbasic() {
+        $input = Input::all();
+		$id = $input['id'];
+        $email = $input['email'];
+        $alreadyexists = $this->user->checkuserexists($id, $email);
+        if ($alreadyexists != '[]') {
+            Session::flash('failed', 'Email already exists!!!');
+            return Redirect::back();
+        } else {
+            $this->user->update($input);
+            Session::flash('success', 'User successfully updated!!!');
+            return Redirect::to('userlist');
+        }
+    }
+
+    public function posteditsocial() {
+        $input = Input::all();
+        $this->user->updatesocial($input);
+        Session::flash('success', 'User successfully updated!!!');
+        return Redirect::to('userlist');
+    }
+
+    public function posteditadditional() {
+         $rules = array(
+            'image' => 'image|mimes:jpg,jpeg,bmp,gif,png|max:5000',
+        );
+
+        $messages = array(
+            'image' => 'File format is not supported. Allowed format are jpg,bmp,gif,png.'
+        );
+        $validator = Validator::make(Input::all(), $rules, $messages);
+        if ($validator->fails()) {
+            return Redirect::back()->withInput()->withErrors($validator);
+        } else {
+        $input = Input::all();
+        $email = $this->user->getemail($input['id']);
+        $user = Input::file('image');
+        if ($user != '') {
+            $destinationPath = 'uploads/images/users';
+            $usermimetype = $user->getClientOriginalExtension();
+            $filename = $email;
+            $file = $filename . '.' . $usermimetype;
+            $user->move($destinationPath, $file);
+            $userlink = $destinationPath . '/' . $file;
+            $input['image'] = $userlink;
+        } else {
+            $input['image'] = '';
+        }
+        $this->user->updateadditional($input);
+        Session::flash('success', 'User successfully updated!!!');
+        return Redirect::to('userlist');
+    }
+    }
+
+    public function userlist() {
+        $usertype = Input::get('user');
+        $newusercount = $this->user->getnewusercount();
+        $referredusers = $this->user->getreferredusers();
+        $inactiveusers = $this->user->getinactiveuserscount();
+        $activeusers = $this->user->getactiveuserscount();
+        if ($usertype == "active") {
+            $users = $this->user->getactiveusers();
+            return View::make('adminviews.user.userlist', compact('usertype', 'users', 'activeusers', 'inactiveusers', 'referredusers', 'newusercount'));
+        } elseif ($usertype == "inactive") {
+            $users = $this->user->getinactiveusers();
+            return View::make('adminviews.user.userlist', compact('usertype', 'users', 'activeusers', 'inactiveusers', 'referredusers', 'newusercount'));
+        } elseif ($usertype == "new") {
+            $users = $this->user->getallnewusers();
+            return View::make('adminviews.user.userlist', compact('usertype', 'users', 'activeusers', 'inactiveusers', 'referredusers', 'newusercount'));
+        } else {
+            $usertype = '';
+            $users = $this->user->all();
+            return View::make('adminviews.user.userlist', compact('usertype', 'users', 'activeusers', 'inactiveusers', 'referredusers', 'newusercount'));
+        }
+    }
+
+    public function deleteuser() {
+        $id = Input::get('id');
+		
+        $this->user->deletebyid($id);
+		
+		
+        Session::flash('success', 'User successfully deleted!');
+        return Redirect::to('userlist');
+    }
+
+    public function referral() {
+        $users = $this->user->getreferrals();
+        return View::make('adminviews.referral', compact('users'));
+    }
+
+    public function viewreferral() {
+        $id = Input::get('id');
+        $referrer = $this->user->getfirstbyid($id);
+        $users = $this->user->getreferralsbyid($id);
+        return View::make('adminviews.viewreferral', compact('users', 'referrer'));
+    }
+
+    public function userstatus($id, $status) {
+        if ($status == "active") {
+            $change = "inactive";
+        } else {
+            $change = "active";
+        }
+        User::where('id', '=', $id)->update(array('status' => $change));
+        return Redirect::back();
+    }
+
+    public function useremailstatus($id, $status) {
+        if ($status == "1") {
+            $change = "0";
+        } else {
+            $change = "1";
+        }
+        User::where('id', '=', $id)->update(array('emailstatus' => $change));
+        return Redirect::back();
+    }
+
+    public function postverification() {
+        $id = Input::get('id');
+        $remarks = Input::get('remarks');
+		$verifyval = Input::get('verifyval');
+		if ($verifyval == 'verify') {
+            $this->user->updateverification($id, $remarks);
+            $email = $this->user->getemail($id);
+            $status = 1;
+            $this->sendmail($email, $id, $status);
+        } else {
+            $this->user->updatenonverification($id, $remarks);
+            $email = $this->user->getemail($id);
+            $status = 0;
+            $this->sendmail($email, $id, $status);
+        }
+        Session::flash('success', 'Verification status updated!');
+        return Redirect::to('verifyaccount');
+    }
+
+    public function sendmail($email, $userid, $status) {
+        $name = $this->user->getusername($userid);
+        $adminsettings = $this->adminsetting->getfirst();
+        $templatename = "profileapproval";
+        $templatedetails = $this->newsletter->getbytemplatename($templatename);
+        $logo = $adminsettings['logo'];
+        $title = $adminsettings['sitetitle'];
+        $subject = $templatedetails['subject'];
+        if ($status == 1) {
+            $statusmessage = "Approved";
+            $content = "Your profile has been successfully approved. You can submit your project for verification";
+        } else {
+            $statusmessage = "Denied";
+            $content = "Your profile has been denied due to fake or improper details.Contact admin for more details";
+        }
+        $data = array(
+            'email' => $email,
+            'logo' => $logo,
+            'title' => $title,
+            'name' => $name,
+            'subject' => $templatedetails['subject'],
+            'sendername' => $templatedetails['sendername'],
+            'senderemail' => $templatedetails['senderemail'],
+            'status' => $statusmessage,
+            'content' => $content
+        );
+        Mail::send('emails.newsletters.' . $templatename, $data, function($message)use ($email, $subject) {
+            $message->to($email)->subject($subject);
+        });
+    }
+
+    public function exportusers() {
+        $table = $this->user->all();
+        $body = "";
+        $top = "<table>
+		<thead>
+		   <tr>
+		      <th>S.No</th>
+                      <th>User Name</th>
+		      <th>Email</th>
+                      <th>Mobile</th> 
+                      <th>Created count</th> 
+                      <th>Backed count</th> 
+                      <th>Email status</th> 
+                      <th>Last login ip</th> 
+                      <th>Last logindate</th> 
+                      <th>Account status</th> 
+                    </tr>
+                  </thead>
+                  <tbody>";
+        $bottom = "</tbody></table>";
+        $i = 1;
+        foreach ($table as $value) {
+            $body .= "<tr>
+		 <td>$i</td>
+		<td>$value->firstname $value->lastname</td>
+		<td>$value->email</td>
+		<td>$value->mobile</td>
+		<td>$value->createdcount</td>
+		<td>$value->backedcount</td>
+		<td>$value->emailstatus</td>
+                 <td>$value->lastloginip</td>
+                 <td>$value->lastlogindate</td>
+                 <td>$value->status</td>
+		</tr>";
+            $i++;
+        }
+        $output = $top . $body . $bottom;
+        $headers = array('Pragma' => 'public',
+            'Expires' => 'public',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Cache-Control' => 'private',
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => 'attachment; filename=users.xls',
+            'Content-Transfer-Encoding' => ' binary');
+        return Response::make($output, 200, $headers);
+    }
+
+}

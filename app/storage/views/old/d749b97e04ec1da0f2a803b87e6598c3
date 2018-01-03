@@ -1,0 +1,100 @@
+<?php $__env->startSection('content'); ?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Referrals</h6>
+                </div>
+                <div class="widget_content">                  
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Referrer Name
+                                </th>
+                                <th>
+                                    Referrer Email
+                                </th>
+                                <th>
+                                    Credits
+                                </th>                                
+                                <th>
+                                    Referrals
+                                </th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($users as $key=>$user): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $user->firstname; ?> <?php echo $user->lastname; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $user->email; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $user->referrercredit; ?>
+
+                                </td>                                                  
+                                <td class="center">
+                                    <span><a class="action-icons c-approve" href="<?php echo URL::to('viewreferral?id='); ?><?php echo $user->id; ?>" title="View users"></a></span>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Referrer Name
+                                </th>
+                                <th>
+                                    Referrer Email
+                                </th>
+                                <th>
+                                    Credits
+                                </th>                                
+                                <th>
+                                    Referrals
+                                </th> 
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function confirmation(id) {
+        var answer = confirm("Are you sure to delete this record?")
+        if (answer) {
+            location.href = 'deletecontact?id=' + id;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,21 @@
+Installation Guide:
+
+1.  Server Requirements:
+--------------------------------
+  PHP version >= 5.4
+  MCrypt PHP Extension
+  php_fileinfo PHP Extension
+
+2.Installation Steps:
+--------------------------
+  1. Unzip the installation file package.
+  2. After configuring the database settings in the server.
+  3. Then open the website in the browser and enter the host name, database user name, database password, database  name,admin name,admin email and admin password respectively. 
+
+To set the 777 permission for following folder and all files inside it:
+---------------------------------------------------------------------------------------
+app\lang
+app\views\emails\newsletters
+
+Need to setup 777 only for "uploads" folder.
+Need to setup 777 only for "app\config\adminconfig" file.

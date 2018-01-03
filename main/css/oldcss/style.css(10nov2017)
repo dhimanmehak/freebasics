@@ -1,0 +1,501 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+     font-family: "Helvetica Neue",Helvetica,Arial;
+}
+
+body {
+    line-height:1;
+	  font-family: "Helvetica Neue",Helvetica,Arial;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section { 
+	display:block;
+}
+
+nav ul {
+    list-style:none; font-family: "Helvetica Neue",Helvetica,Arial;
+}
+
+li{list-style:none}
+blockquote, q {
+    quotes:none; font-family: "Helvetica Neue",Helvetica,Arial;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none; font-family: "Helvetica Neue",Helvetica,Arial;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent; font-family: "Helvetica Neue",Helvetica,Arial;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+/* change colours to suit your needs */
+mark {
+    background-color:#ff9;
+    color:#000; 
+    font-style:italic; font-family: "Helvetica Neue",Helvetica,Arial;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted;
+    cursor:help; font-family: "Helvetica Neue",Helvetica,Arial;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+/* change border colour to suit your needs */
+hr {
+    display:block;
+    height:1px;
+    border:0;   
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+
+
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus{
+    border-color: inherit;
+       box-shadow: 0 0 3px 0 #404040;
+}
+
+
+
+@font-face {
+    font-family: 'OpenSansSemibold';
+    src: url('../fonts/opensans-semibold.eot');
+    src: url('../fonts/opensans-semibold.eot') format('embedded-opentype'),
+         url('../fonts/opensans-semibold.woff2') format('woff2'),
+         url('../fonts/opensans-semibold.woff') format('woff'),
+         url('../fonts/opensans-semibold.ttf') format('truetype'),
+         url('../fonts/opensans-semibold.svg#OpenSansSemibold') format('svg');
+}
+
+
+
+@font-face {
+    font-family: 'OpenSansRegular';
+    src: url('../fonts/opensans-regular.eot');
+    src: url('../fonts/opensans-regular.eot') format('embedded-opentype'),
+         url('../fonts/opensans-regular.woff2') format('woff2'),
+         url('../fonts/opensans-regular.woff') format('woff'),
+         url('../fonts/opensans-regular.ttf') format('truetype'),
+         url('../fonts/opensans-regular.svg#OpenSansRegular') format('svg');
+}
+
+
+
+@font-face {
+    font-family: 'OpenSansBold';
+    src: url('../fonts/opensans-bold.eot');
+    src: url('../fonts/opensans-bold.eot') format('embedded-opentype'),
+         url('../fonts/opensans-bold.woff2') format('woff2'),
+         url('../fonts/opensans-bold.woff') format('woff'),
+         url('../fonts/opensans-bold.ttf') format('truetype'),
+         url('../fonts/opensans-bold.svg#OpenSansBold') format('svg');
+}
+
+
+
+/*-------------------------------------------------------------------------------------------------
+---------------------menu section----------------------------------------------------------------------*/
+
+        .main-text
+{
+    position: absolute;
+top: 48%;
+    width: 96.66666666666666%;
+    color: #FFF;
+}
+.btn-min-block
+{
+    min-width: 170px;
+    line-height: 26px;
+}
+.btn-clear
+{
+    color: #FFF;
+    background-color: transparent;
+    border-color: #FFF;
+    margin-right: 15px;
+}
+.btn-clear:hover
+{
+    color: #000;
+    background-color: #FFF;
+}
+
+
+.banner-container{float:left; width: 100%}
+
+
+.carousel{margin-bottom: 0}
+
+
+.alert-message{
+    /*    border-color: #d9d9de;
+        border-style: solid;
+        background-color: white;
+        border-width: 1px;*/
+    padding: 15px;    
+    width: 31%;
+    margin: 0 auto;
+    float: none;
+    border-radius: 6px;
+    margin-top: 2%;
+    color: #828587;
+    font-size:14px;
+    text-align:center;
+}
+
+.error{
+    background:#ffecec;
+    border:1px solid #D8000C;
+    color:#D8000C;
+}
+.success{
+    background:#DFF2BF;
+    border:1px solid #4F8A10;
+    color: #4F8A10;   
+}
+.help-block{
+    color:#D8000C !important;
+    font-size:12px !important;
+}
+.has-error{
+    border:1px solid #D8000C !important;
+}
+.sucfulycnted {
+    background: #98b50b none repeat scroll 0 0;
+    color: #fff;
+    font-size: 22px;
+    margin: 90px 0 50px;
+    padding: 20px 0;
+}
+.fb-section-head {
+    color: #4a4a4a;
+    font-family: "BebasNeue",sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+}
+
+.fb-project-banner-content {
+    position: relative;
+    z-index: 3;
+    padding: 20px 0;
+}
+.fb-project-name-wrapper {
+    background: #ACA9A9;
+    padding-right: 40px;
+    margin-top: 15px;
+}
+.fb-project-name-wrapper {
+    display: inline-block;
+}
+.fb-project-name-wrapper {
+    padding-right: 50px;
+}
+.fb-project-name {
+    font-size: 22px;
+    color: #fff;
+    background: #4a4a4a;
+    padding: 6px 16px;
+    margin: 0;
+}
+.fb-project-name {
+    font-size: 30px;
+    padding: 8px 60px 8px 20px;
+	font-family:"BebasNeue",sans-serif;
+}
+.fb-project-short-description {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #4a4a4a;
+    margin: 18px 0 0 0;
+}
+.fb-project-short-description {
+    font-size: 18px;
+}
+
+.fb-project-details-left {
+    float: left;
+    width: 50%;
+}
+.fb-project-details-right {
+    float: left;
+    width: 50%;
+}
+
+.opacitydiv{
+	float: left;
+width: 100%;
+position: absolute;
+z-index: -999;
+height: 156px;
+opacity: 0.1;
+}
+.gb-pdr-numbers-list {
+    padding-top: 15px;
+    float: right;
+    width: 50%;
+}
+.fb-fp-hcb-list-image {
+    width: 60px;
+    height: 60px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    margin-right: 15px;
+}
+.gb-pdr-numbers-list > li span {
+    display: block;
+    font-weight: normal;
+    font-size: 13px;
+    color: #858585;
+}
+.gb-pdr-numbers-list > li span {
+    font-size: 16px;
+    line-height: 1;
+    padding-top: 0px;
+}
+.fb-fp-hcb-list-para {
+    font-size: 12px;
+    line-height: 1.25;
+    color: #fff;
+    margin: 4px 0 0 0;
+}
+.fb-fp-hcb-list-para strong.clickable {
+    cursor: pointer;
+    color: #000;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+.fb-fp-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: #ef244d;
+    display: block;
+    vertical-align: middle;
+    margin-top: 2px;
+    font-size: 13px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+.fb-interest-btn-share-btn-wrap {
+    float: left;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+.fb-share-btn-wrapper {
+    display: inline-block;
+    width: 28%;
+    margin-left: 2%;
+    vertical-align: middle;
+    position: relative;
+}
+.fb-share-btn {
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin-top: 15px;
+}
+.fb-share-btn {
+    background: transparent;
+    border: none;
+    margin-top: 5px;
+}
+.fb-share-btn i {
+    font-size: 20px;
+}
+.fb-share-btn span {
+    display: inline-block;
+    vertical-align: middle;
+	padding-top:10px;
+}
+.fb-share-btn span {
+    font-size: 16px;
+    padding-left: 10px;
+}
+.fb-share-btn-list {
+    text-align: center;
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    width: 200px;
+    display: block;
+    -webkit-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+.fb-share-btn-list {
+    display: block;
+}
+.fb-share-btn-list > li {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    margin-right: 6px;
+}
+.fb-share-btn-list > li {
+    transition: 0.3s;
+    animation: 0.3s down forwards;
+    opacity: 0;
+    will-change: animation;
+}
+ .fb-share-btn-list > li.active {
+      animation: 0.48s up forwards; }
+      .fb-share-btn-list > li.active:nth-child(1) {
+        animation-delay: 0.39s; }
+      .fb-share-btn-list > li.active:nth-child(2) {
+        animation-delay: 0.2s; }
+      .fb-share-btn-list > li.active:nth-child(3) {
+        animation-delay: 0.17647s; }
+      .fb-share-btn-list > li.active:nth-child(4) {
+        animation-delay: 0.15789s; }
+    .fb-share-btn-list > li.no {
+      animation: none; }
+.fb-share-btn-list > li > a {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #4a4a4a;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    padding: 7px 5px;
+    text-align: center;
+    color: #4a4a4a;
+    font-size: 13px;
+}
+.fb-share-btn-list > li > a {
+    display: inline-block;
+}
+.fb-share-btn-list > li:last-child {
+      margin-right: 0; }
+    .fb-share-btn-list > li > a {
+      display: block;
+      width: 30px;
+      height: 30px;
+      border: 1px solid #4a4a4a;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      padding: 7px 5px;
+      text-align: center;
+      color: #4a4a4a;
+      font-size: 13px; }
+      .fb-share-btn-list > li > a:hover {
+        opacity: 0.6;
+        filter: alpha(opacity=60); 
+		}
+		
+		@keyframes up {
+    50% {
+      transform: translateY(-170%); }
+    100% {
+      opacity: 1;
+      transform: translateY(-130%); } }
+  @keyframes down {
+    0% {
+      opacity: 1;
+      transform: translateY(-130%); }
+    100% {
+      opacity: 0;
+      transform: translateY(0);
+      bottom: 0; } }
+	  
+	  .fb-share-btn span {
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.fb-pd-tab-trigger-list > li > a {
+    display: block;
+    padding: 6px;
+    text-align: center;
+    background: #f9f9f9;
+    font-size: 14px;
+    color: #d8d8d8;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    position: relative;
+}
+
+.fb-pd-tab-trigger-list > li {
+    width: auto;
+    display: inline-block;
+    margin-right: 8px;
+}
+.fb-pd-tab-trigger-list > li > a {
+    padding: 22px 40px;
+font-size: 14px;
+font-weight: normal;
+}
+.fb-pd-tab-trigger-list > li > a:hover
+{
+   padding: 22px 40px;
+font-size: 14px;
+font-weight: normal;
+}
+
+.fb-pd-tab-trigger-list  > li.active > a {
+    border-bottom: 2px solid #fb1342 !important;
+}

@@ -1,0 +1,11 @@
+<?php $__env->startSection('content'); ?><html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <p><img alt="" src="<?php echo URL::to('main/images/404.png'); ?>" style="width: 534px; height: 328px;margin-left: 30%;" /></p>
+        <h1 style="  margin-left: 32%;  font-size: 40px; margin-bottom: 8%;"><?php echo trans('messages.pagenotfound'); ?></h1>
+    </body>
+</html>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

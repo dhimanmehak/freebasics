@@ -1,0 +1,134 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <form method="post" id="display_tbl" action="<?php echo URL::to('backingmultipledelete'); ?>">
+                    <div class="widget_top">
+                        <span class="h_icon blocks_images"></span>
+                        <h6>Backing List</h6>
+                        <div class="btn_30_blue" style="float: right;margin-right: 15px;">
+                            <button type="button" onclick="deletemultiple();"><span class="icon cross_co"></span><span class="btn_link" style="line-height: 2.2;color:#333;">Delete</span></button>
+                        </div>
+                    </div>                
+                    <div class="widget_content">
+                        <table class="display data_tbl">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" class="checkall" tabindex="9">
+                                    </th>
+                                    <th>
+                                        Project Title
+                                    </th>                                
+                                    <th>
+                                        Backer Name
+                                    </th>  
+                                    <th>
+                                        Pledge Amount
+                                    </th>
+                                    <th>
+                                        Funding Goal
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($getdetails as $key=>$detail): ?>
+                                <tr>
+                                    <td class="sdate center tr_select">
+                                        <input name="checkbox[]" type="checkbox" id="selectmultiple" value="<?php echo $detail->id; ?>" tabindex="9">
+                                    </td>                                
+                                    <td class="sdate center">
+                                        <?php echo e($detail->title); ?>
+
+                                    </td>
+                                    <td class="center">
+                                        <?php echo e($detail->firstname); ?>
+
+                                    </td>
+                                    <td class="center">
+                                        <?php echo round($detail->pledgeamount); ?>
+
+                                    </td> 
+                                    <td class="center sdate">
+                                        <?php echo round($detail->fundinggoal); ?>
+
+                                    </td>
+                                    <td class="center">
+                                        <?php if($priv == 'all' || in_array('3', $Backing)): ?>
+                                        <?php $name = Session::get('adminname'); ?>
+                                        <?php if($name=="demo"): ?>
+                                        <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                        <?php else: ?>
+                                        <span><a class="action-icons c-delete" onclick="confirmation('<?php echo $detail->id; ?>')" href="#" title="delete">Delete</a></span>
+                                        <?php endif; ?>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox"  class="checkall" tabindex="9">
+                                    </th>
+                                    <th>
+                                        Project Title
+                                    </th>                               
+                                    <th>
+                                        Backer Name
+                                    </th>  
+                                    <th>
+                                        Pledge Amount
+                                    </th>
+                                    <th>
+                                        Funding Goal
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+                    function confirmation(id) {
+                    var answer = confirm("Are you sure to delete this record?")
+                            if (answer) {
+                    location.href = 'deletebacking?id=' + id;
+                    }
+                    else {
+                    return false;
+                    }
+                    }
+</script>
+
+<script language="JavaScript" type="text/javascript">
+       
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

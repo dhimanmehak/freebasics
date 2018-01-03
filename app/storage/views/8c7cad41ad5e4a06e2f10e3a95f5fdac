@@ -1,0 +1,235 @@
+<?php $__env->startSection('content'); ?> 
+<section>
+    <div class="payment-page1">
+        <div class="container">
+            <?php if(Session::has('failed')): ?>
+            <div class="alert-message error">
+                <?php echo Session::get('failed');; ?>
+
+            </div>
+            <?php endif; ?>
+            <h2 class="top-healin"><?php echo e($projectdetails->title); ?></h2>            
+            <span class="end-tags">by <?php echo e($projectdetails->firstname); ?> <?php echo e($projectdetails->lastname); ?></span>
+
+          
+            <div class="alrighty-div">
+           
+                <form method="post" action="<?php echo URL::to('postback'); ?>">
+                    <input type="hidden" value="<?php echo $projectdetails->id; ?>" name="projectid">
+                    <input type="hidden" value="userend" name="posttype">
+                    <input type="hidden" value="<?php echo $userid; ?>" name="userid">
+                    <div class="col-sm-8">
+                       <!-- <span class="green-text"><?php echo trans('messages.alrighty'); ?>!</span> -->
+                        <span class="pledge-text"><?php echo trans('messages.enterpledgeamount'); ?></span>
+
+
+                        <div class="bntscold"> <span class="green-text" ><?php echo $projectdetails->currencysymbol; ?></span>
+                            <input class="plc-amount <?php if($errors->has('pledge_amount')): ?> has-error <?php endif; ?>" id="amount" type="text" name="pledge_amount" onkeyup="" onblur="changeVal()" <?php if(isset($pledge)): ?> value="<?php echo $pledge; ?>" <?php else: ?> value="<?php echo Input::old('pledge_amount'); ?>" <?php endif; ?> >
+                        </div>
+                        <?php if($errors->has('pledge_amount')): ?> <p class="help-block"><?php echo $errors->first('pledge_amount'); ?></p> <?php endif; ?>
+                        <h3 class="rewd-text"><?php echo trans('messages.selectreward'); ?></h3>
+                        <ul class="rewd-area">
+                            <li>
+                                <label >
+                                    <div class="rewd-area-left">
+                                        <input  onclick="changeValue('1')" id="redio" type="radio"  name="reward"  mycustomtag="1" class="<?php if($errors->has('reward')): ?> has-error <?php endif; ?> " value='0'>
+                                        <span class="no-rewrds" style="padding: 10px;"><?php echo trans('messages.noreward'); ?></span>
+                                    </div>
+                                    <div class="rewd-area-right">
+                                        <?php echo trans('messages.helptheproject'); ?>
+
+                                    </div>
+                                </label>
+                            </li>
+                            <?php if($errors->has('reward')): ?> <p class="help-block reward"><?php echo $errors->first('reward'); ?></p> <?php endif; ?>
+                            <?php foreach($rewards as $reward): ?>                           
+                            <li>
+                                <label  >
+                                    <div class="rewd-area-left">                                            
+                                        <input onclick="changeValue(<?php echo round(($reward->pledgeamount*$projectdetails->rate)*100)/100; ?>)"  type="radio" name="reward" value="<?php echo $reward->id; ?>"  mycustomtag="<?php echo round(($reward->pledgeamount*$projectdetails->rate)*100)/100; ?>" class="reward-select <?php if($errors->has('reward')): ?> has-error <?php endif; ?>" <?php if($reward->islimited==1): ?> <?php if($reward->quantity==$reward->backerscount): ?>disabled <?php endif; ?> <?php endif; ?>  <?php if(isset($rewardid)&&$reward->id==$rewardid): ?>checked="checked"  <?php endif; ?>>
+                                               <span class="no-rewrds reward-amount" style="padding: 10px;"><?php echo $projectdetails->currencysymbol; ?> <?php echo round(($reward->pledgeamount*$projectdetails->rate)*100)/100; ?>+</span>
+                                    </div>
+
+                                    <div class="rewd-area-right">
+                                        <?php if($reward->islimited==1): ?>
+                                        <?php if($reward->quantity==$reward->backerscount): ?>
+                                        <span style='font-size: 13px; padding: 5px;  background: #000; color: #fff;'>
+                                            <span class="limited-number"><?php echo trans('messages.allgone'); ?>!</span>
+                                        </span> <br>                                           
+                                        <?php else: ?>
+                                        <span class="bg-yellow " style='font-size: 13px; padding: 5px;'>
+                                            <span class="limited-number"><?php echo trans('messages.limited'); ?> (<?php echo $reward->quantity-$reward->backerscount; ?> <?php echo trans('messages.leftof'); ?> <?php echo $reward->quantity; ?>)</span>
+                                        </span><br>
+                                        <?php endif; ?>
+                                        <?php endif; ?>
+                                        <?php echo e($reward->description); ?>
+
+                                        <br>
+                                        <br>
+                                        <?php
+                                        
+                                        $date = explode('-', $reward->estimateddelivery);
+                                       
+                                       // $delivery = date("M", mktime(0, 0, 0, $date[0])) . ' ' . $date[1];
+                                        $delivery = '';
+                                        
+                                      
+                                        ?>
+                                        <?php echo trans('messages.estimateddelivery'); ?> : <?php echo $reward->estimateddelivery; ?>
+
+                                    </div>
+                                </label>
+                            </li>
+
+                            <?php endforeach; ?>
+
+                            <div><b style="float: right; padding: 10px; margin-right: 60px;"><?php echo trans('messages.total'); ?>:<span><?php echo $projectdetails->currencysymbol; ?></span><b id="total"><?php if(isset($pledge)): ?><?php echo $pledge; ?><?php else: ?> 0 <?php endif; ?></b> </b></div>
+                            <div  style="float:right; margin-top: 45px; margin-right: -120px;">
+                                <input type="submit" value="<?php echo trans('messages.continuetonextstep'); ?>" class="button button_green submit"> 
+                            </div>
+                        </ul>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade fb-modal fb-cp-success-modal" id="donationSuccessModal" tabindex="-1" role="dialog" aria-labelledby="donationSuccessModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="icon-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="fb-create-project-success-modal-content">
+            <span class="fb-create-project-success-modal-icon"><i class="icon-checked"></i></span>
+            <h4 class="fb-create-project-success-modal-head">Well done!</h4>
+            <p class="fb-create-project-success-modal-para">You have successfully <strong>donated.</strong>  Share the message and spread the smile! :)</p>
+            <ul class="fb-modal-share-list">
+              <li><a href="#"><i class="icon-facebook"></i></a></li>
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-google-plus"></i></a></li>
+              <li><a href="#"><i class="icon-linkedin"></i></a></li>
+            </ul>
+            <a href="#" type="button" class="fb-cpsm-thanks-btn">Take me back to the project</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<!-- <script src="<?php echo URL::asset('main/js/bootstrap.min.js');; ?>"></script>-->
+<script src="<?php echo URL::asset('main/js/jquery-ui.min.js');; ?>"></script>
+<script src="<?php echo URL::asset('main/js/custom.js');; ?>"></script>
+<script>
+$(".fb-donate-submit-btn").click(function(){
+     $('#donationSuccessModal').modal('show');
+});
+</script>
+
+<script>
+
+            function changeValue(value) {
+            var pledge = document.getElementById('amount').value;
+			
+                    if (pledge == '' || pledge < value){
+						
+            document.getElementById('amount').value = value;
+            document.getElementById("total").innerHTML = value;
+            }
+            }
+
+    $("#amount").keypress(function (e) {
+		var pledge =$(this).value;
+		 document.getElementById("total").innerHTML = value;
+    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+    return false;
+    }
+    });
+            window.onload = function () {
+            getTextVal();
+                    var checked_value = $('input[name=reward]:checked').val();
+					
+                    if (checked_value) {
+            $('.help-block').css('display', 'none');
+            }
+            };
+			function changeVal() {
+				 var x = document.getElementById("amount").value;
+				 document.getElementById("total").innerHTML = x;
+			}
+            function getTextVal() {
+            var x = document.getElementById("amount").value;
+			
+                    if (!x) {
+						
+            document.getElementById("total").innerHTML = 1;
+			$("input[name='reward']:first").attr("checked",true);
+			$("#amount").val(1);
+            } else {
+            document.getElementById("total").innerHTML = x;
+            }
+            }
+
+    $('input').keypress(function () {
+    $('.help-block').css('display', 'none');
+            $(this).removeClass('has-error');
+    });
+            $('input').click(function () {
+    $('.reward').hide();
+    });
+            $(document).ready(function () {
+				
+    $("input[type='radio']").click(function () {
+    var radioValue = $("input[name='reward']:checked").attr("mycustomtag");
+            var pledge_amount = parseInt($("#amount").val());
+            if (pledge_amount < radioValue) {
+    if (radioValue) {
+    $("#amount").val(radioValue);
+            $("#total").html(radioValue);
+            // alert("Your are a - " + radioValue);
+    }
+    }
+    });
+    });
+            $(document).ready(function () {
+				
+    if ($("#amount").val() != '' || $("#amount").val() != 0) {
+    $(this).removeClass('has-error');
+	
+	
+    }
+    if ($("#total").val() != '') {
+		
+    $(this).removeClass('has-error');
+    }
+    });
+
+</script>
+
+
+<script type="text/javascript">
+$('.rewd-area input[type="radio"]').change(function () {
+
+$('.rewd-area li').removeClass( "active" );
+$( this ).parents( "li" ).toggleClass( "active" );
+
+
+});
+
+
+ 
+</script>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

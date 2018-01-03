@@ -1,0 +1,138 @@
+@extends('layouts.adminlayout')
+@section('content')
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12 full_block">
+            @if(Session::has('success'))
+            <div class="login_success">
+                <span class="icon"></span> {{Session::get('success');}}
+            </div>
+            @endif
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon list_image"></span>
+                    <h6>Mass Email Campaigns</h6>
+                </div>
+                <div class="widget_content">
+
+                    <form action="{{URL::to('postmassemail')}}" id="form103" method="post" class="form_container left_label">
+                        <ul>
+                            <li>
+                                <div class="form_grid_12">
+                                    <label class="field_title">Email To</label>                                   
+                                    <div class="form_input">
+                                        <span>
+                                            <input name="emailto" class="radio" type="radio" id="alluser" value="alluser" tabindex="10" checked onclick="checkradioall();">
+                                            <label class="choice">All Users</label>
+                                        </span><span>
+                                            <input name="emailto" class="radio" type="radio" id="particular" value="particular" tabindex="11" onclick="checkradio();">
+                                            <label class="choice">Particular Users</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <select multiple="multiple" name="allemails[]" class="multiple_list" hidden>
+                                @foreach($emails as $email)
+                                <option value="{{$email->email}}" selected>{{$email->email}}</option>
+                                @endforeach
+                            </select>
+                            <li style="display:none;" id="selectusers">
+                                <div class="form_grid_12">
+                                    <label class="field_title">Select Users<span class="req">*</span></label>
+                                    <div class="form_input">
+                                        <div class="list_left">
+                                            <div class="list_filter">
+                                                <label>Filter: </label>
+                                                <input type="text" id="box1Filter"/>
+                                                <span id="box1Clear" class="list_refresh"><span class="filter_btn refresh_3">&nbsp;</span></span>
+                                            </div>
+                                            <select id="box1View" multiple="multiple" class="multiple_list">
+                                                @foreach($emails as $email)
+                                                <option value="{{$email->email}}">{{$email->email}}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="list_itemcount">
+                                                <span id="box1Counter" class="countLabel"></span>
+                                                <select id="box1Storage">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="list_switch">
+                                            <span id="to2" class="swap_btn"><span class="filter_btn p_next">&nbsp;</span></span><span id="to1" class="swap_btn"><span class="filter_btn p_prev">&nbsp;</span></span><span id="allTo2" class="swap_btn"><span class="filter_btn p_last">&nbsp;</span></span><span id="allTo1" class="swap_btn"><span class="filter_btn p_first">&nbsp;</span></span>
+                                        </div>
+                                        <div class="list_right">
+                                            <div class="list_filter">
+                                                <label>Filter: </label>
+                                                <input type="text" id="box2Filter"/>
+                                                <span class="list_refresh" id="box2Clear"><span class="filter_btn refresh_3">&nbsp;</span></span>
+                                            </div>
+                                            <select id="box2View" multiple="multiple" name="emails[]" class="multiple_list">
+                                            </select>
+                                            <div class="list_itemcount">
+                                                <span id="box2Counter" class="countLabel"></span>
+                                                <select id="box2Storage">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <span class="clear"></span>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="form_grid_12">
+                                    <label class="field_title">Email Subject<span class="req">*</span></label>
+                                    <div class="form_input">
+                                        <input name="emailsubject" type="text" tabindex="2" class="required"/>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="form_grid_12">
+                                    <label class="field_title">Email Content</label>
+                                    <div class="form_input">
+                                        <textarea cols="80" id="editor1" name="editor1" rows="10" class="required">
+			
+                                        </textarea>                              
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="form_grid_12">
+                                    <div class="form_input">
+                                        <button type="submit" class="btn_small btn_blue"><span>Submit</span></button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="clear"></span>
+</div>
+<script>
+
+    CKEDITOR.replace('editor1', {
+        fullPage: true,
+        allowedContent: true,
+        extraPlugins: 'wysiwygarea'
+    });
+
+    function checkradio() {
+        var d = document.getElementById("box2View");
+        d.className = d.className + " required";
+        var userslist = document.getElementById("selectusers");
+        userslist.style.display = "block";
+    }
+    function checkradioall() {
+        document.getElementById("box2View").required = false;
+        var userslist = document.getElementById("selectusers");
+        userslist.style.display = "none";
+    }
+
+</script>
+@stop

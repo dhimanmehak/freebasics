@@ -1,0 +1,252 @@
+@extends('layouts.mainlayout')
+@section('content')
+
+@if(Session::has('failed'))
+        <div class="alert-message error">
+            {{Session::get('failed');}}
+        </div>
+        @endif
+
+<section class="fb-projects-section">
+    <div class="container">
+      <div class="fb-section-head-wrap">
+        <h1 class="fb-section-head">Create Project</h1>
+      </div>
+    </div>
+  </section>
+  <section class="fb-pd-tab-section fb-projects-tab-section">
+    <div class="container">
+      <div class="fb-create-project-box">
+        <div class="fb-cp-steps-trigger-wrapper">
+          <ul class="fb-cp-steps-trigger">
+            <li>
+              <button class="fb-cp-step-button fb-cp-step-one-trigger clickable">
+                <span class="fb-cp-step-count">1</span>
+                <span class="fb-cp-step-completed-icon"><i class="icon-checked"></i></span>
+                <span class="fb-cp-step-name">Project Details</span>
+              </button>
+            </li>
+            <li>
+              <button class="fb-cp-step-button fb-cp-step-two-trigger" disabled="disabled">
+                <span class="fb-cp-step-count">2</span>
+                <span class="fb-cp-step-completed-icon"><i class="icon-checked"></i></span>
+                <span class="fb-cp-step-name">Financial Details</span>
+              </button>
+            </li>
+            <li>
+              <button class="fb-cp-step-button fb-cp-step-three-trigger" disabled="disabled">
+                <span class="fb-cp-step-count">3</span>
+                <span class="fb-cp-step-completed-icon"><i class="icon-checked"></i></span>
+                <span class="fb-cp-step-name">Submit for Review</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="fb-cp-steps-content-wrapper">
+          <div class="fb-cp-step-content fb-cp-step-one-content">
+            <form action="{{URL::to('postbasic')}}" method="post" id="form" enctype="multipart/form-data">
+            
+                        <input type="hidden" value="{{Session::get('locale')}}" name="language" id="language">
+              <ul class="fb-cp-form-list fb-cp-form-list-left">
+                <li>
+                  <label class="fb-cp-form-label">Choose which SDG your project falls under</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select name='category'>
+                      @foreach($categories as $category)
+                        <option value="{{$category->id}}">{{$category->categoryname}}</option>          
+                        @endforeach
+                    </select>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Project Title</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <input type="text" class="fb-input-text @if($errors->has('title')) has-error @endif" name='title' required="" /> @if ($errors->has('title')) <p class="help-block">{{ $errors->first('title') }}</p> @endif
+                    <i class="fb-form-hint">This will be the main title through which donors can find your title</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Country</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select name="country">
+                        <option value=''>{{trans('messages.selectcountry')}}</option>
+                     @foreach($countries as $country)
+                        <option value="{{$country->id}}">{{$country->countryname}}</option>
+                        @endforeach
+                    </select>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Feature Photograph</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <div class="custom-file-upload @if($errors->has('image')) has-error @endif">
+                        <input type="file" id="file" name="image" />
+                        @if ($errors->has('image')) <p class="help-block">{{ $errors->first('image') }}</p> @endif
+                    </div>
+                    <i class="fb-form-hint">This will be the main image anyone looking at your story will see. JPEG, PNG, 5MB file limit. Atleast 1024 x 768</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Appeal Message</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <textarea class="fb-input-textarea @if($errors->has('shortblurb')) has-error @endif" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required="" placeholder="Please give as much as you can and help save Charlie's life" name="shortblurb"></textarea>
+                    @if ($errors->has('shortblurb')) <p class="help-block">{{ $errors->first('shortblurb') }}</p> @endif
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Feature Video</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <div class="custom-file-upload">
+                        <input type="file" name="projectvideo"  />
+                    </div>
+                  </span>
+                  <span class="fb-cp-form-or-text">OR</span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <input type="text" class="fb-input-text" placeholder="Paste Youtube Video URL" name="youtubelink"/>
+                    <i class="fb-form-hint">This will be the main video for your project. Make sure it talks about why the donee needs money, what they are doing right now and what they will be doing once they get the money.</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Description</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <textarea class="fb-input-textarea" name="description"></textarea>
+                    <i class="fb-form-hint">This gives people a sense of who you are trying to help and how.</i>
+                  </span>
+                </li>
+              </ul>
+              <ul class="fb-cp-form-list fb-cp-form-list-right">
+                <li>
+                  <label class="fb-cp-form-label">Risks and challenges</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <textarea class="fb-input-textarea" name="risks"></textarea>
+                    <i class="fb-form-hint">A hint text will go here ...</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Sponsored By</label>
+                  <span class="fb-cp-form-input-wrapper fb-sponsored-field">
+                    <span class="fb-cp-sponsor-image-wrap"><img src="{{URL::asset('main/images/testimonial-image-2.jpeg');}}" alt="testimonial image 2"/></span>
+                    <textarea class="fb-input-textarea"></textarea>
+                    <i class="fb-form-hint">This gives people a sense of who you are trying to help and how.</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Description</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <textarea class="fb-input-textarea"></textarea>
+                    <i class="fb-form-hint">Explain in detail who you have started this project for, their past, their present and what they plan to do with the money.</i>
+                  </span>
+                </li>
+                <li>
+                  <label class="fb-cp-form-label">Donee Information</label>
+                  <span class="fb-cp-form-input-wrapper">
+                    <input type="text" class="fb-input-text" placeholder="Name of Donee"/>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select>
+                      <option value="">Country</option>
+                      <option value="">India</option>
+                      <option value="">Pakistan</option>
+                      <option value="">Australia</option>
+                      <option value="">Germany</option>
+                    </select>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select>
+                      <option value="">Religion</option>
+                      <option value="">Hindu</option>
+                      <option value="">Christian</option>
+                      <option value="">Muslim</option>
+                    </select>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper fb-date-picker-wrapper">
+                    <input type="text" class="fb-input-text" value="DOB" id="datepicker"/>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <select>
+                      <option value="">Gender</option>
+                      <option value="">Male</option>
+                      <option value="">Female</option>
+                    </select>
+                  </span>
+                  <span class="fb-cp-form-input-wrapper">
+                    <div class="custom-file-upload">
+                        <input type="file" name="prrofimage" />
+                    </div>
+                    <i class="fb-form-hint">Upload Beneficiary Document (ID Proof)</i>
+                  </span>
+                </li>
+              </ul>
+              <div class="fb-submit-btn-wrapper">
+                <button type="submit" class="fb-submit-btn"><i class="icon-right-arrow"></i><span>NEXT</span></button>
+              </div>
+            </form>
+          </div>
+         
+      </div>
+    </div>
+  </section>
+
+   
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="{{URL::asset('main/js/bootstrap.min.js');}}"></script>
+<script src="{{URL::asset('main/js/jquery-ui.min.js');}}"></script>
+<script src="{{URL::asset('main/js/custom.js');}}"></script>
+<script src="{{URL::asset('main/js/create-project.js');}}"></script>
+
+<script>
+    function InvalidMsg(textbox) {
+    var lang = $('#language').val();
+    if(lang){
+        if (textbox.value == '') {
+            textbox.setCustomValidity('{{trans("messages2.required")}}');
+        }
+        else {
+            textbox.setCustomValidity('');
+        }
+        return true;
+    }
+}
+
+</script>
+<script>
+$( function() {
+    
+    $( "select" ).selectmenu();
+    $('#datepicker').datepicker({
+      inline: true,
+      nextText: '&rarr;',
+      prevText: '&larr;',
+      showOtherMonths: true,
+      dateFormat: 'dd MM yy',
+      showOn: "both",
+      buttonImage: "images/calendar.svg",
+      buttonImageOnly: true,
+      buttonText: ""
+    });
+    $('#deadlineDatepicker').datepicker({
+      inline: true,
+      nextText: '&rarr;',
+      prevText: '&larr;',
+      showOtherMonths: true,
+      dateFormat: 'dd MM yy',
+      showOn: "both",
+      buttonImage: "images/calendar.svg",
+      buttonImageOnly: true,
+      buttonText: ""
+    });
+    $('#dobDatepicker').datepicker({
+      inline: true,
+      nextText: '&rarr;',
+      prevText: '&larr;',
+      showOtherMonths: true,
+      dateFormat: 'dd MM yy',
+      showOn: "both",
+      buttonImage: "images/calendar.svg",
+      buttonImageOnly: true,
+      buttonText: ""
+    });
+});
+</script>
+@stop

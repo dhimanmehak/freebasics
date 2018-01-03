@@ -1,0 +1,146 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<style>
+    textarea[name=remarks] {resize: none;}    
+</style>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>View/Add Comments</h6>
+                </div>
+                <div class="widget_content">                   
+                    <table class="display data_tbl" id="projecttable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Category 
+                                </th>
+                                <th>
+                                    Creator Name
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>                               
+                                <th>
+                                    Pledge Amount
+                                </th> 
+                                <th>
+                                    Add Comment
+                                </th>
+                                <th>
+                                    Comments List
+                                </th>                                
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            <?php foreach($projects as $key=>$project): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td class="center"> 
+                                    <?php echo e($project->title); ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo e($project->categoryname); ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo e($project->firstname); ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo e(round($project->fundinggoal)); ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo e(round($project->totalpledgeamount)); ?>
+
+                                </td>                                
+                                <td>  
+                                    <?php if($priv == 'all' || in_array('0', $Comment)): ?>
+                                    <a href="<?php echo URL::to('addcomment?projectid='); ?><?php echo $project->id; ?>" class="badge_style b_offline" >Add</a>
+                                    <?php endif; ?>
+                                </td>                                
+                                <td>  
+                                    <?php if($priv == 'all' || in_array('0', $Comment)): ?>
+                                    <a href="<?php echo URL::to('commentlist?projectid='); ?><?php echo $project->id; ?>" class="badge_style b_success" >View</a>
+                                    <?php endif; ?>
+                                </td>                                
+                            </tr>   
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Category 
+                                </th>
+                                <th>
+                                    Creator Name
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>                               
+                                <th>
+                                    Pledge Amount
+                                </th>                             
+                                <th>
+                                    Add Comment
+                                </th>
+                                <th>
+                                    Comments List
+                                </th>                                 
+                            </tr> 
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function confirmation(id) {
+        var answer = confirm("Are you sure to delete this record?")
+        if (answer) {
+            location.href = 'deletecomment?id=' + id;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,76 @@
+<?php $__env->startSection('content'); ?>
+
+<section class="fb-signup-section">
+    <div class="container">
+    
+       <?php if(Session::has('success')): ?>
+        <div class="alert-message success">
+            <?php echo Session::get('success');; ?>
+
+        </div>
+        <?php endif; ?>
+        <?php if(Session::has('failed')): ?>
+        <div class="alert alert-warning text-center">
+            <?php echo Session::get('failed');; ?>
+
+        </div>
+        <?php endif; ?>
+		
+		<div class="col-md-12">
+		<h3 class="fb-section-head">Corporates</h3>
+		<p style="font-size:20px;">Haven't aligned with the Global Goals yet?</p>
+		<p style="font-size:20px;">Be it your fund allocation towards corporate social responsibility or encouraging your workforce to support a cause, there cannot be a better opportunity other than aligning with the Global goals.</p><br/>
+		<p style="font-size:20px;">Pick a Goal > Pick an organisation or bring your own project > share it with your employees > Match your employee contribution with that of your CSR allocation > Bring alive innovations or provide sustainable living with dignity.</p><br/>
+			
+		</div>
+      <div class="fb-login-box" style="display:none;">
+        <div class="fb-signup-right">
+          <!-- <p class="fb-signup-top-text">Be the first of your friends to join the global revolution. <strong>Sign up now!</strong></p> -->
+                   <div class="fb-signup-form-wrapper">
+            <form action="<?php echo URL::to('dologin');; ?>"  method="post" id="formzip">
+            
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="<?php echo url::asset('main/js/bootstrap.min.js');; ?>"></script>
+<script src="<?php echo url::asset('main/js/jquery-ui.min.js');; ?>"></script>
+<?php $baseurl = url(); ?>
+ <script>
+
+  $('.FAB').on('click', function () {
+  $(this).closest('.user-input').toggleClass('show-input');
+  $(this).find(".icon-add").toggleClass("rotate");
+});
+
+   
+        $('#currencyselect').on('selectmenuchange', function () {
+            var url = '<?php echo $baseurl; ?>';
+            dataString = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: url + "/setcurrencysession",
+                data: "currency=" + dataString,
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        });
+
+    </script>
+
+      <script>
+        setInterval(function () {
+            //alert("Hello"); 
+        }, 86400000);
+    </script>
+
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

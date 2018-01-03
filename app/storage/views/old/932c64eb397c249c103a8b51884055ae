@@ -1,0 +1,131 @@
+<?php $__env->startSection('content'); ?>
+
+<style type="text/css">
+.fb-home-footer >  div.container
+{
+	display:none;
+}
+.fb-home-footer 
+{
+	padding-top:0px;
+}
+.fb-footer-developed-by-info
+{
+	margin-top:0px;
+}
+</style>
+
+<section class="fb-signup-section">
+    <div class="container">
+    
+       <?php if(Session::has('success')): ?>
+        <div class="alert-message success">
+            <?php echo Session::get('success');; ?>
+
+        </div>
+        <?php endif; ?>
+        <?php if(Session::has('failed')): ?>
+        <div class="alert alert-warning text-center">
+            <?php echo Session::get('failed');; ?>
+
+        </div>
+        <?php endif; ?>
+		
+		<div class="col-md-12 global_goals_us">
+		<h3 class="fb-section-head">Guidelines</h3>
+		<h2>Pre-Launch</h2>
+		<h3 style="float:left;width:100%;">Do's</h3>
+<p>1. Narrate the story that is convincing & simple yet displays best linguistic skills.</p>
+<p>2. Videos and Pictures are the best form of connecting. Your investment is worth here.</p>
+<p>3. Ensure you have provided all the information needed for someone to trust you and donate money.</p>
+<p>4. Provide the background of why you are involved and how you will see through the success of this project</p>
+<p>5. Take professional help in creating content, pictures, videos and to engage in social media.</p>
+<p>6. Ensure that duration of the project and money required are realistic. Best is to start a project for 30days and well justified breakup of the amount required is provided.</p>
+<p>7. Ensure no religious or patriotic sentiments are hurt.</p>
+<p>8. Ensure laws of the land are adhered to</p>
+
+		<h3 style="float:left;width:100%;">Don’ts</h3>
+		<p>1. Don’t submit information that is not accurate and complete</p>
+<p>2. Don’t provide information that is not approved by the beneficiaries</p>
+<p>3. Don’t submit sub-standard pictures or videos and those where you don’t have the permission to use.</p>
+<p>4. Dont create a project that does not align with any of the 17 sustainable development goals.</p>
+
+<h2>Post-Launch</h2>
+<h3 style="float:left;width:100%;">Do's</h3>
+<p>1. Start strong, be active on social media, email friends, speak on the phone, meet them personally and do not forget to share the project link</p>
+<p>2. Provide atleast 4 to 6 updates to engage the community</p>
+<P>3. Acknowledge the support from the contributors with Thank you messages</p>
+<p>4. First 3 days and Last 3 days are crucial to generate maximum funds. </p>
+<p>5. Add rewards to project</p>
+<p>6. Reach out to FreeBasics team for professional help in marketing the project</p>
+
+<h3 style="float:left;width:100%;">Dont's</h3>
+<P>1. Don't enter into arguments with the critics. Provide them with justifying answers and handle situations gracefully</p>
+<p>2. Don’t make frequent changes to the project. Its unfair to those who have paid prior to these changes </p>
+<p>3. Don’t make unsolicited engagements with supporters.</p>
+<P>4. Don’t delay responses to the information sought by the supporters</p>
+
+<h2>Post Campaign</h2>
+<h3 style="float:left;width:100%;">Do's</h3>
+<p>1. Show your gratitude to those who supported on completion of the fundraising</p>
+<p>2. Provide the utilisation of the funds status to the cause and its impact</p>
+<p>3. Send out the rewards and Tax benefit certificates if applicable</p>
+<P>4. Be super responsive on supporter queries</p>
+<P>5. Make sure to post pictures & videos of the impact.</p>
+
+<h3 style="float:left;width:100%;">Dont's</h3>
+<p>1. Don’t end conversation without a proper reply. Your supporters have the right to ask for information on the project.</p>
+<P>2. If the project fails, inform the supporter community and team freebasics team to provide the account and send out refunds to supporters</p>
+
+		</div>
+      <div class="fb-login-box" style="display:none;">
+        <div class="fb-signup-right">
+          <!-- <p class="fb-signup-top-text">Be the first of your friends to join the global revolution. <strong>Sign up now!</strong></p> -->
+                   <div class="fb-signup-form-wrapper">
+            <form action="<?php echo URL::to('dologin');; ?>"  method="post" id="formzip">
+            
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="<?php echo url::asset('main/js/bootstrap.min.js');; ?>"></script>
+<script src="<?php echo url::asset('main/js/jquery-ui.min.js');; ?>"></script>
+<?php $baseurl = url(); ?>
+ <script>
+
+  $('.FAB').on('click', function () {
+  $(this).closest('.user-input').toggleClass('show-input');
+  $(this).find(".icon-add").toggleClass("rotate");
+});
+
+   
+        $('#currencyselect').on('selectmenuchange', function () {
+            var url = '<?php echo $baseurl; ?>';
+            dataString = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: url + "/setcurrencysession",
+                data: "currency=" + dataString,
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        });
+
+    </script>
+
+      <script>
+        setInterval(function () {
+            //alert("Hello"); 
+        }, 86400000);
+    </script>
+
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

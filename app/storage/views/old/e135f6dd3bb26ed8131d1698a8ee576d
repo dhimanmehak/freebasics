@@ -1,0 +1,360 @@
+<header>
+    <div class="header">
+        <div class="logo-left">
+           <a href="<?php echo URL::to(''); ?>" class="fb-logo">
+        <img src="<?php echo URL::asset('main/images/free-basics-logo.png');; ?>" alt="free basics logo" />
+      </a>
+        </div>    
+
+        <div class="head-right">
+            <div class="navbar" style="margin:0">
+                <div class="navbar-inner">
+                    <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                  
+
+                   <div class="nav-collapse navbar-collapse my-nav">
+                        <ul class="nav fb-header-tab-trigger">
+  <li class="fb-un-goal-tab-trigger <?php echo Request::path() == '/' ? 'active' : ''; ?>"><a href="<?php echo URL::to('/'); ?>"><span class="fb-htt-number">01</span><h3 class="fb-htt-text">GLOBAL<br />GOALS</h3></a></li>
+      <li class="fb-align-with-goal-tab-trigger <?php echo Request::path() == 'align/goal' ? 'active' : ''; ?>"><a href="<?php echo URL::to('align/goal'); ?>"><span class="fb-htt-number">02</span><h3 class="fb-htt-text">ALIGN<br />WITH A GOAL</h3></a></li>
+      <li class="fb-start-project-tab-trigger <?php echo Request::path() == 'support/project' ? 'active' : ''; ?>"><a href="<?php echo URL::to('support/project'); ?>"><span class="fb-htt-number">03</span><h3 class="fb-htt-text">SUPPORT<br />A PROJECT</h3></a></li>
+                            
+                            <li  style="display:none;">
+                                <a class="reg-popup" href="<?php echo URL::to('discover'); ?>"><?php echo Lang::get('messages.discover'); ?></a>
+                            </li>
+                            <li  style="display:none;">
+                                <a class="login-popup" href="<?php echo URL::to('project/start'); ?>"><?php echo trans('messages.start'); ?></a>
+                            </li>
+                            <?php $projects = app('project'); ?>
+                            <?php $headerlinks = app('headerlinks'); ?>
+                            <?php $submenu = app('submenu'); ?>
+                            <?php foreach($headerlinks as $header): ?>
+                            <li class="dropdown">
+                                <a id="caret" class="login-popup" href="<?php echo URL::to('pages'); ?>/<?php echo $header->seourl; ?>"><?php echo $header->pagename; ?><span class="test"></span></a>
+                                <ul id="test" class="" role="menu">
+                                    <?php foreach($submenu as $smenu): ?>
+                                    <?php if ($header->id == $smenu->parent) { ?>
+                                        <script>
+                                            $('#test').addClass('dropdown-menu');
+                                            $('#caret').find('.test').addClass('caret');
+                                        </script>	
+                                        <li><a href="<?php echo URL::to('pages'); ?>/<?php echo $smenu->seourl; ?>"><?php echo $smenu->pagename; ?></a></li>
+                                    <?php } ?>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </li>
+                            <?php endforeach; ?>
+                            <li class="seach-box" style="display:none;">
+                                <form class="js-header-livesearch nav-livesearch" method="get" action="<?php echo URL::to('search'); ?>" accept-charset="UTF-8">
+                                    <span class="ksr-icon__search"></span>
+                                    <input id="term" class="nav-livesearch-input js-search-term text" type="text" placeholder="<?php echo trans('messages.searchprojects');; ?>" name="search" data-tracker-name="Header Live Search" autocomplete="off">
+                                </form>
+                            </li>
+
+                            <?php if(Session::has('userid')): ?>
+                            <a href='#' id='profile'><li class="logins" style="border-left: 1px solid #ccc;">
+                                    <img class="avatar-circle-small" style="border-radius:60%;display: block;height: 50px;overflow: hidden;width:92px;" src="<?php echo URL::to(''); ?>/<?php echo $headerpic; ?>" onerror="this.src='<?php echo URL::to('main/images/default.png');; ?>'" width="40" height="40" alt="" title="<?php echo Session::get('name');; ?>">
+                                </li>
+                                <div class="arrow-up"></div>
+                            </a>
+
+                            <style> .arrow-up {
+                                    width: 0;
+                                    height: 0;
+                                    border-left: 7px solid transparent;
+                                    border-right: 7px solid transparent;
+                                    border-top: 7px solid #666;
+                                    float:right;
+                                    margin-right: -75px;
+                                    margin-top: 27px;
+                                } 
+                            </style>
+                            <?php else: ?>
+                            <li class="logged">
+                                <a href="<?php echo URL::to('login');; ?>"><?php echo trans('messages.login'); ?></a>
+                            </li>
+                            <li class="logged">
+                                <a href="<?php echo URL::to('signup');; ?>"><?php echo trans('messages.signup'); ?></a>
+                            </li>
+                            <?php endif; ?>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="seach-box head-lin">
+            <form class="js-header-livesearch nav-livesearch" accept-charset="UTF-8" action="<?php echo URL::to('search'); ?>" method="get">
+                <input id="term" class="nav-livesearch-input js-search-term text" type="text" autocomplete="off" data-tracker-name="Header Live Search" name="search" placeholder="Search Projects">
+            </form>			
+        </div>
+		
+        <div class="after-menu" id='profile-display'>
+            <div class="after-menu-left">
+                <ul>
+                    <h3><?php echo trans('messages.mystuff'); ?> </h3>
+                    <li>
+                        <a title="Inbox" href="<?php echo URL::to('messages'); ?>"><?php echo trans('messages.messages'); ?> <?php if($headermsgs!=0): ?><span style="background: #2bde73;color: #fff;padding: 4px 7px 4px 7px;border-radius: 15px;font-size: 12px;"><?php echo $headermsgs; ?></span><?php endif; ?></a>
+                    </li>
+                    <li>
+                        <a title="Activity" href="<?php echo URL::to('activity'); ?>"><?php echo trans('messages.activity'); ?> </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo URL::to('profile'); ?>"><?php echo trans('messages.profile'); ?></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo URL::to('backedprojects'); ?>"><?php echo trans('messages.backedprojects'); ?></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo URL::to('createdprojects'); ?>"><?php echo trans('messages.createdprojects'); ?></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo URL::to('starredprojects'); ?>"><?php echo trans('messages.starredprojects'); ?> </a>
+                    </li>
+                </ul>
+
+                <ul>
+                    <h3 class="dropdown-menu-header"> <?php echo trans('messages.settings'); ?> </h3>
+                    <li>
+                        <a href="<?php echo URL::to('myaccount'); ?>"><?php echo trans('messages.account'); ?></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo URL::to('editprofile'); ?>"><?php echo trans('messages.editprofile'); ?></a>
+                    </li>
+                     <li>
+                        <a href="<?php echo URL::to('stripesettings'); ?>"><?php echo trans('messages.stripesettings'); ?></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo URL::to('notifications'); ?>"><?php echo trans('messages.notifications'); ?></a>  
+                    </li>
+                    <li>
+                        <a href="<?php echo URL::to('privacysettings'); ?>"><?php echo trans('messages.privacysettings'); ?></a>  
+                    </li>
+                    <li><a href="<?php echo URL::to('findfriends'); ?>"><?php echo trans('messages.findfriends'); ?></a></li>
+                </ul>
+
+            </div>
+            <?php if($projects!='[]'): ?>
+              <div class="after-menu-right-full">
+            <div class="after-menu-right">
+                <h3><?php echo trans('messages.createdprojects'); ?></h3>
+
+                <div id="prolist" class="crnt-pro" style="font-size: 12px; font-weight: bold; padding: 10px 0px 5px 2px;color:#98B50B"><h2><?php echo trans('messages.liveprojects'); ?></h2></div>
+
+                <?php if($projecttype['livecount']==0): ?>
+                <p style='font-size: 12px;padding-bottom: 12px;color: #888;'><?php echo trans('messages.noprojectsfound'); ?>.</p>                
+                <?php else: ?>
+                <ul>
+                    <?php $i = 1; ?>	
+                    <?php foreach($projects as $project): ?>
+                    <?php if($project->dayscount >=0 &&$project->projectverified == 2): ?>
+                    <li class="project-title">
+                        <a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>">
+                            <img class="project-thumb" src="<?php echo URL::asset(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::asset('main/images/projectdefault.png'); ?>'" alt="" width="40" height="40">
+                            <?php echo e($project->title); ?>
+
+                        </a>
+                    </li>
+                    <?php if ($i++ == 2) break; ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>                
+                <?php endif; ?>
+
+            </div>
+
+            <div class="after-menu-right">
+
+                <div id="prolist" style="font-size: 12px;font-weight: bold; padding: 10px 0px 5px 2px;color:orange"><h2><?php echo trans('messages.draftprojects'); ?></h2></div>
+                <?php if($projecttype['draftcount']==0): ?>
+                <p style='font-size: 12px;padding-bottom: 12px;color: #888;'><?php echo trans('messages.noprojectsfound'); ?>.</p>                
+                <?php else: ?>
+                <ul>
+                    <?php $i = 1; ?>
+                    <?php foreach($projects as $project): ?>
+                    <?php if($project->projectverified == 0): ?>
+                    <li class="project-title">
+                        <a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>">
+                            <img class="project-thumb" src="<?php echo URL::asset(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::asset('main/images/projectdefault.png'); ?>'" alt="" width="40" height="40">
+                            <?php echo e($project->title); ?>
+
+                        </a>
+                    </li>
+                    <?php if ($i++ == 2) break; ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+            </div>
+            
+
+            <div class="after-menu-right">
+                <div id="prolist" style="font-size: 12px; font-weight: bold; padding: 10px 0px 5px 2px;color:orange"><h2><?php echo trans('messages.pendingprojects'); ?></h2></div>
+                <?php if($projecttype['pendingcount']==0): ?>
+                <p style='font-size: 12px;padding-bottom: 12px;color: #888;'><?php echo trans('messages.noprojectsfound'); ?>.</p>                
+                <?php else: ?>
+                <ul>
+                    <?php $i = 1; ?>
+                    <?php foreach($projects as $project): ?>
+                    <?php if($project->projectverified == 1): ?>
+                    <li class="project-title">
+                        <a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>">
+                            <img class="project-thumb" src="<?php echo URL::asset(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::asset('main/images/projectdefault.png'); ?>'" alt="" width="40" height="40">
+                            <?php echo e($project->title); ?>
+
+                        </a>
+                    </li>
+                    <?php if ($i++ == 2) break; ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+
+            </div>	
+
+
+            <div class="after-menu-right">
+                <div id="prolist" style="font-size: 12px; font-weight: bold; padding: 10px 0px 5px 2px;color:red"><h2><?php echo trans('messages.suspendedprojects'); ?></h2></div>
+                <?php if($projecttype['suspendedcount']==0): ?>
+                <p style='font-size: 12px;padding-bottom: 12px;color: #888;'><?php echo trans('messages.noprojectsfound'); ?>.</p>                
+                <?php else: ?>
+                <ul>
+                    <?php $i = 1; ?>
+                    <?php foreach($projects as $project): ?>
+                    <?php if($project->projectverified == 3): ?>
+                    <li class="project-title">
+                        <a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>">
+                            <img class="project-thumb" src="<?php echo URL::asset(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::asset('main/images/projectdefault.png'); ?>'" alt="" width="40" height="40">
+                            <?php echo e($project->title); ?>
+
+                        </a>
+                    </li>
+                    <?php if ($i++ == 2) break; ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+               
+            </div>
+
+            <div class="after-menu-right">
+                <div id="prolist" style="font-size: 12px; font-weight: bold; padding: 10px 0px 5px 2px;color:red"><h2><?php echo trans('messages.expiredprojects'); ?></h2></div>
+                <ul>
+                    <?php
+                    $i = 1;
+                    $count = 0;
+                    ?>
+                    <?php foreach($projects as $project): ?>
+                    <?php if($project->dayscount <0 && $project->projectverified==2): ?>
+                    <li class="project-title">
+                        <a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>">
+                            <img class="project-thumb" src="<?php echo URL::asset(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::asset('main/images/projectdefault.png'); ?>'" alt="" width="40" height="40">
+                            <?php echo e($project->title); ?>
+
+                        </a>
+                    </li>
+                    <?php $count++;
+                    if ($i++ == 2)
+                        break;
+                    ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                    <?php if($count==0): ?>
+                    <p style='font-size: 12px;padding-bottom: 12px;color: #888;'><?php echo trans('messages.noprojectsfound'); ?>.</p>  
+                    <?php endif; ?>
+                </ul>
+                 <a class="viewall" href="<?php echo URL::to('createdprojects'); ?>"><?php echo trans('messages.viewall'); ?></a>
+            </div>
+
+            <?php else: ?>
+            <div class="after-menu-right">
+                <h3><?php echo trans('messages.createdprojects'); ?></h3>
+                <p style='color:#999;font-size:14px;'><?php echo trans('messages2.none'); ?>!</p>
+            </div>
+            <?php endif; ?>
+            
+            
+            <div class="botom-divs">
+                <p> <?php echo trans('messages.loggedin'); ?>
+
+                    <b><?php echo Session::get('name');; ?></b>
+                    <span class="mobile-show"></span>
+                    <a href="<?php echo URL::to('userlogout');; ?>"><?php echo trans('messages.logout'); ?></a></p>
+            </div>
+            </div>
+            
+            </div>
+
+        </div>
+    </div>
+
+</header>
+<script>
+    $(document).ready(function () {
+		//$('.nav-collapse').addClass('collapse');
+		
+        $('#profile').click(function (event) {
+            event.stopPropagation();
+            $("#profile-display").slideToggle("fast");
+        });
+        $("#profile-display").on("click", function (event) {
+            event.stopPropagation();
+        });
+    });
+
+    $(document).on("click", function () {
+        $("#profile-display").hide();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#btnAdd').click(function () {
+            $selected_country = $('#selected_country option:selected').value;
+           // alert($selected_country);
+        });
+    });
+
+//    $(document).ready(function () {
+//        $i = 1;
+//        var vals = "";
+//        $('#btnAdd').click(function () {
+//            $i++;
+//            $selected_country = $('#selected_country option:selected').text();
+//            alert($selected_country);
+//            $selected_country = encodeURIComponent($selected_country);
+//            //$('#stimg').show();
+//            $.get('loadshippinglist/' + $i + '/' + $selected_country, function (data) {
+//                alert(data);
+//                $("#tbNames tr:last").after(data);
+//                $('#stimg').hide();
+//            });
+//        }
+//        );
+//
+//        $('#tbNames td a.fa-close').click(function () {
+//            rem_ship_loc = "#shipping_to_" + this.id;
+//            vals = $(rem_ship_loc).val() + ':';
+//            var arraySelects = document.getElementsByClassName('shipping_to');
+//            var selectedOption = $(rem_ship_loc).attr("selectedIndex")
+//            for (var k = 0; k < arraySelects.length; k++)
+//            {
+//                if (this.id != 2) {
+//                    //arraySelects[k].options[selectedOption].disabled = false;	
+//                }
+//            }
+//            var selected_country = $('#selected_country').html();
+//            var rem = selected_country.replace(vals, "");
+//            $('#selected_country').html(rem);
+//            $(this).parent().parent().remove();
+//        });
+//    }
+//
+//    );
+</script>

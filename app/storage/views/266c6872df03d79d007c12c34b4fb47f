@@ -1,0 +1,134 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Slider List</h6>
+                </div>
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Slider Name
+                                </th>
+                                <th>
+                                    Slider Title
+                                </th>
+                                <th>
+                                    Slider Image
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($sliders as $slider): ?>
+                            <tr>
+                                <td class="sdate center">
+                                    <?php echo $slider->id; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $slider->slidername; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $slider->slidertitle; ?>
+
+                                </td>
+                                <td class="center">
+                                    <img src="<?php echo $slider->sliderimage; ?>" width="56" height="56" alt="slider" >
+                                </td>
+                                <td class="center">
+                                    <?php if($slider->status=='active'): ?>
+                                    <a title="Click to inactive" class="tip_top" href="javascript:confirm_status('sliderstatus/<?php echo $slider->id; ?>/<?php echo $slider->status; ?>');">
+                                        <span class="badge_style b_done"><?php echo $slider->status; ?></span></a>
+                                    <?php else: ?>
+                                    <a title="Click to active" class="tip_top" href="javascript:confirm_status('sliderstatus/<?php echo $slider->id; ?>/<?php echo $slider->status; ?>');">
+                                        <span class="badge_style b_pending"><?php echo $slider->status; ?></span></a>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('2', $Slider)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('editslider?id='); ?><?php echo $slider->id; ?>" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('3', $Slider)): ?>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" href="#" onclick="confirmation('<?php echo $slider->id; ?>')" title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Slider Name
+                                </th>
+                                <th>
+                                    Slider Title
+                                </th>
+                                <th>
+                                    Slider Image
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+            function confirmation(id) {
+            var answer = confirm("Are you sure to delete this record?")
+                    if (answer) {
+            location.href = 'deleteslider?id=' + id;
+            }
+            else {
+            return false;
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,130 @@
+<?php $__env->startSection('content'); ?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Subadmin List</h6>
+                </div>
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Last Login Date
+                                </th>
+                                <th>
+                                    Last Login IP
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($subadmins as $subadmin): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $subadmin->id; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $subadmin->name; ?> 
+                                </td > 
+                                <td class="center">
+                                    <?php echo $subadmin->email; ?> 
+                                </td > 
+                                <td class="center">
+                                    <?php echo $subadmin->lastlogindate; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $subadmin->lastloginip; ?>                                    
+                                </td>
+                                <td class="center sdate">
+                                    <?php if($subadmin->status=='active'): ?>
+                                    <a title="Click to inactive" class="tip_top" href="javascript:confirm_status('subadminstatus/<?php echo $subadmin->id; ?>/<?php echo $subadmin->status; ?>');">
+                                        <span class="badge_style b_done"><?php echo $subadmin->status; ?></span></a>
+                                    <?php else: ?>
+                                    <a title="Click to active" class="tip_top" href="javascript:confirm_status('subadminstatus/<?php echo $subadmin->id; ?>/<?php echo $subadmin->status; ?>');">
+                                        <span class="badge_style b_pending"><?php echo $subadmin->status; ?></span></a>
+                                    <?php endif; ?>
+                                </td>                               
+                                <td class="center">
+                                    <span><a class="action-icons c-approve" href="<?php echo URL::to('viewsubadmin?id='); ?><?php echo $subadmin->id; ?>" title="View">View</a></span>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('editsubadmin?id='); ?><?php echo $subadmin->id; ?>" title="Edit">Edit</a></span>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" onclick="confirmation('<?php echo $subadmin->id; ?>');" href="#" title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>                    
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Last Login Date
+                                </th>
+                                <th>
+                                    Last Login IP
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+            function confirmation(id) {
+            var answer = confirm("Are you sure to delete this record?")
+                    if (answer){
+            location.href = 'deletesubadmin?id=' + id;
+            }
+            else{
+            return false;
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

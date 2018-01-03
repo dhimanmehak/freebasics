@@ -1,0 +1,431 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+
+<div class="page_title">
+    <span class="title_icon"><span class="computer_imac"></span></span>
+    <h3>Dashboard</h3>   
+</div>
+
+<div id="content">
+    <div class="grid_container">
+
+        <div class="social_activities">
+            <a <?php if($admintype=="super"): ?> href="<?php echo URL::to('userlist'); ?>" <?php else: ?> <?php if(isset($User)): ?>href="<?php echo URL::to('userlist'); ?>" <?php else: ?> href="javascript:void(0);" <?php endif; ?> <?php endif; ?>><div class="activities_s thems1">
+                    <div class="block_label">
+                        Total Users<span><?php echo $usercount; ?></span>
+                    </div>
+                    <span class="badge_icon customers_sl"></span>
+
+                </div></a>
+            <a <?php if($admintype=="super"): ?> href="<?php echo URL::to('projectlist'); ?>" <?php else: ?> <?php if(isset($Project)): ?> href="<?php echo URL::to('projectlist'); ?>" <?php else: ?> href="javascript:void(0);" <?php endif; ?> <?php endif; ?>><div class="activities_s thems2">
+                    <div class="block_label">
+                        Total Projects<span><?php echo $projectcount; ?></span>
+                    </div>
+                    <span class="badge_icon archives_sl"></span>
+                </div></a>
+            <a <?php if($admintype=="super"): ?>  href="<?php echo URL::to('userlist?user=new'); ?>"  <?php else: ?> <?php if(isset($User)): ?> href="<?php echo URL::to('userlist?user=new'); ?>" <?php else: ?> href="javascript:void(0);" <?php endif; ?> <?php endif; ?>><div class="activities_s thems3">
+                    <div class="block_label">
+                        New Users<span><?php echo $newusercount; ?></span>
+                    </div>
+                    <span class="badge_icon user_sl"></span>
+                </div></a>
+            <div class="activities_s thems8">
+                <div class="block_label">
+                    Total Fund<span><?php echo round($totalfund); ?></span>
+                </div>
+                <span class="badge_icon bank_sl"></span>
+            </div>
+
+        </div>
+        <a <?php if($admintype=="super"): ?> href="<?php echo URL::to('verifyaccount'); ?>" <?php else: ?> <?php if(isset($Account_verification)): ?>href="<?php echo URL::to('verifyaccount'); ?>" <?php else: ?> href="javascript:void(0);" <?php endif; ?> <?php endif; ?>> <div class="social_activities">
+                <div class="activities_s thems7">
+                    <div class="block_label" style="width:127px;">
+                        Pending Approvals<span><?php echo $approvals; ?></span>
+                    </div>
+                    <span class="badge_icon finished_work_sl"></span>
+                </div> </a>
+        <a  <?php if($admintype=="super"): ?>href="<?php echo URL::to('transferfund'); ?>" <?php else: ?> <?php if(isset($Transfer_fund)): ?> href="<?php echo URL::to('transferfund'); ?>" <?php else: ?> href="javascript:void(0);" <?php endif; ?> <?php endif; ?>><div class="activities_s thems4">
+                <div class="block_label" style="width:127px;">
+                    Pending Transfers<span><?php echo $transfers; ?></span>
+                </div>
+                <span class="badge_icon communication_sl"></span>
+            </div></a>
+        <a <?php if($admintype=="super"): ?>  href="<?php echo URL::to('backinglist'); ?>"  <?php else: ?> <?php if(isset($Backing)): ?> href="<?php echo URL::to('backinglist'); ?>" <?php else: ?> href="javascript:void(0);" <?php endif; ?> <?php endif; ?>><div class="activities_s thems5">
+                <div class="block_label" style="width:127px;">
+                    Total Backings<span><?php echo $backingcount; ?></span>
+                </div>
+                <span class="badge_icon administrative_docs_sl"></span>
+            </div></a>
+        <a <?php if($admintype=="super"): ?> href="<?php echo URL::to('requestlist'); ?>" <?php else: ?> <?php if(isset($Change_request)): ?> href="<?php echo URL::to('requestlist'); ?>" <?php else: ?> href="javascript:void(0);" <?php endif; ?> <?php endif; ?>><div class="activities_s thems6">
+                <div class="block_label" style=" width: 150px;">
+                    Change Requests<span><?php echo $requestcount; ?></span>
+                </div>
+                <span class="badge_icon attibutes_sl"></span>
+            </div></a>
+
+    </div>
+
+    <div class="grid_6">
+        <div class="widget_wrap">
+            <div class="widget_top">
+                <span class="h_icon graph"></span>
+                <h6>Statistics</h6>
+            </div>
+            <div class="widget_content">
+                <div class="stat_block">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Total Backers
+                                </td>
+                                <td>
+                                    <?php echo $backercount; ?>
+
+                                </td>
+                                <td class="min_chart">
+                                    <span class="bar">20,30,50,200,250,280,350</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Total Creators
+                                </td>
+                                <td>
+                                    <?php echo $creatorcount; ?>
+
+                                </td>
+                                <td class="min_chart">
+                                    <span class="line">20,30,50,200,250,280,350</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Total Backings
+                                </td>
+                                <td>
+                                    <?php echo $backingcount; ?>
+
+                                </td>
+                                <td class="min_chart">
+                                    <span class="line">20,30,50,200,250,280,350</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="stat_chart">
+                        <div class="pie_chart">
+                            <span class="inner_circle"><?php echo $newusercount; ?>/<?php echo $usercount; ?></span>
+                            <span class="pie"><?php echo $newusercount; ?>/<?php echo $usercount; ?></span>
+                        </div>
+                        <div class="chart_label">
+                            <ul>
+                                <li><span class="new_visits"></span>New Users: <?php echo $newusercount; ?></li>
+                                <li><span class="unique_visits"></span>Total Users: <?php echo $usercount; ?></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid_6">
+        <div class="widget_wrap">
+            <div class="widget_top">
+                <span class="h_icon users"></span>
+                <h6>Recent Users</h6>
+            </div>
+            <div class="widget_content">
+                <div class="user_list">
+                    <?php foreach($recentusers as $recentuser): ?>
+                    <div class="user_block">
+                        <div class="info_block">
+                            <div class="widget_thumb">
+                                <img src="<?php echo $recentuser->image; ?>" width="40" height="40" alt="user" onerror="this.src='<?php echo URL::To('main/images/default.png');; ?>'">
+                            </div>
+                            <ul class="list_info">
+                                <li><span><b>Name:</b> <i><a <?php if($admintype=="super"): ?> href="<?php echo URL::to('viewuser?id='); ?><?php echo $recentuser->id; ?>" <?php else: ?> <?php if(isset($User)): ?>href="<?php echo URL::to('viewuser?id='); ?><?php echo $recentuser->id; ?>" <?php else: ?> href="javascript:void(0);"  <?php endif; ?>  <?php endif; ?>><?php echo $recentuser->firstname; ?> <?php echo $recentuser->lastname; ?></a></i></span></li>
+                                <li><span><b>Email: </b><?php echo $recentuser->email; ?></span> <span><b>IP:</b> <?php echo $recentuser->lastloginip; ?></span></li>
+                                <li><span><b>Last Login:</b> <?php echo $recentuser->lastlogindate; ?></span> <span><b>Login Hit:</b> <?php echo $recentuser->loginhit; ?></span></li>
+                                <li><span><b>Location:</b> <?php echo $recentuser->city; ?>,<?php echo $recentuser->state; ?>,<?php echo $recentuser->country; ?></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="clear"></span>
+
+    <?php if((($admintype=="sub")&&isset($Project))||($admintype=="super")): ?>
+    <div class="grid_12">
+        <div class="widget_wrap">
+            <div class="widget_top">
+                <span class="h_icon documents"></span>
+                <h6>Recent Projects</h6>
+            </div>
+            <div class="widget_content">						
+                <table class="display">
+                    <thead>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Project Title
+                            </th>
+                            <th>
+                                Category
+                            </th>
+                            <th>
+                                Creator
+                            </th>
+                            <th>
+                                Funding Goal
+                            </th>
+                            <th>
+                                Total Backing
+                            </th>
+                            <th>
+                                Pledge Amount
+                            </th>
+                            <th>
+                                Funding Duration
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($projects as $key=>$project): ?>
+                        <tr>
+                            <td class="center">
+                                <?php echo $key+1; ?>
+
+                            </td>
+                            <td class="center"> 
+                                <?php echo e($project->title); ?>
+
+                            </td>
+                            <td class="sdate center">
+                                <?php echo e($project->categoryname); ?>
+
+                            </td>
+                            <td class="center">
+                                <?php echo e($project->firstname); ?>
+
+                            </td>
+                            <td class="center">
+                                <?php echo e(round($project->fundinggoal)); ?>
+
+                            </td>
+                            <td class="center sdate">
+                                <?php echo $project->totalbacking; ?>
+
+                            </td>
+                            <td class="center sdate">
+                                <?php echo round($project->totalpledgeamount); ?>
+
+                            </td>
+                            <td class="center sdate">
+                                <?php echo $project->fundingduration; ?>
+
+                            </td>  
+                            <td class="center">
+                                <?php if($priv == 'all' || in_array('0', $Project)): ?>
+                                <span><a class="action-icons c-approve" href="<?php echo URL::to('viewproject?id='); ?><?php echo $project->id; ?>" original-title="View" >View</a></span>
+                                <?php endif; ?>
+                                <?php if($priv == 'all' || in_array('2', $Project)): ?>
+                                <span><a class="action-icons c-edit"  href="<?php echo URL::to('addprojectdetails?id='); ?><?php echo $project->id; ?>" title="Edit">Edit</a></span>
+                                <?php endif; ?>
+                                <?php if($priv == 'all' || in_array('3', $Project)): ?>
+                                <?php $name = Session::get('adminname'); ?>
+                                <?php if($name=="demo"): ?>
+                                <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                <?php else: ?>
+                                <span><a class="action-icons c-delete" href="#" onclick="confirmation('<?php echo $project->id; ?>')" title="delete">Delete</a></span>
+                                <?php endif; ?>
+                                <?php endif; ?>
+
+                            </td>
+                        </tr>   
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Project Title
+                            </th>
+                            <th>
+                                Category
+                            </th>
+                            <th>
+                                Creator
+                            </th>
+                            <th>
+                                Funding Goal
+                            </th>
+                            <th>
+                                Total Backing
+                            </th>
+                            <th>
+                                Pledge Amount
+                            </th>
+                            <th>
+                                Funding Duration
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+    <span class="clear"></span>
+    <?php if((($admintype=="sub")&&isset($Backing))||($admintype=="super")): ?> 
+    <div class="grid_12">
+        <div class="widget_wrap">
+            <div class="widget_top">
+                <span class="h_icon documents"></span>
+                <h6>Recent Backings</h6>
+            </div>
+            <div class="widget_content">
+                <table class="display">
+                    <thead>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Project Title
+                            </th>                                
+                            <th>
+                                Backer Name
+                            </th>  
+                            <th>
+                                Pledge Amount
+                            </th>
+                            <th>
+                                Funding Goal
+                            </th>
+                            <th>
+                                Backed On
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($recentbackings as $key=>$detail): ?>
+                        <tr>
+                            <td class="sdate center">
+                                <?php echo $key+1; ?>
+
+                            </td>                                
+                            <td class="sdate center">
+                                <?php echo e($detail->title); ?>
+
+                            </td>
+                            <td class="center">
+                                <?php echo e($detail->firstname); ?>
+
+                            </td>
+                            <td class="center">
+                                <?php echo e(round($detail->pledgeamount)); ?>
+
+                            </td>                               
+                            <td class="center sdate">
+                                <?php echo e(round($detail->fundinggoal)); ?>
+
+                            </td>
+                            <td class="center sdate">
+                                <?php echo $detail->createdon; ?>
+
+                            </td>
+                            <td class="center">
+                                <?php if($priv == 'all' || in_array('3', $Backing)): ?>
+                                <?php $name = Session::get('adminname'); ?>
+                                <?php if($name=="demo"): ?>
+                                <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                <?php else: ?>
+                                <span><a class="action-icons c-delete" onclick="confirmationbacking('<?php echo $detail->id; ?>')" href="#" title="delete">Delete</a></span>
+                                <?php endif; ?>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Project Title
+                            </th>                               
+                            <th>
+                                Backer Name
+                            </th>  
+                            <th>
+                                Pledge Amount
+                            </th>
+                            <th>
+                                Funding Goal
+                            </th>
+                            <th>
+                                Backed On
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+<span class="clear"></span>
+</div>
+<script type="text/javascript">
+                    function confirmation(id) {
+                    var answer = confirm("Are you sure to delete this record?")
+                            if (answer) {
+                    location.href = 'deleteproject?id=' + id;
+                    }
+                    else {
+                    return false;
+                    }
+                    }
+
+            function confirmationbacking(id) {
+            var answer = confirm("Are you sure to delete this record?")
+                    if (answer) {
+            location.href = 'deletebacking?id=' + id;
+            }
+            else {
+            return false;
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

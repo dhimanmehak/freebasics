@@ -1,0 +1,122 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Email Template List</h6>
+                </div>
+                <div class="widget_content">                       
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Template Name
+                                </th>
+                                <th>
+                                    Email Subject
+                                </th>     
+                                <th>
+                                    Sender Email
+                                </th>  
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($newsletters as $newsletter): ?>
+                            <tr>
+                                <td class="center sdate">
+                                    <?php echo $newsletter->id; ?>
+
+                                </td>                                
+                                <td class="center sdate">
+                                    <?php echo $newsletter->templatename; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo $newsletter->subject; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo $newsletter->senderemail; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('2', $Newsletter)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('edittemplate?id='); ?><?php echo $newsletter->id; ?>" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('3', $Newsletter)): ?>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" href="#" onclick="confirmation('<?php echo $newsletter->id; ?>');"  title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                     <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('0', $Newsletter)): ?>
+                                    <span><a class="action-icons c-approve" href="<?php echo URL::to('viewtemplate?id='); ?><?php echo $newsletter->id; ?>" title="View">View</a></span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Template Name
+                                </th>
+                                <th>
+                                    Email Subject
+                                </th>     
+                                <th>
+                                    Sender Email
+                                </th>  
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function confirmation(id) {
+        var answer = confirm("Are you sure to delete this record?")
+        if (answer) {
+            location.href = 'deletetemplate?id=' + id;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

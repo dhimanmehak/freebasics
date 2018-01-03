@@ -1,0 +1,314 @@
+<?php
+
+namespace fundstarter\storage\Backing;
+
+use fundstarter\storage\Project\ProjectRepository as ProjectRepo;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use Backing;
+use fundstarter\storage\Currency\CurrencyRepository as CurrencyRepo;
+use Crypt;
+
+class BackingRepository implements IBackingRepository {
+
+    public function all() {
+        $backing = new Backing;
+        return $backing->all();
+    }
+
+    public function create(array $input) {
+		
+	
+        $backing = new Backing;
+        $backing->userid = $input['userid'];
+        $backing->pledgeamount = $input['pledgeamount'];
+        $backing->projectid = $input['projectid'];
+        if (isset($input['name'])) {
+			
+			
+			$card_number_digits=substr($input['cardnumber'],-4);
+			$card_number='************'.$card_number_digits;
+			
+			//$cvv=Crypt::encrypt($input['cvv']);
+			$cvv='****';
+			
+            $backing->cardname = $input['name'];
+            $backing->cardnumber = $card_number;
+            $backing->expirydate = $input['month'] . '-' . $input['year'];
+            $backing->cvv = $cvv;
+            $backing->billingaddress1 = $input['address1'];
+            $backing->billingaddress2 = $input['address2'];
+            $backing->city = $input['city'];
+            $backing->postalcode = $input['postalcode'];
+            $backing->country = $input['country'];
+            $backing->stripetoken = $input['stripetoken'];
+            $backing->stripecustomerid = $input['stripecustomerid'];
+        }
+        if (isset($input['posttype'])) {
+            $backing->rewardid = $input['reward'];
+        } else {
+            $backing->rewardid = $input['rewardid'];
+        }
+        $backing->createdon = Carbon::now();
+        $backing->save();
+        return $backing->id;
+    }
+
+    public function savepaymentdetails(array $input) {
+		
+		
+        $backing = new Backing;
+        $id = $input['id'];
+        $data = $backing->find($id);
+        $data->cardname = $input['name'];
+        $data->cardnumber = $input['cardnumber'];
+        $data->expirydate = $input['month'] . '-' . $input['year'];
+        $data->cvv = $input['cvv'];
+        $data->isremember = $input['remember'];
+        $data->billingaddress1 = $input['address1'];
+        $data->billingaddress2 = $input['address2'];
+        $data->city = $input['city'];
+        $data->postalcode = $input['postalcode'];
+        $data->country = $input['country'];
+        $data->save();
+        return $data->pledgeamount;
+    }
+
+    public function update(array $input) {
+        $email = Session::get('email');
+        $id = $this->getid($email);
+        $data = $this->find($id)->first();
+        $backing->id = $input['id'];
+        $backing->userid = $input['userid'];
+        $backing->pledgeamount = $input['pledgeamount'];
+        $backing->expecteddelivery = $input['expecteddelivery'];
+        $backing->rewardid = $input['rewardid'];
+        $backing->cardname = $input['cardname'];
+        $backing->cardnumber = $input['cardnumber'];
+        $backing->expirydate = $input['expirydate'];
+        $backing->cvv = $input['cvv'];
+        $backing->isremember = $input['isremember'];
+        $backing->billingaddress1 = $input['billingaddress1'];
+        $backing->billingaddress2 = $input['billingaddress2'];
+        $backing->city = $input['city'];
+        $backing->postalcode = $input['postalcode'];
+        $backing->country = $input['country'];
+        $backing->createdon = $input['createdon'];
+        $backing->save();
+    }
+
+    public function getbyid($id) {
+        $backing = new Backing;
+        return $backing->where('id', '=', $id)->first();
+    }
+
+    public function getbackingcount() {
+        $backing = new Backing;
+       // return $backing->count();
+        return $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'backings.userid')->where('projects.projectverified', '=', 2)->count();
+    }
+
+    public function getalldetails() {
+        $backing = new Backing;
+        return $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'backings.userid')->where('projects.projectverified', '=', 2)->get(array('backings.id', 'backings.pledgeamount', 'projects.title', 'projects.fundinggoal', 'users.firstname'));
+    }
+
+    public function getbackingbyuser($userid) {
+        $backing = new Backing;
+        return $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'backings.userid')->where('backings.userid', '=', $userid)->get(array('backings.id', 'backings.pledgeamount', 'projects.title', 'projects.fundinggoal', 'users.firstname', 'backings.createdon'));
+    }
+
+    public function getbyprojectid($projectid) {
+        $backing = new Backing;
+        return $backing->join('projects', 'projects.id', '=', 'backings.projectid')->leftjoin('rewards', 'rewards.id', '=', 'backings.rewardid')->join('users', 'users.id', '=', 'backings.userid')->where('backings.projectid', '=', $projectid)->get(array('backings.id', 'backings.pledgeamount', 'projects.title', 'projects.fundinggoal', 'users.firstname', 'users.lastname', 'users.email', 'rewards.description', 'users.mobile', 'backings.createdon', 'backings.stripecustomerid'));
+    }
+
+    public function deletebyid($id) {
+        $backing = new Backing;
+        $backing->where('id', '=', $id)->delete();
+    }
+
+    public function getrecentbackings() {
+        $backing = new Backing;
+        return $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'backings.userid')->orderBy('id', 'desc')->limit(5)->get(array('backings.id', 'backings.pledgeamount', 'projects.title', 'projects.fundinggoal', 'users.firstname', 'backings.createdon'));
+    }
+
+    public function getbackercount() {
+        $backing = new Backing;
+        return $backing->join('users', 'backings.userid', '=', 'users.id')->distinct()->count('users.email');
+    }
+
+    public function getcomputeddetails() {
+        $backing = new Backing;
+        $details = $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'backings.userid')->get(array('backings.id', 'backings.pledgeamount', 'projects.title', 'projects.fundinggoal', 'users.firstname', 'projects.fundingduration', 'projects.createdon'));
+        foreach ($details as $detail) {
+            $created = new Carbon($detail['createdon']);
+            $today = Carbon::now();
+            $difference = $created->diffInDays($today);
+            $dayscount = $detail['fundingduration'] - $difference;
+            $detail['dayscount'] = $dayscount;
+        }
+        return $details;
+    }
+
+    public function gettodaybackingcount() {
+        $backing = new Backing;
+        $today = Carbon::now()->toDateString();
+        //->join('payments', 'payments.backingid', '=', 'backings.id')
+        return $backing->where('backings.createdon', '=', $today)->count();
+    }
+
+    /* =======User============ */
+
+    public function getbackingbyuserid($id) {
+        $backing = new Backing;
+        $temp= $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'backings.userid')->join('categories', 'categories.id', '=', 'projects.categoryid')->where('backings.userid', '=', $id)->get(array('projects.id', 'projects.title', 'projects.fundinggoal', 'projects.totalbacking', 'projects.shortblurb', 'projects.projectvideo', 'projects.totalpledgeamount','projects.projectimage', 'users.lastname', 'users.firstname','categories.categoryname','projects.endingon'));
+            foreach ($temp as $t) {
+            $endingon = new Carbon($t['endingon']);
+            $today = Carbon::now();
+            $difference = $today->diffInDays($endingon, false);
+            $t['dayscount'] = $difference;
+            $t['enddate'] = $endingon;
+            if (Session::has('currency')) {
+                $tocurrency = Session::get('currency');
+                $currencyrepo = new CurrencyRepo;
+                $currencyid = $currencyrepo->getidbytype($tocurrency);
+                $currecny = $currencyrepo->getcurrencybyid($currencyid);
+                $rate = $currecny['currencyrate'];
+                $symbol = $currecny['currencysymbol'];
+                $t['rate'] = $rate;
+                $t['currencysymbol'] = $symbol;
+            } else {
+                $t['rate'] = 1;
+            }
+        }
+        return $temp;
+    }
+
+    public function getbackingdetailsbyuserid($id, $projectid) {
+        $backing = new Backing;
+        return $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'backings.userid')->where('backings.userid', '=', $id)->where('backings.projectid', '=', $projectid)->first(array('projects.id', 'projects.title', 'projects.projectimage', 'users.lastname', 'users.firstname'));
+    }
+
+    public function creatorbackedprojects($id) {
+        $backing = new Backing;
+        $temp = $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'projects.userid')->join('countries', 'projects.location', '=', 'countries.id')->join('categories', 'categories.id', '=', 'projects.categoryid')->where('backings.userid', '=', $id)->get(array('projects.id', 'projects.title', 'projects.fundinggoal', 'projects.totalbacking', 'projects.shortblurb', 'projects.projectvideo', 'projects.totalpledgeamount', 'projects.fundingduration', 'projects.isfunded', 'projects.description', 'projects.createdon', 'projects.risks', 'categories.categoryname', 'users.firstname', 'projects.projectimage', 'countries.countryname', 'backings.pledgeamount', 'projects.endingon','projects.likes'));
+        foreach ($temp as $t) {
+            $endingon = new Carbon($t['endingon']);
+            $today = Carbon::now();
+            $difference = $today->diffInDays($endingon, false);
+            $t['dayscount'] = $difference;
+            $t['enddate'] = $endingon;
+        }
+        return $temp;
+    }
+
+    public function getbackedprojectsbyuserid($id) {
+        $backing = new Backing;
+        $temp = $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('rewards', 'rewards.id', '=', 'backings.rewardid')->join('users', 'users.id', '=', 'projects.userid')->join('countries', 'projects.location', '=', 'countries.id')->join('categories', 'categories.id', '=', 'projects.categoryid')->where('backings.userid', '=', $id)->get(array('projects.id', 'projects.title', 'projects.fundinggoal', 'projects.totalbacking', 'projects.shortblurb', 'projects.projectvideo', 'projects.totalpledgeamount', 'projects.fundingduration', 'projects.isfunded', 'projects.description', 'projects.createdon', 'projects.risks', 'categories.categoryname', 'users.firstname', 'projects.projectimage', 'countries.countryname', 'backings.pledgeamount', 'rewards.description', 'projects.endingon'));
+        foreach ($temp as $t) {
+            $endingon = new Carbon($t['endingon']);
+            $today = Carbon::now();
+            $difference = $today->diffInDays($endingon, false);
+            $t['dayscount'] = $difference;
+            $t['enddate'] = $endingon;
+        }
+        return $temp;
+    }
+
+    public function getbackednorewardprojectsbyuserid($id) {
+        $backing = new Backing;
+        $temp = $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'projects.userid')->join('countries', 'projects.location', '=', 'countries.id')->join('categories', 'categories.id', '=', 'projects.categoryid')->where('backings.userid', '=', $id)->where('backings.rewardid', '=', 0)->get(array('projects.id', 'projects.title', 'projects.fundinggoal', 'projects.totalbacking', 'projects.shortblurb', 'projects.projectvideo', 'projects.totalpledgeamount', 'projects.fundingduration', 'projects.isfunded', 'projects.description', 'projects.createdon', 'projects.risks', 'categories.categoryname', 'users.firstname', 'projects.projectimage', 'countries.countryname', 'backings.pledgeamount', 'projects.endingon'));
+        foreach ($temp as $t) {
+            $endingon = new Carbon($t['endingon']);
+            $today = Carbon::now();
+            $difference = $today->diffInDays($endingon, false);
+            $t['dayscount'] = $difference;
+            $t['enddate'] = $endingon;
+        }
+        return $temp;
+    }
+
+    public function getrecentbackedprojectsbyuserid($id) {
+        $backing = new Backing;
+        $today = Carbon::now();
+        $yesterday = new Carbon('yesterday');
+        $todaydate = $today->toDateString();
+        $yesterdaydate = $yesterday->toDateString();
+        $temp = $backing->join('projects', 'projects.id', '=', 'backings.projectid')->join('users', 'users.id', '=', 'projects.userid')->join('countries', 'projects.location', '=', 'countries.id')->join('categories', 'categories.id', '=', 'projects.categoryid')->where('backings.userid', '=', $id)
+                        ->where(function ($query)use($todaydate, $yesterdaydate) {
+                            $query->where('backings.createdon', '=', $todaydate)->orwhere('backings.createdon', '=', $yesterdaydate);
+                        })->get(array('projects.id', 'projects.title', 'projects.fundinggoal', 'projects.totalbacking', 'projects.shortblurb', 'projects.projectvideo', 'projects.totalpledgeamount', 'projects.fundingduration', 'projects.isfunded', 'projects.description', 'projects.createdon', 'projects.risks', 'categories.categoryname', 'users.firstname', 'projects.projectimage', 'countries.countryname', 'backings.pledgeamount', 'projects.endingon'));
+        foreach ($temp as $t) {
+            $endingon = new Carbon($t['endingon']);
+            $today = Carbon::now();
+            $difference = $today->diffInDays($endingon, false);
+            $t['dayscount'] = $difference;
+            $t['enddate'] = $endingon;
+        }
+        return $temp;
+    }
+
+    public function checkexists($userid, $id) {
+        $backing = new Backing;
+        return $backing->where('userid', '=', $userid)->where('projectid', '=', $id)->pluck('id');
+    }
+
+    public function getbackersbyprojectid($projectid) {
+        $backing = new Backing;
+        return $backing->join('users', 'users.id', '=', 'backings.userid')->where('backings.projectid', '=', $projectid)->where('users.backerupdates', '=', 1)->get(array('users.email', 'users.firstname'));
+    }
+
+    public function getallbackersbyprojectid($projectid) {
+        $backing = new Backing;
+        return $backing->leftjoin('rewards', function($join) {
+                    $join->on('backings.rewardid', '=', 'rewards.id');
+                })->join('users', 'users.id', '=', 'backings.userid')->join('projects', 'projects.id', '=', 'backings.projectid')->where('backings.projectid', '=', $projectid)->get(array('backings.id', 'users.firstname', 'users.lastname', 'rewards.description', 'backings.pledgeamount', 'backings.userid', 'backings.createdon', 'backings.status'));
+    }
+
+    public function getallbackerswithoutrewardbyprojectid($projectid) {
+        $backing = new Backing;
+        return $backing->join('users', 'users.id', '=', 'backings.userid')->join('projects', 'projects.id', '=', 'backings.projectid')->where('backings.projectid', '=', $projectid)->where('backings.rewardid', '=', 0)->get(array('backings.id', 'users.firstname', 'users.lastname', 'backings.pledgeamount', 'backings.userid', 'backings.createdon', 'backings.status'));
+    }
+
+    public function deletebacking($id) {
+        $backing = new Backing;
+        $backing->where('id', '=', $id)->delete();
+    }
+
+    public function updaterewardstatus($id) {
+		
+		echo $id;
+		
+		echo 'reward';
+		
+        $backing = new Backing;
+        $data = $backing->find($id);
+		
+		print_r($data);
+		
+        if ($data->status == 0) {
+            $data->status = 1;
+        } else {
+            $data->status = 0;
+        }
+        $data->save();
+    }
+
+    public function getalreadybacked($userid, $projectid) {
+        $backing = new Backing;
+        return $backing->where('projectid', '=', $projectid)->where('userid', '=', $userid)->get();
+    }
+
+    public function gethighestpledge() {
+        $backing = new Backing;
+        return $backing->max('pledgeamount');
+    }
+
+    public function updatechargeid($id, $chargeid) {
+        $backing = new Backing;
+        return $backing->where('id', '=', $id)->update(array('stripechargeid' => $chargeid));
+    }
+
+}

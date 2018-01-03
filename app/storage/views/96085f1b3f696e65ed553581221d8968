@@ -1,0 +1,65 @@
+<?php $__env->startSection('content'); ?>
+<section>
+    <div class="strip-page">
+        <div class="container">
+            <?php if(Session::has('success')): ?>
+            <div class="alert-message success">
+                <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <?php if(Session::has('failed')): ?>
+            <div class="alert-message error">
+                <?php echo Session::get('failed');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="strip-holder">
+                <?php if($userdetail->live_stripe_access_token!='' || $userdetail->sandbox_stripe_access_token!=''): ?>
+                <h2><?php echo trans('messages2.stripeaccountstatus'); ?></h2>
+                <?php else: ?>
+                <h2 class='connect-stripe'><?php echo trans('messages2.connectyourstripecccount'); ?></h2>
+                <?php endif; ?> 
+                <?php if($mode=="sandbox"): ?>
+                <?php if($userdetail->sandbox_stripe_access_token!=''): ?>
+                <div class="sucfulycnted">
+               <span><i class="fa fa-thumbs-o-up"></i> <?php echo trans('messages2.successfullyconnectedwithstripe'); ?></span> 
+				</div>
+				<div class="new_disconnect_stripe">
+				 <form id="stripe" action="">
+					<span><i class=""></i>
+								<a class="bluebtn" style="float: left; margin-left: 125px;" href='<?php echo URL::to('disconnectstripe');; ?>'>Disconnect With Stripe</a></span>
+								</form>
+					</div>
+            </div>
+                <?php else: ?> 
+                <span class="stripe-connect-span">
+                    <a class="pro-btn stripe-connect" style="" href='<?php echo $stripeauthorizeurl;; ?>'><?php echo trans('messages2.connectwithstripe'); ?></a>
+                </span>
+                <?php endif; ?>
+                <?php else: ?> 
+                <?php if($userdetail->live_stripe_access_token!=''): ?>
+					
+             <div class="sucfulycnted">
+               <span><i class="fa fa-thumbs-o-up"></i> <?php echo trans('messages2.successfullyconnectedwithstripe'); ?></span> 
+
+            </div>
+			<div class="new_disconnect_stripe">
+				 <form id="stripe" action="">
+					<span><i class=""></i>
+								<a class="bluebtn" style="float: left; margin-left: 125px;" href='<?php echo URL::to('disconnectstripe');; ?>'>Disconnect With Stripe</a></span>
+								</form>
+					</div>
+            </div>
+                <?php else: ?> 
+                <span class="stripe-connect-span">
+                    <a class="pro-btn stripe-connect" href='<?php echo $stripeauthorizeurl;; ?>'><?php echo trans('messages2.connectwithstripe'); ?></a>
+                </span>
+                <?php endif; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

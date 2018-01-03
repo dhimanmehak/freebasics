@@ -1,0 +1,242 @@
+<?php $__env->startSection('content'); ?>
+<section>
+<div class="col-md-12 text-center">
+
+	 <ul class="project_circle_edit">  
+	  
+  <li><a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">1</a><span><a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">Project Details</a></span></li>
+  <li><a href="<?php echo URL::to('project/reward'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">2</a><span><a href="<?php echo URL::to('project/reward'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">Incentives to supporters</a></span></li>
+  <li><a href="<?php echo URL::to('project/story'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">3</a><span><a href="<?php echo URL::to('project/story'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">Social Impact</a></span></li>
+  <li><a href="<?php echo URL::to('project/preview'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">4</a><span><a href="<?php echo URL::to('project/preview'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">Submit</a></span></li>
+   <li><a href="<?php echo URL::to('project/updates'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">5 </a><span><a href="<?php echo URL::to('project/updates'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">Updates</a></span></li>
+  <li class="active"><a href="<?php echo URL::to('project/backers'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">6 </a><span><a href="<?php echo URL::to('project/backers'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">Donors</a></span></li>
+  <li><a href="<?php echo URL::to('project/faq'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">7</a><span><a href="<?php echo URL::to('project/faq'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>">FAQ's</a></span></li>
+   </ul>         
+</div>				
+				
+    <div class="preview-top">
+        <div class="container">
+
+            <div class="step-head" style="display:none;">
+                <ol id="" class="steps-navgiaton">
+                    <li  class="stp1 ">
+                        <a class="a" href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>" <?php if($basicstatus==1): ?>style=" color:#020;font-weight: bold;"<?php endif; ?>><i class="fa fa-check-circle" <?php if($basicstatus==1): ?>style="color:#2bde73;"<?php endif; ?>></i> <?php echo trans('messages.basics'); ?> </a>
+                    </li>
+                    <li class="stp1 ">
+                        <a class="a" href="<?php echo URL::to('project/reward'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>" <?php if($rewardstatus==1): ?>style="color:#020;font-weight: bold;"<?php endif; ?>><i class="fa fa-check-circle" <?php if($rewardstatus==1): ?>style="color:#2bde73;"<?php endif; ?>></i> <?php echo trans('messages.rewards'); ?> </a>
+                    </li>
+                    <li class="stp1">
+                        <a class="a" href="<?php echo URL::to('project/story'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>" <?php if($storystatus==1): ?>style="color:#020;font-weight: bold;"<?php endif; ?>><i class="fa fa-check-circle" <?php if($storystatus==1): ?>style="color:#2bde73;"<?php endif; ?>></i> <?php echo trans('messages.story'); ?> </a>
+                    </li>
+                    <!-- <li class="stp1">
+                        <a class="a" href="<?php echo URL::to('project/about'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>" <?php if($aboutstatus==1): ?>style="color:#020;font-weight: bold;"<?php endif; ?>><i class="fa fa-check-circle" <?php if($aboutstatus==1): ?>style="color:#2bde73;"<?php endif; ?>></i> <?php echo trans('messages.aboutyou'); ?> </a>
+                    </li>
+                    <li class="stp1">
+                        <a class="a" href="<?php echo URL::to('project/account'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>" <?php if($accountstatus==1): ?>style="color:#020;font-weight: bold;"<?php endif; ?>><i class="fa fa-check-circle" <?php if($accountstatus==1): ?>style="color:#2bde73;"<?php elseif($accountstatus==2): ?>style="color:#ffffc9;" <?php elseif($accountstatus==3): ?>style="color:#fc875f;" <?php endif; ?>></i> <?php echo trans('messages.account'); ?> </a>
+                    </li> -->
+                </ol>
+
+
+                <ol id="" class="steps-navgiaton">
+                    <li class="stp1 ">
+                        <a class="a" href="<?php echo URL::to('project/preview'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>"> <?php echo trans('messages.preview'); ?> </a>
+                    </li>
+                </ol>
+
+
+                <ol id="" class="steps-navgiaton">
+                    <li class="stp1">
+                        <a class="a" href="<?php echo URL::to('project/updates'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>"> <?php echo trans('messages.updates'); ?> </a>
+                    </li>
+                </ol>
+
+                <ol id="" class="steps-navgiaton">
+                    <li class="stp1 active">
+                        <a class="a" href="<?php echo URL::to('project/backers'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>"> <?php echo trans('messages.capsbackers'); ?> </a>
+                    </li>
+                </ol>
+                
+                 <ol id="" class="steps-navgiaton">
+                    <li class="stp1">
+                        <a class="a" href="<?php echo URL::to('project/faq'); ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>"> <?php echo trans('messages.faq'); ?> </a>
+                    </li>
+                </ol>
+
+            </div>
+
+            <div class="title-lined">
+                <?php if(Session::has('success')): ?>
+                <div class="alert-message success">
+                    <?php echo Session::get('success');; ?>
+
+                </div>
+                <?php endif; ?>
+                <span>Bunch of Donors<!-- <?php echo trans('messages.bunchofbackers'); ?>--></span>
+                <p><?php echo trans('messages.spacetohavelook'); ?>. </p>
+            </div>
+            <div class="middle-containers">     
+                <?php if($backingdetails =='[]'): ?>
+                <center><h1>You can view your project donors here if your project is backed!<!-- <?php echo trans('messages.projectbackersview'); ?> --></h1></center>
+                <?php else: ?>
+                <center><h1><?php echo trans('messages.backerswithreward'); ?></h1></center>
+
+             <div class="table-space-container">
+                <table class="table-bordered table-striped table-condensed" id="tableID"> 
+                    <tbody class="backerslist">
+                        <tr style="font-weight: bold;">
+                            <td>S.no</td>
+                            <td style="width:15%"><?php echo trans('messages.backername'); ?></td>
+                            <td style="width:40%"><?php echo trans('messages.selectedreward'); ?></td>
+                            <td><?php echo trans('messages.pleadegeamount'); ?></td>
+                            <td style="width: 10%;"><?php echo trans('messages.backedon'); ?></td>
+                            <td><?php echo trans('messages.sendmsg'); ?></td>
+                            <td><?php echo trans('messages.rewardstatus'); ?></td>
+                        </tr>
+                        <?php foreach($backingdetails as $key=>$backing): ?>     
+                        <tr>                                                                             
+                            <td style="display:none"><input type="text" value="3" name="id"></td>
+                            <td><?php echo $key+1; ?></td>
+                            <td><?php echo $backing->firstname; ?> <?php echo $backing->lastname; ?></td>
+                            <td class="message-desc"><?php echo $backing->description; ?></td> 
+                            <td><?php echo $backing->pledgeamount; ?></td>                        
+                            <td><?php echo $backing->createdon; ?></td>
+                            <td><a class="Contact-me-popup btn-gren sendmessage" href="#" data-id='<?php echo $backing->userid; ?>' data-name='<?php echo $backing->firstname; ?> <?php echo $backing->lastname; ?>' data-toggle="modal" data-target="#ContactModal"><?php echo trans('messages.message'); ?> </a></td>
+                            <td><?php if($backing->status==1): ?>
+                                <form action='<?php echo URL::to('project/postrewardstatus'); ?>' method='post'><input type='hidden' value='<?php echo $backing->id; ?>' name='backingid'><input type='submit' value='<?php echo trans('messages.sent'); ?>' class="btn-gren" ></form>
+                                <?php else: ?>
+                                <form action='<?php echo URL::to('project/postrewardstatus'); ?>' method='post'><input type='hidden' value='<?php echo $backing->id; ?>' name='backingid'><input type='submit' value='<?php echo trans('messages2.notsent'); ?>' class="btn-gren" style="background:#D8000C"></form>
+                                <?php endif; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+                </div>
+                <?php endif; ?>
+                <?php if($withoutrewards!='[]'): ?>
+                <center><h1><?php echo trans('messages.backerswithreward'); ?></h1></center>
+                 <div class="table-space-container">
+                <table class="table-bordered table-striped table-condensed" id="tableID"> 
+                    <tbody class="backerslist">
+                        <tr style="font-weight: bold;">
+                            <td>S.no</td>
+                            <td style="width:35%"><?php echo trans('messages.backername'); ?></td>
+                            <td style="width:25%"><?php echo trans('messages.pleadegeamount'); ?></td>
+                            <td style="width:20%"><?php echo trans('messages.backedon'); ?></td>
+                            <td style="width:25%"><?php echo trans('messages.sendmsg'); ?></td>
+                        </tr>
+                        <?php foreach($withoutrewards as $reward): ?> 
+                        <tr>
+                            <td style="display:none"><input type="text" value="3" name="id"></td>
+                            <td>1</td>
+                            <td><?php echo $reward->firstname; ?> <?php echo $reward->lastname; ?></td>
+                            <td><?php echo $reward->pledgeamount; ?></td>                        
+                            <td><?php echo $reward->createdon; ?></td>
+                            <td><a class="Contact-me-popup btn-gren sendmessage" href="#" data-id='<?php echo $reward->userid; ?>' data-name='<?php echo $reward->firstname; ?> <?php echo $reward->lastname; ?>' data-toggle="modal" data-target="#ContactModal"><?php echo trans('messages.message'); ?> </a></td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <ul class="alt-tools right list-inline ml1 mt2">
+                <li class="mr2">
+                    <i class="fa fa-close"></i>
+                    <a class="inline-block py1 delete-project grey-dark h5" href="<?php echo URL::to('project/delete');; ?>/<?php echo Crypt::encrypt($projectdetails->id); ?>" title="Delete this project">
+                        <?php echo trans('messages.deleteproject'); ?>
+
+                    </a></li>
+            </ul>
+        </div>
+</section>
+<!-- /.forgot password container -->
+
+<?php if(Session::has('email')): ?>
+<div class="modal modal-forg fade" id="ContactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo trans('messages.sendmessage'); ?> <?php echo trans('messages.smallto'); ?> <span class='user'></span></h4>
+            </div> 
+            <div class="modal-body">
+                <span><b><?php echo trans('messages.to'); ?>:</b></span><span class='username'></span><br>
+                <form class="pop-forms" style="margin-top: 20px;" method='post' action='<?php echo URL::to('postmessage'); ?>' onsubmit="return validation();">
+                    <input type="hidden" name="recieverid" class='userid'> 
+                    <textarea name="message" rows="5" id="messagebox"></textarea>
+                    <p class="help-block" id="error-block" style="display:none"><?php echo trans('messages.messagecannotnull'); ?>!</p>
+                    <input class="popup-btn" value="<?php echo trans('messages.sendmessage'); ?>" type="submit">
+                </form>
+            </div> 
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<?php else: ?>
+<div class="modal modal-forg fade" id="ContactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo trans('messages.loginrequired'); ?>!</h4>
+            </div> <!-- /.modal-header -->
+            <div class="modal-body">
+                <p><?php echo trans('messages.loginrequiredmessage'); ?>!</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<?php endif; ?>
+<style>
+    .backerslist tr td{
+        padding: 10px !important;
+        font-size: 14px;
+    }
+
+
+    .backerslist tr td .btn-gren{
+        margin: 10px 0 0;
+        padding: 6px 10px;
+    }
+
+</style>
+<script>
+    $(document).on("click", ".sendmessage", function () {
+        var userid = $(this).data('id');
+        var name = $(this).data('name');
+        $(".pop-forms .userid").val(userid);
+        $(".modal-body .username").text(name);
+        $(".modal-title .user").text(name);
+    });
+
+    function validation() {
+        var x = document.getElementById("messagebox").value;
+        if (x == '') {
+            var doc = document.getElementById("error-block");
+            doc.style.display = "block";
+            return false;
+        }
+    }
+
+</script>
+<script>
+$(document).ready(function() {
+	var formdata	=  $('#form').serialize();
+  $('.a').on('click', function()  {
+  	if (formdata!= $('#form').serialize()) {
+			if(window.onbeforeunload = function() { 
+		   		 var confirmationMessage = 'It looks like you have been editing something.';
+		       	 confirmationMessage += 'If you leave before saving, your changes will be lost.';
+		   		 return confirmationMessage; 
+	        });
+	}
+  });
+ });
+ $('form').submit(function () {
+    				window.onbeforeunload = null;
+	});
+</script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,99 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Payment Gateway</h6>
+                </div>
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>                         
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Gateway Name
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($paymentgateways as $paymentgateway): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $paymentgateway->id; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $paymentgateway->gatewayname; ?>
+
+                                </td>
+
+                                <td class="center">
+                                    <?php if($paymentgateway->status=='active'): ?>
+                                    <a title="Click to inactive" class="tip_top" href="javascript:confirm_status('paymentgatewaystatus/<?php echo $paymentgateway->id; ?>/<?php echo $paymentgateway->status; ?>');">
+                                        <span class="badge_style b_done"><?php echo $paymentgateway->status; ?></span></a>
+                                    <?php else: ?>
+                                    <a title="Click to active" class="tip_top" href="javascript:confirm_status('paymentgatewaystatus/<?php echo $paymentgateway->id; ?>/<?php echo $paymentgateway->status; ?>');">
+                                        <span class="badge_style b_pending"><?php echo $paymentgateway->status; ?></span></a>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('0', $Payment_gateway)): ?><span><a class="action-icons c-edit" href="<?php echo URL::to('editpaymentgateway?id='); ?><?php echo $paymentgateway->id; ?>" title="Edit">Edit</a></span> <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Gateway Name
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

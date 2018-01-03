@@ -1,0 +1,126 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<style>
+    textarea[name=remarks] {resize: none;}    
+</style>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Comments List</h6>
+                </div>
+                <div class="widget_content">                   
+                    <table class="display data_tbl" id="projecttable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Comments
+                                </th>                                
+                                <th>
+                                    User Name
+                                </th>                                
+                                <th>
+                                    Created on
+                                </th>
+                                <th>
+                                    Action
+                                </th>                            
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            <?php foreach($comments as $key=>$comment): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td class="center"> 
+                                    <?php echo e($comment->comment); ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $comment->username; ?>
+
+                                </td>                                
+                                <td class="center sdate">
+                                    <?php echo $comment->postedon; ?>
+
+                                </td>                                
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('0', $Comment)): ?>
+                                    <span><a class="action-icons c-approve" href="<?php echo URL::to('viewcomment?id='); ?><?php echo $comment->id; ?>" original-title="View" >View</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('2', $Comment)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('editcomment?id='); ?><?php echo $comment->id; ?>" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('3', $Comment)): ?>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" href="#" onclick="confirmation('<?php echo $comment->id; ?>')" title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>                           
+                            </tr>   
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                           <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Comments
+                                </th>                                
+                                <th>
+                                    User Name
+                                </th>                                
+                                <th>
+                                    Created on
+                                </th>
+                                <th>
+                                    Action
+                                </th>                            
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function confirmation(id) {
+        var answer = confirm("Are you sure to delete this record?")
+        if (answer) {
+            location.href = 'deletecomment?id=' + id;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

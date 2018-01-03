@@ -1,0 +1,112 @@
+<?php $__env->startSection('content'); ?> 
+<section>
+    <div class="account">
+        <div class="container">
+            <div class="">
+                <?php if(Session::has('success')): ?>
+                <div class="alert-message success" style='margin-top: 2%;'>
+                    <?php echo Session::get('success');; ?>
+
+                </div>
+                <?php endif; ?>
+                <h3 class="seting col-md-12"><?php echo trans('messages.settings'); ?></h3>
+                <ul class="setig-li col-md-12">
+                    <li><a href="<?php echo URL::to('myaccount'); ?>"><?php echo trans('messages.account'); ?></a> </li>
+                    <li><a href="<?php echo URL::to('editprofile'); ?>"> <?php echo trans('messages.editprofile'); ?> </a></li>
+                    <li><a href="<?php echo URL::to('privacysettings'); ?>"> <?php echo trans('messages.privacysettings'); ?> </a></li>
+                    <li><a  class="active" href="<?php echo URL::to('notifications'); ?>"> <?php echo trans('messages.notifications'); ?></a> </li>
+                    <li><a href="<?php echo URL::to('findfriends'); ?>"> <?php echo trans('messages.findfriends'); ?> </a></li>
+                </ul>
+
+                <form action="<?php echo URL::to('postnotifications'); ?>" method="post">
+                    <div class="subs-area">
+                        <label class="left-ara col-sm-4"><?php echo trans('messages.subscriptions'); ?>:</label>
+                        <div class="col-sm-8">
+                            <ul class="left-lop">
+                                <li class="pdgs">
+                                    <div class="left-int"><input type="checkbox" name="staffpick" <?php if($notification->staffpick==1): ?> checked <?php endif; ?>></div>
+                                    <div class="rigt-int">
+                                        <h3><?php echo trans('messages.projectswelove'); ?></h3>
+                                        <span><?php echo trans('messages.projectswethinkcreative'); ?>,<?php echo trans('messages.inspiring'); ?></span>
+                                </li>
+
+                                <li class="pdgs">
+                                    <div class="left-int"><input type="checkbox" name="happening" <?php if($notification->happening==1): ?> checked <?php endif; ?>></div>
+                                    <div class="rigt-int">
+                                        <h3> <?php echo trans('messages.happening'); ?></h3>
+                                        <span><?php echo trans('messages.artsandculture'); ?></span>               
+                                </li>
+                                <li class="pdgs">
+                                    <div class="left-int"><input type="checkbox" name="newsandevents" <?php if($notification->newsandevents==1): ?> checked <?php endif; ?>></div>
+                                    <div class="rigt-int">
+                                        <h3><?php echo trans('messages.newsandevents'); ?></h3>
+                                        <span><?php echo trans('messages.bigannouncements'); ?>,<?php echo trans('messages.relevantstuff'); ?>
+
+                                        </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="subs-area">
+                        <label class="left-ara col-sm-4"><?php echo trans('messages.projectsyouback'); ?>:</label>
+                        <div class="col-sm-8">
+                            <div class="left-int"><input type="checkbox" name="backerupdates" <?php if($notification->backerupdates==1): ?> checked <?php endif; ?>></div>
+                            <span><?php echo trans('messages.newprojectupdates'); ?></span>
+                        </div>
+                    </div>
+
+                    <div class="subs-area">
+                        <label class="left-ara col-sm-4"><?php echo trans('messages.creatornotifications'); ?>:</label>
+                        <div class="col-sm-8">
+                            <ul class="subs-area-li">
+                                <li>
+                                    <div class="left-int"><input type="checkbox" name="creatorpledges" <?php if($notification->creatorpledges==1): ?> checked <?php endif; ?>></div>
+                                    <span><?php echo trans('messages.newpledges'); ?></span>
+                                </li>
+
+                                <li>
+                                    <div class="left-int"><input type="checkbox" name="creatorcomments" <?php if($notification->creatorcomments==1): ?> checked <?php endif; ?>></div>
+
+                                    <span><?php echo trans('messages.newcomments'); ?></span>
+                                </li>
+                                <li>
+                                    <div class="left-int"><input type="checkbox" name="newlikes"  <?php if($notification->newlikes==1): ?> checked <?php endif; ?>></div>
+                                    <span><?php echo trans('messages.newlikes'); ?></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="subs-area">
+                        <label class="left-ara col-sm-4"><?php echo trans('messages.socailnotifications'); ?>:</label>
+                        <div class="col-sm-8">
+                            <ul class="subs-area-li">
+                                <li>
+                                    <div class="left-int"><input type="checkbox" name="friendactivity"  <?php if($notification->friendactivity==1): ?> checked <?php endif; ?>></div>
+                                    <span><?php echo trans('messages.friendsback'); ?></span>
+                                </li>
+                                <li>
+                                    <div class="left-int"><input type="checkbox" name="newfollowers"  <?php if($notification->newfollowers==1): ?> checked <?php endif; ?>></div>
+                                    <span><?php echo trans('messages.newfollowers'); ?></span>
+                                </li>
+                                
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="subs-area">
+                        <label class="left-ara col-sm-4"></label>
+                        <div class="col-sm-8">
+                            <input class="blus-btnl" type="submit" value="<?php echo trans('messages.savesettings'); ?>">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

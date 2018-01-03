@@ -1,0 +1,167 @@
+<html>
+    <body>
+        <div style="width:500px;" >
+            <form autocomplete="off" method="post" name="myForm" action="{{URL::to('project/posteditupdate')}}" class="form_container left_label">
+                <style>
+                    .none{
+                        display:none;
+                    }
+                </style>
+                <fieldset>
+                    <h2>{{trans('messages.edit')}} {{trans('messages.update')}}</h2>
+                    <ul>
+                        <input type='hidden' name='id' value="{{$update->id}}">
+                        <input type='hidden' name='userid' value="{{$update->userid}}">
+                        <input type='hidden' name='projectid' value="{{$update->projectid}}">
+                        <li>
+                            <div class="form_grid_12">
+                                <label class="field_title">{{trans('messages.updatetitle')}}</label>
+                                <div class="form_input">
+                                    <div class="form_grid_8 alpha">
+                                        <input name="title" type="text" id="title" value="{{{$update->title}}}" class="required">                                                               
+                                    </div>
+                                    <p class="help-block none" id="titleerror">Title field is required!</p>
+                                    <span class="clear"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form_grid_12">
+                                <label class="field_title">{{trans('messages.updatedescription')}}</label>
+                                <div class="form_input">
+                                    <div class="form_grid_8 alpha">
+                                        <textarea name="description" id="updateeditor">{{{$update->description}}}</textarea>
+                                    </div>
+                                    <p class="help-block none" id="descriptionerror">Description field is required!</p>
+                                    <span class="clear"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form_grid_12">
+                                <div class="form_input">
+                                    <button name="submit" type="submit" class="btn_small btn_blue" id="submitreward"><span>{{trans('messages.submit')}}</span></button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </fieldset>
+            </form>
+        </div>
+        <script type="text/javascript">
+            jQuery(function ($) {
+                $('#updateeditor').raptor({
+                    autoEnable: true,
+                    enableUi: false,
+                    unloadWarning: false,
+                    classes: 'raptor-editing-inline',
+                    "plugins": {
+                        textBold: true,
+                        textItalic: true,
+                        textUnderline: true,
+                        textStrike: true,               
+                        embed: true,
+                        insertFile: true,
+                        linkCreate: true,
+                        linkRemove: true,
+                        dock: {
+                            docked: true,
+                            dockToElement: true
+                        },
+                        fileManager: {
+                        uriPublic: '/uploads/',
+                        uriAction: '/file-manager.php',
+                        uriIcon: '/file-manager/icon/',
+                    },
+                        unsavedEditWarning: false,
+                    }
+                });
+            });</script>
+
+        <script>
+            $("#submitreward").click(function () {
+                var textarea = $("#updateeditor").val();
+                var textinput = $("#title").val();
+                if ($(textarea).text() == '' && textinput == '') {
+                    $("#titleerror").css('display', 'block');
+                    $("#descriptionerror").css('display', 'block');
+                    return false;
+                } else {
+                    if ($(textarea).text() == '') {
+                        $("#descriptionerror").css('display', 'block');
+                        return false;
+                    } else if (textinput == '') {
+                        $("#titleerror").css('display', 'block');
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+            });
+
+        </script>
+
+
+        <style type="text/css">
+
+
+
+#form103 li {
+    float: left;
+    padding: 4px 0;
+    width: 100%;
+}
+
+#form103 li input{
+    float: left; width: 100%; border-radius: 0px;
+    margin: 8px 0 10px;
+}
+
+
+#form103 li textarea{
+    float: left; width: 100%; border-radius: 0px;
+    margin: 8px 0 10px;
+}
+
+#form103 li select{
+    float: left; width: 100%; border-radius: 0px;
+    margin: 8px 0 10px;
+      width: 100% !important;
+}
+
+#form103 li .form_grid_12.multiline label {
+    float: left;
+}
+
+#form103 li .form_grid_12.multiline input{
+    float: left;
+    width: 100%;
+}
+
+#form103 li input#limit1{width: auto; float: left;  margin: 2px 0 0 10px;   }
+
+#form103 .btn_small.btn_blue {
+    background: #2fde76 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 3px;
+    color: #fff;
+    float: right;
+    padding: 6px 20px;
+}
+
+#cboxClose{bottom: auto; top: 0}
+
+#cboxClose{border: none; box-shadow: none;}
+</style>
+
+<style type="text/css">
+ #cboxLoadedContent{  overflow: visible !important;}   
+
+</style>
+
+
+    </body>
+
+    
+</html>

@@ -1,0 +1,811 @@
+<?php
+
+namespace fundstarter\storage\User;
+
+use fundstarter\storage\Subscription\SubscriptionRepository as SubscriptionRepo;
+use fundstarter\storage\Membership\MembershipRepository as MembershipRepo;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use User;
+
+class UserRepository implements IUserRepository {
+
+    public function all() {
+        $user = new User;
+        return $user->all();
+    }
+
+    public function create(array $input) {
+        $user = new User;
+        if ($this->checkemailexists($input['email']) != '') {
+            return 0;
+        } else {
+            $user->firstname = $input['firstname'];
+            $user->lastname = $input['lastname'];
+            $user->username = $input['username'];
+            $user->email = $input['email'];
+            $user->mobile = $input['mobilecode'] . '-' . $input['mobile'];
+            $user->password = Hash::make($input['password']);
+            $user->logintype = 'normal';
+            $user->createdon = Carbon::now();
+            $user->address = $input['address'];
+            $user->postalcode = $input['postalcode'];
+            $user->state = $input['state'];
+            $user->city = $input['city'];
+            $user->country = $input['country'];
+            $user->weburl = $input['weburl'];
+            $user->gender = $input['gender'];
+            $user->biography = $input['biography'];
+            // To add the user in subscription
+            $subscriptionrepo = new SubscriptionRepo;
+            $subscriptionrepo->createfromsignup($input['email']);
+            $user->loginhit = 0;
+            $user->emailstatus = 1;
+            $user->mobilestatus = 1;
+            $user->staffpick = 1;
+            $user->happening = 1;
+            $user->newsandevents = 1;
+            $user->backerupdates = 1;
+            $user->creatorpledges = 1;
+            $user->creatorcomments = 1;
+            $user->friendactivity = 1;
+            $user->save();
+            return 1;
+        }
+    }
+
+    public function update(array $input) {
+        $user = new User;
+        $data = $user->find($input['id']);
+        $data->firstname = $input['firstname'];
+        $data->lastname = $input['lastname'];
+        $data->username = $input['username'];
+        $data->email = $input['email'];
+        $data->mobile = $input['mobilecode'] . '-' . $input['mobile'];
+        $data->modifiedon = Carbon::now();
+        $data->address = $input['address'];
+        $data->postalcode = $input['postalcode'];
+        $data->country = $input['country'];
+        $data->weburl = $input['weburl'];
+//        $data->dob = $input['dob'];
+        $data->gender = $input['gender'];
+        $data->biography = $input['biography'];
+        $data->save();
+        return 1;
+    }
+
+    public function updatesocial(array $input) {
+        $user = new User;
+        $data = $user->find($input['id']);
+        $data->facebook = $input['facebooklink'];
+        $data->twitter = $input['twitterlink'];
+        $data->google = $input['googlepluslink'];
+        $data->save();
+    }
+
+    public function updateadditional(array $input) {
+        $user = new User;
+        $data = $user->find($input['id']);
+        $data->logintype = $input['logintype'];
+        $data->mobilestatus = $input['mobilestatus'];
+        $data->emailstatus = $input['emailstatus'];
+        $data->city = $input['city'];
+        $data->state = $input['state'];
+        $data->question = $input['question'];
+        $data->answer = $input['answer'];
+        $data->adminremarks = $input['adminremarks'];
+        if ($input['image'] != '') {
+            $data->image = $input['image'];
+        }
+        $data->save();
+    }
+
+    public function updatesample(array $input) {
+
+        $email = Session::get('email');
+        $id = $this->getid($email);
+        $user = $this->find($id)->first();
+        $user->id = $input['id'];
+        $user->name = $input['name'];
+        $user->username = $input['username'];
+        $user->email = $input['email'];
+        $user->password = $input['password'];
+        $user->status = $input['status'];
+        $user->logintype = $input['logintype'];
+        $user->mobileveificationcode = $input['mobileveificationcode'];
+        $user->emailverificationcode = $input['emailverificationcode'];
+        $user->mobilestatus = $input['mobilestatus'];
+        $user->emailstatus = $input['emailstatus'];
+        $user->createdon = $input['createdon'];
+        $user->modifiedon = $input['modifiedon'];
+        $user->lastlogindate = $input['lastlogindate'];
+        $user->lastlogoutdate = $input['lastlogoutdate'];
+        $user->lastloginip = $input['lastloginip'];
+        $user->image = $input['image'];
+        $user->address = $input['address'];
+        $user->city = $input['city'];
+        $user->state = $input['state'];
+        $user->country = $input['country'];
+        $user->postalcode = $input['postalcode'];
+        $user->weburl = $input['weburl'];
+        $user->followerscount = $input['followerscount'];
+        $user->followingcount = $input['followingcount'];
+        $user->followers = $input['followers'];
+        $user->following = $input['following'];
+        $user->facebook = $input['facebook'];
+        $user->twitter = $input['twitter'];
+        $user->google = $input['google'];
+        $user->dob = $input['dob'];
+        $user->gender = $input['gender'];
+        $user->subscription = $input['subscription'];
+        $user->loginhit = $input['loginhit'];
+        $user->save();
+    }
+
+    public function getbyid($id) {
+        $user = new User;
+        return $user->where('id', '=', $id)->get();
+    }
+
+    public function getemail($id) {
+        $user = new User;
+        return $user->where('id', '=', $id)->pluck('email');
+    }
+
+    public function getidbyusername($username) {
+        $user = new User;
+        return $user->where('username', '=', $username)->pluck('id');
+    }
+
+    public function deletebyid($id) {
+        $user = new User;
+        return $user->where('id', '=', $id)->delete();
+    }
+
+    public function getrecentusers() {
+        $user = new User;
+        return $user->orderBy('lastlogindate', 'desc')->limit(5)->get();
+    }
+
+    public function getnewusers() {
+        $user = new User;
+        $today = Carbon::now()->toDateString();
+        return $user->where('createdon', '=', $today)->orderBy('id', 'desc')->limit(5)->get();
+    }
+
+    public function getusercount() {
+        $user = new User;
+        return $user->count();
+    }
+
+    public function getnewusercount() {
+        $user = new User;
+        $dt = Carbon::today();
+        $date = $dt->toDateString();
+        return $user->where('createdon', '=', $date)->count();
+    }
+
+    public function getuserbyid($id) {
+        $user = new User;
+        return $user->where('id', '=', $id)->first();
+    }
+
+    public function getcreatorcount() {
+        $user = new User;
+        return $user->join('projects', 'users.id', '=', 'projects.userid')->count();
+    }
+
+    public function getrecentuserslimited() {
+        $user = new User;
+        return $user->orderBy('lastlogindate', 'desc')->limit(3)->get();
+    }
+
+    public function getprojectcountbyuserid($id) {
+        $user = new User;
+        return $user->join('projects', 'users.id', '=', 'projects.userid')->where('projects.userid', '=', $id)->count('projects.id');
+    }
+
+    public function getbackingcountbyuserid($id) {
+        $user = new User;
+        return $user->join('backings', 'users.id', '=', 'backings.userid')->where('backings.userid', '=', $id)->count('backings.id');
+    }
+
+    public function getinactiveuserscount() {
+        $user = new User;
+        return $user->where('status', '=', 'inactive')->orwhere('emailstatus', '=', 0)->count();
+    }
+
+    public function getactiveuserscount() {
+        $user = new User;
+        return $user->where('status', '=', 'active')->where('emailstatus', '=', 1)->count();
+    }
+
+    public function getactiveusers() {
+        $user = new User;
+        return $user->where('status', '=', 'active')->where('emailstatus', '=', 1)->get();
+    }
+
+    public function getinactiveusers() {
+        $user = new User;
+        return $user->where('status', '=', 'inactive')->orwhere('emailstatus', '=', 0)->get();
+    }
+
+    public function getallnewusers() {
+        $user = new User;
+        $today = Carbon::now()->toDateString();
+        return $user->where('createdon', '=', $today)->orderBy('id', 'desc')->get();
+    }
+
+    public function getbackerscount() {
+        $user = new User;
+        return $user->where('backedcount', '!=', '0')->count();
+    }
+
+    public function getcreatorscount() {
+        $user = new User;
+        return $user->where('createdcount', '!=', '0')->count();
+    }
+
+    public function getidlecount() {
+        $user = new User;
+        return $user->where('createdcount', '=', '0')->where('backedcount', '=', 0)->where('status', '=', 'active')->where('emailstatus', '=', 1)->count();
+    }
+
+    /* -------- User ------- */
+
+    public function saveuser(array $input) {
+        $user = new User;
+        $user->firstname = $input['firstname'];
+        $user->lastname = $input['lastname'];
+        $user->username = $input['username'];
+        $user->question = $input['question'];
+        $user->answer = $input['answer'];
+        $user->email = $input['email'];
+        $user->password = Hash::make($input['password']);
+        $user->logintype = 'normal';
+        $user->lastloginip = $input['ipaddress'];
+        if ($input['referrer'] != '') {
+            $allusers = $this->all();
+            foreach ($allusers as $alluser) {
+                $id = $alluser['id'];
+                $result = Hash::check($id, $input['referrer']);
+                if ($result) {
+                    $user->referrerid = $id;
+                }
+            }
+        }
+        if ($input['subscription'] == 1) {
+            $subscriptionrepo = new SubscriptionRepo;
+            $subscriptionrepo->createfromsignup($input['email']);
+        }
+        $user->createdon = Carbon::now();
+        $user->staffpick = 1;
+        $user->happening = 1;
+        $user->newsandevents = 1;
+        $user->backerupdates = 1;
+        $user->creatorpledges = 1;
+        $user->creatorcomments = 1;
+        $user->friendactivity = 1;
+        $user->save();
+    }
+
+    public function checklogin($email, $password) {
+        $user = new User;
+        $verified = $user->where('email', '=', $email)->orWhere(function($query)use($email) {
+                    $query->where('username', '=', $email);
+                })->pluck('emailstatus');
+        if ($verified == 0) {
+            return 2;
+        } else {
+            $hashed = $user->where('email', '=', $email)
+                    ->orWhere(function($query)use($email) {
+                        $query->where('username', '=', $email);
+                    })
+                    ->pluck('password');
+            $result = Hash::check($password, $hashed);
+            return $result;
+        }
+    }
+
+    public function updatelastlogin($email, $ipaddress) {
+        $user = new User;
+        $id = $user->where('email', '=', $email)
+                ->orWhere(function($query)use($email) {
+                    $query->where('username', '=', $email);
+                })
+                ->pluck('id');
+        $data = $user->find($id);
+        $loginhit = $data->loginhit;
+        $data->loginhit = $loginhit + 1;
+        $data->lastloginip = $ipaddress;
+        $data->lastlogindate = Carbon::now();
+        $data->save();
+        $userid = Hash::make($id);
+        return array('name' => $data->firstname, 'image' => $data->image, 'userid' => $userid, 'email' => $data->email);
+    }
+
+    public function updatereferrer($refid) {
+        $user = new User;
+        $allusers = $this->all();
+        foreach ($allusers as $alluser) {
+            $id = $alluser['id'];
+            $result = Hash::check($id, $refid);
+            if ($result) {
+                $email = Session::get('email');
+                $userid = $this->getidbyemail($email);
+                $data = $user->find($userid);
+                $data->referrerid = $id;
+                $data->save();
+            }
+        }
+    }
+
+    public function updatereferrercount($referrerid) {
+        $user = new User;
+        $allusers = $this->all();
+        foreach ($allusers as $alluser) {
+            $id = $alluser['id'];
+            $result = Hash::check($id, $referrerid);
+            if ($result) {
+                $data = $user->find($id);
+                $data->increment('referrercredit');
+                $data->save();
+                $balance = $data->walletbalance;
+                $comission = Config::get('adminconfig.affiliatecommission');
+                $data->walletbalance = $balance + $comission;
+                $data->save();
+            }
+        }
+    }
+
+    public function savenewpassword($email, $newpassword) {
+        $user = new User;
+        $password = Hash::make($newpassword);
+        $id = $user->where('email', '=', $email)->pluck('id');
+        $data = $user->find($id);
+        $data->password = $password;
+        $data->save();
+        return $id;
+    }
+
+    public function getusername($id) {
+        $user = new User;
+        return $user->where('id', '=', $id)->pluck('firstname');
+    }
+
+    public function saveresetpassword($id, $password) {
+        $user = new User;
+        $hashed = Hash::make($password);
+        $data = $user->find($id);
+        $data->password = $hashed;
+        $data->save();
+        return $id;
+    }
+
+    public function getidbyemail($email) {
+        $user = new User;
+        return $user->where('email', '=', $email)->pluck('id');
+    }
+
+    public function getpasswordbyemail($email) {
+        $user = new User;
+        return $user->where('email', '=', $email)->pluck('password');
+    }
+
+    public function getfirstbyid($id) {
+        $user = new User;
+        return $user->where('id', '=', $id)->first();
+    }
+
+    public function updateprofile(array $input) {
+        $user = new User;
+        $data = $user->find($input['id']);
+        $data->weburl = $input['weburl'];
+        $data->address = $input['address'];
+        $data->gender = $input['gender'];
+        $data->country = $input['country'];
+        $data->state = $input['state'];
+        $data->city = $input['city'];
+        $data->question = $input['question'];
+        $data->answer = $input['answer'];
+        //$data->paypalemail = $input['paypalemail'];
+        $data->prooftype = $input['prooftype'];
+        if ($input['identityproof'] != '') {
+            $data->idproof = $input['identityproof'];
+        }
+        $data->biography = $input['biography'];
+        $contactArray = array();
+        $contactArray = $_POST['contact'];
+        $contact = "";
+        $data->mobile = implode(',', $contactArray);
+        if ($input['vanityurl'] != '') {
+            $data->vanityurl = $input['vanityurl'];
+        }
+        if ($input['image'] != '') {
+            $data->image = $input['image'];
+        }
+        $data->accountverified = $input['verify'];
+        $data->modifiedon = Carbon::now();
+        $data->save();
+    }
+
+    public function createbyfb(array $input) {
+        $user = new User;
+        if($user->firstname==''){
+        $user->firstname = $input['first_name'];}
+        if($user->lastname==''){
+        $user->lastname = $input['last_name'];}
+        $user->email = $input['email'];
+        $user->lastloginip = $input['ipaddress'];
+        $user->logintype = 'facebook';
+        if ($input['referrer'] != '') {
+            $allusers = $this->all();
+            foreach ($allusers as $alluser) {
+                $id = $alluser['id'];
+                $result = Hash::check($id, $input['referrer']);
+                if ($result) {
+                    $user->referrerid = $id;
+                }
+            }
+        }
+        $user->createdon = Carbon::now();
+        $user->gender = $input['gender'];
+        $user->image = $input['image'];
+        $user->loginhit = 0;
+        $user->staffpick = 1;
+        $user->happening = 1;
+        $user->newsandevents = 1;
+        $user->backerupdates = 1;
+        $user->creatorpledges = 1;
+        $user->creatorcomments = 1;
+        $user->friendactivity = 1;
+        $user->save();
+        return $user->id;
+    }
+
+    public function checkemailexistswithnormal($email) {
+        $user = new User;
+        return $user->where('email', '=', $email)->where('logintype', '=', 'normal')->pluck('id');
+    }
+
+    public function checkemailexists($email) {
+        $user = new User;
+        return $user->where('email', '=', $email)->pluck('id');
+    }
+
+    public function checkemailexistswithfacebook($email) {
+        $user = new User;
+        return $user->where('email', '=', $email)->where('logintype', '=', 'facebook')->pluck('id');
+    }
+
+    public function checkpasswordexists($email) {
+        $user = new User;
+        return $user->where('email', '=', $email)->pluck('password');
+    }
+
+    public function checkaccountexists($twitterid) {
+        $user = new User;
+        return $user->where('twitterid', '=', $twitterid)->pluck('id');
+    }
+
+    public function createfbpassword(array $input) {
+        $user = new User;
+        $data = $user->find($input['id']);
+        $data->username = $input['username'];
+        $data->password = Hash::make($input['password']);
+        $data->question = $input['question'];
+        $data->answer = $input['answer'];
+        $data->save();
+        return $data->email;
+    }
+
+    public function checkfbpassword(array $input) {
+        $user = new User;
+        $verified = $user->where('id', '=', $input['id'])->pluck('emailstatus');
+        if ($verified == 0) {
+            return 2;
+        } else {
+            $hashed = $user->where('id', '=', $input['id'])->pluck('password');
+            $result = Hash::check($input['password'], $hashed);
+            $data = $user->find($input['id']);
+            if ($result == 1) {
+                return $data->email;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    public function createtwitteraccount(array $input) {
+        $user = new User;
+        $user->firstname = $input['name'];
+        $user->email = $input['email'];
+        $user->question = $input['question'];
+        $user->answer = $input['answer'];
+        $user->logintype = 'twitter';
+        $user->password = Hash::make($input['password']);
+        $user->lastloginip = $input['ipaddress'];
+        $user->twitterid = $input['twitterid'];
+        if ($input['referrer'] != '') {
+            $allusers = $this->all();
+            foreach ($allusers as $alluser) {
+                $id = $alluser['id'];
+                $result = Hash::check($id, $input['referrer']);
+                if ($result) {
+                    $user->referrerid = $id;
+                }
+            }
+        }
+        $user->createdon = Carbon::now();
+        $user->image = $input['image'];
+        $user->loginhit = 0;
+        $user->staffpick = 1;
+        $user->happening = 1;
+        $user->newsandevents = 1;
+        $user->backerupdates = 1;
+        $user->creatorpledges = 1;
+        $user->creatorcomments = 1;
+        $user->friendactivity = 1;
+        $user->save();
+        return $user->email;
+    }
+
+    public function updateabout(array $input) {
+        $user = new User;
+        $data = $user->find($input['userid']);
+        $data->weburl = $input['website'];
+        $data->country = $input['country'];
+        $data->state = $input['state'];
+        $data->biography = $input['biography'];
+        if ($input['image'] != '') {
+            $data->image = $input['image'];
+        }
+        $data->save();
+    }
+
+    public function savenotifications(array $input) {
+        $user = new User;
+        $email = Session::get('email');
+        $userid = $this->getidbyemail($email);
+        $data = $user->find($userid);
+        $data->staffpick = $input['staffpick'];
+        $data->happening = $input['happening'];
+        $data->newsandevents = $input['newsandevents'];
+        $data->backerupdates = $input['backerupdates'];
+        $data->creatorpledges = $input['creatorpledges'];
+        $data->creatorcomments = $input['creatorcomments'];
+        $data->newlikes = $input['newlikes'];
+        $data->friendactivity = $input['friendactivity'];
+        $data->newfollowers = $input['newfollowers'];
+        $data->save();
+    }
+
+    public function getnotificationbyid() {
+        $user = new User;
+        $email = Session::get('email');
+        $userid = $this->getidbyemail($email);
+        return $user->where('id', '=', $userid)->first();
+    }
+
+    public function updatemobileverificationcode($id) {
+        $user = new User;
+        $data = $user->find($id);
+        $data->emailverificationcode = rand();
+        $data->save();
+        return $data->emailverificationcode;
+    }
+
+    public function updatemailstatus($id, $code) {
+        $user = new User;
+        $result = $user->where('id', '=', $id)->where('emailverificationcode', '=', $code)->pluck('id');
+        if ($result != '') {
+            $data = $user->find($id);
+            $data->emailstatus = 1;
+            $data->save();
+            return $data->email;
+        }
+    }
+
+    public function updatebackedcount($userid) {
+        $user = new User;
+        $data = $user->find($userid);
+        $backedcount = $data->backedcount + 1;
+        $data->backedcount = $backedcount;
+        $data->save();
+    }
+
+    public function updatecreditafterpay($userid, $pledgeamount) {
+        $user = new User;
+        $data = $user->find($userid);
+        $balance = $data->walletbalance;
+        $data->walletbalance = $balance - $pledgeamount;
+        $data->save();
+    }
+
+    public function updatecreatedcount($userid) {
+        $user = new User;
+        $data = $user->find($userid);
+        $createdcount = $data->createdcount + 1;
+        $data->createdcount = $createdcount;
+        $data->save();
+    }
+
+    public function removecreatedcount($userid) {
+        $user = new User;
+        $data = $user->find($userid);
+        $createdcount = $data->createdcount - 1;
+        $data->createdcount = $createdcount;
+        $data->save();
+    }
+
+    public function updateuserasinactive($id) {
+        $user = new User;
+        $data = $user->find($id);
+        $data->vanityurl = '';
+        $data->status = 'inactive';
+        $data->save();
+    }
+
+    public function checkstatus($email) {
+        $user = new User;
+        return $user->where('status', '=', 'active')
+                        ->where(function($query)use($email) {
+                            $query->where('email', '=', $email)->orwhere('username', '=', $email);
+                        })->pluck('id');
+    }
+
+    public function checkstatusfblogin($id) {
+        $user = new User;
+        return $user->where('id', '=', $id)->where('status', '=', 'active')->pluck('id');
+    }
+
+    public function getreferrals() {
+        $user = new User;
+        return $user->where('referrercredit', '!=', '0')->get();
+    }
+
+    public function getreferralsbyid($id) {
+        $user = new User;
+        return $user->where('referrerid', '=', $id)->get();
+    }
+
+    public function getreferredusers() {
+        $user = new User;
+        return $user->orderBy('id', 'desc')->where('referrerid', '!=', 0)->limit(5)->get();
+    }
+
+    public function savemobilenumber(array $input) {
+        $user = new User;
+        $email = Session::get('email');
+        $userid = $this->getidbyemail($email);
+        $data = $user->find($userid);
+        $data->mobile = $input['countrycode'] . '-' . $input['mobile'];
+        $data->save();
+    }
+    
+    public function getaddressdetails($email){
+        $user = new User;
+        $userid = $this->getidbyemail($email);
+        return $user->where('id','=',$userid)->first(array('address','city','state','country','postalcode'));
+    }
+
+    public function getusercredits($id) {
+        $user = new User;
+        return $user->where('id', '=', $id)->pluck('referrercredit');
+    }
+
+    public function checksecurity($email, $question, $answer) {
+        //echo $email;
+        //echo $question;
+        //echo $answer;exit;
+        $user = new User;
+        return $user->where('email', '=', $email)->where('question', '=', $question)->where('answer', '=', $answer)->pluck('id');
+    }
+
+    public function updatefollowing($followerid, $followercount) {
+        $user = new User;
+        $data = $user->find($followerid);
+        $data->followingcount = $followercount;
+        $data->save();
+    }
+
+    public function updatefollower($following, $followingcount) {
+        $user = new User;
+        $data = $user->find($following);
+        $data->followerscount = $followingcount;
+        $data->save();
+    }
+
+    public function updatepackage($package, $userid) {
+        $user = new User;
+        $data = $user->find($userid);
+        $data->packageid = $package;
+        $membershiprepo = new MembershipRepo;
+        $duration = $membershiprepo->getduration($package);
+        if ($duration == "month") {
+            $data->packageenddate = Carbon::now()->addMonth();
+        } else {
+            $data->packageenddate = Carbon::now()->addYear();
+        }
+        $data->save();
+    }
+
+    public function checkpackageexists($userid) {
+        $user = new User;
+        return $user->where('id', '=', $userid)->first(array('packageid', 'packageenddate'));
+    }
+
+    public function getforverification() {
+        $user = new User;
+        return $user->orderBy('modifiedon', 'DESC')->get();
+    }
+
+    public function updateverification($id, $remarks) {
+        $user = new User;
+        $data = $user->find($id);
+        $data->adminremarks = $remarks;
+        $data->accountverified = 2;
+        $data->save();
+    }
+
+    public function updatenonverification($id, $remarks) {
+        $user = new User;
+        $data = $user->find($id);
+        $data->adminremarks = $remarks;
+        $data->accountverified = 3;
+        $data->save();
+    }
+
+    public function getverificationstatus($userid) {
+        $user = new User;
+        return $user->where('id', '=', $userid)->pluck('accountverified');
+    }
+
+    public function checkuserexists($id, $email) {
+        $user = new User;
+        return $user->where('email', '=', $email)->where('id', '!=', $id)->get();
+    }
+
+    public function updatestripecredentials($id, $mode, array $input) {
+        $user = new User;
+        $data = $user->find($id);
+        if ($mode == "sandbox") {
+            $data->sandbox_stripe_access_token = $input['access_token'];
+            $data->sandbox_stripe_refresh_token = $input['refresh_token'];
+            $data->sandbox_stripe_publishable_key = $input['stripe_publishable_key'];
+            $data->sandbox_stripe_user_id = $input['stripe_user_id'];
+            $data->sandbox_stripe_token_type = $input['token_type'];
+        } else {
+            $data->live_stripe_access_token = $input['access_token'];
+            $data->live_stripe_refresh_token = $input['refresh_token'];
+            $data->live_stripe_publishable_key = $input['stripe_publishable_key'];
+            $data->live_stripe_user_id = $input['stripe_user_id'];
+            $data->live_stripe_token_type = $input['token_type'];
+        }
+        $data->save();
+    }
+
+    public function getverifiedusers() {
+        $user = new User;
+        return $user->where('emailstatus', '=', 1)->get(array('username', 'id', 'email'));
+    }
+	
+	public function disconnectstripe($id) {
+        $user = new User;
+        $data = $user->find($id);
+        $data->sandbox_stripe_access_token      = "";
+        $data->sandbox_stripe_refresh_token     = "";
+        $data->sandbox_stripe_publishable_key   = "";
+        $data->sandbox_stripe_user_id           = "";
+        $data->sandbox_stripe_token_type        = "";
+        $data->live_stripe_access_token         = "";
+        $data->live_stripe_refresh_token        = "";
+        $data->live_stripe_publishable_key      = "";
+        $data->live_stripe_user_id              = "";
+        $data->live_stripe_token_type           = "";
+        $data->save();
+        return $data->id;
+    }
+
+}

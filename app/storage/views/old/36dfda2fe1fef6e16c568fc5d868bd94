@@ -1,0 +1,142 @@
+<?php $__env->startSection('content'); ?>
+<section>
+    <div class="profile-section">
+        <div class="top-profilea">
+            <div class="container">
+                <div class="col-md-3">
+                    <img src="<?php echo URL::to(''); ?>/<?php echo $details->image; ?>" onerror="this.src='main/images/default.png'">
+                </div>
+                <div class="col-md-5">
+                    <ul class="profli-list">
+                        <li><h2><?php echo $details->firstname; ?> <?php echo $details->lastname; ?> </h2></li>
+                        <li> <?php echo trans('messages.backed'); ?> <?php echo $details->backedcount; ?> <?php echo trans('messages.projects'); ?> · <?php echo $details->city; ?> · <?php echo $details->country; ?> · <?php echo trans('messages.joined'); ?> <?php echo $details->createdon; ?></li>
+                        <li><i><?php echo $details->biography; ?></i></li> 
+                        <li><a class="See-full-bio-popup" href="#" data-toggle="modal" data-target="#profileModal"><?php echo trans('messages.seebioandlinks'); ?></a></li>
+                    </ul>
+                </div>
+                <?php if($walletbal!="userprofile"): ?>
+                <div class="col-md-4">
+                    <h5 style='text-indent: 130px;'><?php echo trans('messages2.mywallet'); ?></h5>
+                    <ul class="art-section">                        
+                        <li style="border: 2px solid #98B50B; margin-left: 10%;width:auto; margin-top: 5%; border-radius: 5px;"><img src="<?php echo URL::to('main/images/wallet.png'); ?>" alt="wallet" style="width:30%">
+                            <div style="color:#98B50B;float:right;margin-right: 25%; margin-top: 12%; font-size: 25px;"><?php echo $walletbal['symbol']; ?> <?php echo $walletbal['credits']; ?></div>
+                        </li>   
+                    </ul>
+
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="profile-botm">
+            <div class="container">
+                <ul class="top-noch">
+                    <li class="bkend">                       
+                        <?php if(Request::segment(2)==''): ?>
+                        <a href="<?php echo URL::to('profile'); ?>"><?php echo trans('messages.backed'); ?> <span><?php echo count($backedprojects); ?></span></a>
+                        <?php else: ?>
+                        <a href="<?php echo URL::to('profile'); ?>/<?php echo Request::segment(2); ?>"><?php echo trans('messages.backed'); ?> <span><?php echo count($backedprojects); ?></span></a>
+                        <?php endif; ?>
+                    </li>
+                    <li class="cretd">
+                        <?php if(Request::segment(2)==''): ?>
+                        <a href="<?php echo URL::to('created'); ?>"><?php echo trans('messages.created'); ?> <span>(<?php echo count($createdprojects); ?>)</span></a>
+                        <?php else: ?>
+                        <a href="<?php echo URL::to('created'); ?>/<?php echo Request::segment(2); ?>"><?php echo trans('messages.created'); ?> <span>(<?php echo count($createdprojects); ?>)</span></a>
+                        <?php endif; ?>
+                    </li>
+
+                    <li class="cretd">
+                         <?php if(Request::segment(2)==''): ?>
+                        <a href="<?php echo URL::to('comments'); ?>"><?php echo trans('messages.comments'); ?>  <span>(<?php echo $commentscount; ?>)</span></a>
+                        <?php else: ?>
+                        <a href="<?php echo URL::to('comments'); ?>/<?php echo Request::segment(2); ?>"><?php echo trans('messages.comments'); ?>  <span>(<?php echo $commentscount; ?>)</span></a>
+                        <?php endif; ?>
+                    </li>
+                </ul>
+                <?php if($backedprojects=='[]'): ?>
+                <div  style="margin-top:5%">
+                    <p class="no-content">
+                        <strong><?php echo trans('messages.notbacked'); ?>.</strong>
+                        <?php echo trans('messages.changethat'); ?>!
+                        <br>
+                        <b><a href="<?php echo URL::to('discover'); ?>"><?php echo trans('messages.discoverprojects'); ?></a></b>
+                    </p>
+                </div>
+                <?php else: ?>
+                <ul class="dual-profile-left" id="poj_8">
+                    <?php foreach($backedprojects as $backed): ?>
+                    <li class="eachli"><a href="<?php echo URL::to('project/detail'); ?>/<?php echo $backed->id; ?>">
+                            <div class="profile-li-top">
+                                <img src="<?php echo URL::to(''); ?>/<?php echo $backed->projectimage; ?>" onerror="this.src='<?php echo URL::to('main/images/projectdefault.png');; ?>'">
+                                <span class="grn-abs"><?php echo $backed->title; ?><br><i><?php echo trans('messages.by'); ?><br><?php echo $backed->firstname; ?> <?php echo $backed->lastname; ?></i></span>
+                            </div>
+                            <div class="profile-li-brtm">
+                                <p class=""><?php echo $backed->title; ?><br><i><?php echo trans('messages.by'); ?> <?php echo $backed->firstname; ?> <?php echo $backed->lastname; ?></i></p>
+                            </div>
+                        </a>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="modal modal-profile fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo trans('messages.aboutcreator'); ?></h4>
+            </div> <!-- /.modal-header -->
+
+            <div class="modal-body">
+
+                <div class="profile-sections">
+                    <img src="<?php echo URL::to(''); ?>/<?php echo $details->image; ?>" onerror="this.src='<?php echo URL::to('main/images/default.png'); ?>'" style="width: 150px;height: 150px;float: left;"></a>
+                    <div class="left-conten">
+                        <h2><?php echo $details->firstname; ?> <?php echo $details->lastname; ?></h2>
+                        <h6><?php echo $details->state; ?>,<?php echo $details->country; ?></h6>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="profile-ciontent">
+                        <p>
+                            <?php echo $details->biography; ?>
+
+                        </p>
+                    </div>
+                    <div class="websit-link mobile-hide">
+                        <h4 class="text-links-title"><?php echo trans('messages.web'); ?></h4>
+                        <ul class="links list h5 bold">
+                            <li>
+                                <a  href="<?php echo $details->website; ?>"><?php echo $details->weburl; ?></a>
+                            </li>                            
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="popup-right">
+                        <li><i class="fa fa-check"></i><span><?php echo $details->firstname; ?> <?php echo $details->lastname; ?></span></li>
+                        <li><i class="fa fa-lock"></i><span><?php echo trans('messages.lastlogin'); ?> <?php echo date("jS F, Y", strtotime($details->lastlogindate));; ?></span></li>
+                        <li><?php if($details->logintype=="facebook"): ?><i class="fa fa-facebook-square" style="color: #3b5998;"></i><span><?php echo $details->firstname; ?> <?php echo $details->lastname; ?></span><?php else: ?><i class="fa fa-facebook-square"></i><span><?php echo trans('messages.notconnected'); ?> </span><?php endif; ?></li>
+                        <li><i class="fa fa-envelope"></i><span><?php echo trans('messages.email'); ?> <?php echo $details->email; ?> </span></li>
+                        <li><i class="fa fa-phone"></i><span>Mobile <?php echo $details->mobile; ?></span></li>
+                        <li><i class="fa fa-star"></i><span><?php echo $details->createdcount; ?> <?php echo trans('messages.created'); ?> , <?php echo $details->backedcount; ?> <?php echo trans('messages.backed'); ?>  </span></li>
+                        <li><i class="fa fa-bell "></i><span><?php echo $details->followerscount; ?> <?php echo trans('messages.followers'); ?> , <?php echo $details->followingcount; ?> <?php echo trans('messages.following'); ?>  </span></li>
+                    </ul>
+                </div>
+            </div> <!-- /.modal-body -->
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<?php $__env->stopSection(); ?>
+
+
+
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

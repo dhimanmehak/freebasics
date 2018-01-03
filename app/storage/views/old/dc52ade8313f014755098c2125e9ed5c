@@ -1,0 +1,164 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Static Page List</h6>
+                </div>
+                <div class="widget_content">                    
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Page Name
+                                </th>
+                                <th>
+                                    SEO Url
+                                </th>
+                                <th>
+                                    Page Type
+                                </th>
+                                <th>
+                                    Hidden Page
+                                </th> 
+                                <th>
+                                    Header
+                                </th> 
+                                <th>
+                                    Footer
+                                </th> 
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($pages as $page): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $page->id; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $page->pagename; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $page->seourl; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $page->category; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $page->hidden; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $page->header; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $page->footer; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php if($page->status=='active'): ?>
+                                    <a title="Click to inactive" class="tip_top" href="javascript:confirm_status('staticpagestatus/<?php echo $page->id; ?>/<?php echo $page->status; ?>');">
+                                        <span class="badge_style b_done"><?php echo $page->status; ?></span></a>
+                                    <?php else: ?>
+                                    <a title="Click to active" class="tip_top" href="javascript:confirm_status('staticpagestatus/<?php echo $page->id; ?>/<?php echo $page->status; ?>');">
+                                        <span class="badge_style b_pending"><?php echo $page->status; ?></span></a>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('2', $Staticpage)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('editmainpage?id='); ?><?php echo $page->id; ?>" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('2', $Staticpage)): ?>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" href="#"  onclick="confirmation('<?php echo $page->id; ?>');" title="delete">Delete</a></span><span><a class="action-icons c-approve" href="<?php echo URL::to('viewmainpage?id='); ?><?php echo $page->id; ?>" title="View">View</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Page Name
+                                </th>
+                                <th>
+                                    Page Url
+                                </th>
+                                <th>
+                                    Page Type
+                                </th>
+                                <th>
+                                    Hidden Page
+                                </th>  
+                                <th>
+                                    Header
+                                </th> 
+                                <th>
+                                    Footer
+                                </th> 
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+            function confirmation(id) {
+            var answer = confirm("Are you sure to delete this record?")
+                    if (answer) {
+            location.href = 'deletepage?id=' + id;
+            }
+            else {
+            return false;
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

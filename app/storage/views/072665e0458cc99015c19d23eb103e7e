@@ -1,0 +1,151 @@
+<?php $__env->startSection('content'); ?>
+<section>
+    <div class="created">
+        <div class="container">
+            <ul class="tab-nav right small_type bold">
+                <li>
+                    <a class="link-grey-dark" href="<?php echo URL::to('activity'); ?>"><?php echo trans('messages.activity'); ?></a>
+                </li>
+                <li>
+                    <a class="link-grey-dark " href="<?php echo URL::to('backedprojects'); ?>"><?php echo trans('messages.backedprojects'); ?></a>
+                </li>
+                <li>
+                    <a class="link-grey-dark current" href="<?php echo URL::to('createdprojects'); ?>"><?php echo trans('messages.createdprojects'); ?></a>
+                </li>
+                <li>
+                    <a class="link-grey-dark" href="<?php echo URL::to('myaccount'); ?>"><?php echo trans('messages.settings'); ?></a>
+                </li>
+                <li>
+                    <a class="link-grey-dark" href="<?php echo URL::to('profile'); ?>"><?php echo trans('messages.profile'); ?> (<?php echo trans('messages.public'); ?>)</a>
+                </li>
+            </ul>           
+            <?php if(Session::has('success')): ?>
+            <div class="alert-message success" style="margin-top: 7%;"> 
+                <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <h2 class="creat-tile"><?php echo trans('messages.createdprojects'); ?></h2>
+            <span class="cret-sub-til"><?php echo trans('messages.keeptrackofcreated'); ?></span>
+            <?php if($createdprojects=='[]'): ?>
+            <span class="cret-sub-til2"><?php echo trans('messages.notcreated'); ?>! <?php echo trans('messages.kickstart'); ?> <a href="<?php echo URL::to('project/start'); ?>"><?php echo trans('messages.ownproject'); ?></a>.</span>
+            <?php else: ?>
+            <span class="cret-sub-til" style="font-size: 24px;font-weight: bold;padding: 20px 0px 5px 0px;color:#98B50B"><?php echo trans('messages.liveprojects'); ?></span>
+            <?php if($projecttype['livecount']==0): ?>      
+            <span class="cret-sub-til" style='margin-bottom: 50px;'><?php echo trans('messages.noprojectsfound'); ?>.</span>          
+            <?php else: ?>
+            <ul class="project-staus">
+                <?php foreach($createdprojects as $project): ?>
+                <?php if ($project->dayscount >0 && $project->projectverified == 2) { ?>
+                    <li>
+                        <div class="projsttus-left"><a href="#"><img src="<?php echo URL::to(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::to('main/images/projectdefault.png'); ?>'"></a></div>
+                        <div class="projsttus-center">
+
+                            <div class="right-afr">
+                                <span><?php echo e($project->title); ?></span>                          
+                                <p style=" font-size: 14px;margin-top:5px;"><?php echo e($project->shortblurb); ?></p>
+                                <a class="hmobile-left" href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>"> <?php echo trans('messages.continueediting'); ?> </a>
+                            </div>
+                        </div>
+                    </li>
+                <?php } ?>
+                <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>
+            <span class="cret-sub-til" style="font-size: 24px;font-weight: bold; padding: 20px 0px 5px 0px;color:orange"><?php echo trans('messages.draftprojects'); ?></span>
+            <?php if($projecttype['draftcount']==0): ?>
+            <span class="cret-sub-til" style='margin-bottom: 50px;'><?php echo trans('messages.noprojectsfound'); ?>.</span>               
+            <?php else: ?>
+            <ul class="project-staus">
+                <?php foreach($createdprojects as $project): ?>
+                <?php if ($project->projectverified == 0) { ?>
+                    <li>
+                        <div class="projsttus-left"><a href="#"><img src="<?php echo URL::to(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::to('main/images/projectdefault.png'); ?>'"></a></div>
+                        <div class="projsttus-center">
+
+                            <div class="right-afr">
+                                <span><?php echo e($project->title); ?></span>                          
+                                <p style=" font-size: 14px;margin-top:5px;"><?php echo e($project->shortblurb); ?></p>
+                                <a class="hmobile-left" href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>"> <?php echo trans('messages.continueediting'); ?> </a>
+                            </div>
+                        </div>
+                    </li>
+                <?php } ?>
+                <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>    
+            <span class="cret-sub-til" style="font-size: 24px;font-weight: bold; padding: 20px 0px 5px 0px;color:orange"><?php echo trans('messages.pendingprojects'); ?></span>
+            <?php if($projecttype['pendingcount']==0): ?>
+            <span class="cret-sub-til" style='margin-bottom: 50px;'><?php echo trans('messages.noprojectsfound'); ?>.</span>               
+            <?php else: ?>
+            <ul class="project-staus">
+                <?php foreach($createdprojects as $project): ?>
+                <?php if ($project->projectverified == 1) { ?>
+                    <li>
+                        <div class="projsttus-left"><a href="#"><img src="<?php echo URL::to(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::to('main/images/projectdefault.png'); ?>'"></a></div>
+                        <div class="projsttus-center">
+
+                            <div class="right-afr">
+                                <span><?php echo e($project->title); ?></span>                          
+                                <p style=" font-size: 14px;margin-top:5px;"><?php echo e($project->shortblurb); ?></p>
+                                <a class="hmobile-left" href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>"> <?php echo trans('messages.continueediting'); ?> </a>
+                            </div>
+                        </div>
+                    </li>
+                <?php } ?>
+                <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>	
+
+            <span class="cret-sub-til" style="font-size: 24px;font-weight: bold; padding: 20px 0px 5px 0px;color:red"><?php echo trans('messages.suspendedprojects'); ?></span>
+            <?php if($projecttype['suspendedcount']==0): ?>
+            <span class="cret-sub-til" style='margin-bottom: 50px;'><?php echo trans('messages.noprojectsfound'); ?>.</span>               
+            <?php else: ?>
+            <ul class="project-staus">
+                <?php foreach($createdprojects as $project): ?>
+                <?php if ($project->projectverified == 3) { ?>
+                    <li>
+                        <div class="projsttus-left"><a href="#"><img src="<?php echo URL::to(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::to('main/images/projectdefault.png'); ?>'"></a></div>
+                        <div class="projsttus-center">
+
+                            <div class="right-afr">
+                                <span><?php echo e($project->title); ?></span>                          
+                                <p style=" font-size: 14px;margin-top:5px;"><?php echo e($project->shortblurb); ?></p>
+                                <a class="hmobile-left" href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>"> <?php echo trans('messages.continueediting'); ?> </a>
+                            </div>
+                        </div>
+                    </li>
+                <?php } ?>
+                <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>
+            <span class="cret-sub-til" style="font-size: 24px;font-weight: bold; padding: 20px 0px 5px 0px;color:red"><?php echo trans('messages.expiredprojects'); ?></span>
+
+            <?php $count = 0; ?>
+            <ul class="project-staus">
+                <?php foreach($createdprojects as $project): ?>
+                <?php if($project->dayscount <0 && $project->projectverified==2): ?>
+                <li>
+                    <div class="projsttus-left"><a href="#"><img src="<?php echo URL::to(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::to('main/images/projectdefault.png'); ?>'"></a></div>
+                    <div class="projsttus-center">
+
+                        <div class="right-afr">
+                            <span><?php echo e($project->title); ?></span>                          
+                            <p style=" font-size: 14px;margin-top:5px;"><?php echo e($project->shortblurb); ?></p>
+                            <a class="hmobile-left" href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>"> <?php echo trans('messages.continueediting'); ?> </a>
+                        </div>
+                    </div>
+                </li>
+                <?php $count++; ?>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+            <?php if($count==0): ?>
+            <span class="cret-sub-til" style='margin-bottom: 50px;'><?php echo trans('messages.noprojectsfound'); ?>.</span>    
+            <?php endif; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

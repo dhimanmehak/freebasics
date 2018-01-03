@@ -1,0 +1,143 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <?php if(Session::has('failed')): ?>
+            <div class="login_invalid">
+                <span class="icon"></span> <?php echo Session::get('failed');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Transfer Fund</h6>
+                </div>
+
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>                         
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Creator
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>
+                                <th>
+                                    Funded Amount
+                                </th>
+                                <th>
+                                    End Date
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>                                 
+                            <?php foreach($fundedprojects as $key=>$fundedproject): ?>
+                            <?php if($fundedproject->selected=="yes"): ?>
+                            <tr>                                
+                                <td class="center">
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $fundedproject->title; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $fundedproject->firstname; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo round($fundedproject->fundinggoal); ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo round($fundedproject->totalpledgeamount); ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $fundedproject->endingon; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($priv == 'all' || in_array('2', $Transfer_fund)): ?>                                    
+                                    <?php if($fundedproject->selected=="yes"): ?>                                   
+                                    <?php if($name=="demo"): ?>
+                                    <a class="inline cboxElement action-icons c-delete" href="#inline_content"><span class="badge_style b_success">Transfer</span></a>
+                                    <?php else: ?>
+                                    <a href="<?php echo URL::to('stripecharge'); ?>/<?php echo $fundedproject->id; ?>"><span class="badge_style b_success">Transfer</span></a>
+                                    <?php endif; ?>
+                                    <?php else: ?>
+                                    <?php if($name=="demo"): ?>
+                                    <a class="inline cboxElement action-icons c-delete" href="#inline_content"><span class="badge_style b_pending">Refund</span></a>
+                                    <?php else: ?>
+                                    <a href="#"><span class="badge_style b_pending">Failed</span></a>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endif; ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Creator
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>
+                                <th>
+                                    Funded Amount
+                                </th>
+                                <th>
+                                    End Date
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

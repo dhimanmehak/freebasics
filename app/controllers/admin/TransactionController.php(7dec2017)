@@ -1,0 +1,158 @@
+<?php
+
+use Omnipay\Omnipay;
+use fundstarter\storage\Project\ProjectRepository as ProjectRepository;
+use fundstarter\storage\User\UserRepository as UserRepository;
+use fundstarter\storage\Reward\RewardRepository as RewardRepository;
+use fundstarter\storage\Adminsetting\AdminsettingRepository as AdminsettingRepository;
+use fundstarter\storage\Backing\BackingRepository as BackingRepository;
+use fundstarter\storage\Payment\PaymentRepository as PaymentRepository;
+use fundstarter\storage\Newsletter\NewsletterRepository as NewsletterRepository;
+use Cartalyst\Stripe\Stripe;
+
+class TransactionController extends Controller {
+
+    public function __construct(NewsletterRepository $newsletterRepository, PaymentRepository $paymentRepository, BackingRepository $backingRepository, AdminsettingRepository $adminsettingRepository, ProjectRepository $projectRepository, UserRepository $userRepository, RewardRepository $rewardRepository) {
+        // setup PayPal api context
+        $this->project = $projectRepository;
+        $this->user = $userRepository;
+        $this->reward = $rewardRepository;
+        $this->adminsetting = $adminsettingRepository;
+        $this->backing = $backingRepository;
+        $this->payment = $paymentRepository;
+        $this->newsletter = $newsletterRepository;
+        $this->username = Config::get('adminconfig.paypalapiname');
+        $this->password = Config::get('adminconfig.paypalapipwd');
+        $this->signature = Config::get('adminconfig.paypalapikey');
+    }
+
+    public function refund() {
+        $gateway = Omnipay::create('PayPal_Express');
+        $gateway->setUsername($this->username);
+        $gateway->setPassword($this->password);
+        $gateway->setSignature($this->signature);
+        $gateway->setTestMode(true);
+        $projectid = 79;
+        $paymentdetails = $this->payment->getbyprojectid($projectid);
+        foreach ($paymentdetails as $details) {
+            $temp = $details->amount;
+            $transactionid = $details->transactionid;
+            if (!is_float($temp)) {
+                $amount = $temp . '.00';
+            } else {
+                $amount = $temp;
+            }
+            $data = array(
+                'transactionReference' => $transactionid,
+                'amount' => $amount,
+            );
+            $response = $gateway->refund($data)->send();
+            if ($response->isSuccessful()) {
+                // success
+                Session::flash('success', 'Refund sucessfull!');
+                return Redirect::back();
+            } else {
+                return $response->getMessage();
+            }
+        }
+    }
+
+    public function stripecharge($projectid) {
+        $commission = Config::get('adminconfig.admincommission');
+        $payments = $this->backing->getbyprojectid($projectid);
+        $creatorid = $this->project->getuserid($projectid);
+        $creatoremail = $this->user->getemail($creatorid);
+		
+        $credentials = $this->getstripecredentials($creatorid);
+		//echo "<pre>";print_r($credentials);exit;
+        if ($credentials['creatoraccount'] == '') {
+            Session::flash('failed', 'Creator not connected with stripe');
+            return Redirect::back();
+        }
+        $apikey = $credentials['secretkey'];
+        $creatoraccount = $credentials['creatoraccount'];
+		//echo "<pre>";print_r( $payments);exit;
+		//echo $creatoraccount;
+		//exit;
+        $stripe = Stripe::make($apikey);
+        foreach ($payments as $payment) {
+            $pledgeamount = $payment['pledgeamount'];
+            $commcharge = $commission*$pledgeamount;
+            $customerid = $payment['stripecustomerid'];
+			
+            //try {
+                $charge = $stripe->charges()->create(
+                        ['customer' => $customerid,
+                            'currency' => 'USD', 'receipt_email' => $creatoremail,
+                            'amount' => $pledgeamount, 'application_fee' => $commcharge,
+                            'destination' => $creatoraccount]);
+				//echo "<pre>";print_r($charge);exit;
+                if ($charge['paid'] == "true") {
+                    $this->backing->updatechargeid($payment['id'], $charge['id']);
+                }
+            /*} catch (Stripe_CardError $e) {
+                $messageTitle = 'Card Declined';
+                // Since it's a decline, Stripe_CardError will be caught
+                $body = $e->getJsonBody();
+                $err = $body['error'];
+                $message = $err['message'];
+            } catch (Stripe_InvalidRequestError $e) {
+                // Invalid parameters were supplied to Stripe's API
+                $messageTitle = 'Oops...';
+                $message = 'It looks like my payment processor encountered an error with the payment information.';
+            } catch (Stripe_AuthenticationError $e) {
+                // Authentication with Stripe's API failed
+                // (maybe you changed API keys recently)
+                $messageTitle = 'Oops...';
+                $message = 'It looks like my payment processor API encountered an error.';
+            } catch (Stripe_ApiConnectionError $e) {
+                // Network communication with Stripe failed
+                $messageTitle = 'Oops...';
+                $message = 'It looks like my payment processor encountered a network error.';
+            } catch (Stripe_Error $e) {
+                // Display a very generic error to the user, and maybe send
+                // yourself an email
+                $messageTitle = 'Oops...';
+                $message = 'It looks like my payment processor encountered an error.';
+            } catch (Exception $e) {
+                // Something else happened, completely unrelated to Stripe
+                $messageTitle = 'Oops...';
+                $message = 'It appears that something went wrong with your payment.';
+            }*/
+        }
+        if (isset($messageTitle)) {
+            Session::flash('failed', $messageTitle . ',' . $message);
+            return Redirect::back();
+        } else {
+            $this->project->updatefunded($projectid);
+            Session::flash('success', 'Transfer Successfull');
+            return Redirect::back();
+        }
+    }
+
+    public function getstripecredentials($creatorid) {
+        $paymentgateways = Config::get('paymentconfig');
+        foreach ($paymentgateways as $payment) {
+            $paymentgateway = unserialize($payment);
+            if ($paymentgateway['id'] == 2) {   // stripe in id 2
+                $setting = $paymentgateway['settings'];
+            }
+        }
+        $stripesettings = unserialize($setting);
+        $mode = $stripesettings['mode'];
+		
+        if ($mode == "sandbox") {
+            $userdetail = $this->user->getuserbyid($creatorid);
+            $creatoraccount = $userdetail->sandbox_stripe_user_id;
+        } else {
+            $userdetail = $this->user->getuserbyid($creatorid);
+            $creatoraccount = $userdetail->live_stripe_user_id;
+        }
+        $gatewayname = $stripesettings['gatewayname'];
+        $secretkey = $stripesettings['Secret_Key'];
+        $publishablekey = $stripesettings['Publish_Key'];
+        $clientid = $stripesettings['Client_ID'];
+        return array('mode' => $mode, 'gatewayname' => $gatewayname, 'secretkey' => $secretkey, 'publishablekey' => $publishablekey, 'clientid' => $clientid, 'creatoraccount' => $creatoraccount);
+    }
+
+}

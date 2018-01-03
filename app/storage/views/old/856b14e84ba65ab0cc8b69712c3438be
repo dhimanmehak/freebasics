@@ -1,0 +1,86 @@
+<?php $__env->startSection('content'); ?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon list"></span>
+                    <h6>Edit <?php echo $paymentgateways->gatewayname; ?></h6>
+                </div>
+                <div class="widget_content">
+                    <form autocomplete="off" method="post" action="<?php echo URL::to('posteditpaymentgateway'); ?>" class="form_container left_label" id="form103" enctype="multipart/form-data">
+                        <?php
+                        $gatewaySettings = unserialize($paymentgateways->settings);
+                        if (!is_array($gatewaySettings)) {
+                            $gatewaySettings = array();
+                        }
+                        if (isset($gatewaySettings['mode'])) {
+                            ?>
+                            <ul>
+                                <li>
+                                    <div class="form_grid_12">
+                                        <label class="field_title">Payment Mode </label>
+                                        <?php if($gatewaySettings['mode']=="sandbox"): ?>
+                                        <select class="form_input" name="mode">
+                                            <option value="live">Live</option>
+                                            <option value="sandbox"  selected="">Sandbox</option>
+                                        </select>
+                                        <?php else: ?>
+                                        <select class="form_input" name="mode">
+                                            <option value="live" selected="">Live</option>
+                                            <option value="sandbox">Sandbox</option>
+                                        </select>
+                                        <?php endif; ?>
+                                    </div>
+                                </li>
+                            <?php } ?>
+
+                            <input type='hidden' value='<?php echo $paymentgateways->id; ?>' name='id'/>
+                            <input type='hidden' value='<?php echo $paymentgateways->gatewayname; ?>' name='gatewayname'/>
+                            <?php
+                            foreach ($gatewaySettings as $key => $val) {
+                                if ($key != 'mode') {
+                                    if ($key == 'paypal_ipn_url') {
+                                        ?>
+                                        <li>
+                                            <div class="form_grid_12">
+                                                <label  class="field_title"><?php echo ucwords(str_replace('_', ' ', $key)); ?> </label>
+                                                <label><?php echo URL::to('site/order/ipnpaymet'); ?></label>
+                                            </div>
+                                        </li>
+                                    <?php } else { ?>    
+                                        <li>
+                                            <div class="form_grid_12">
+                                                <label class="field_title"><?php echo ucwords(str_replace('_', ' ', $key)); ?></label>
+                                                <div class="form_input"> 
+                                                    <input type="text" name="<?php echo $key; ?>"  value='<?php echo $val; ?>'></div>
+                                            </div>
+                                        </li>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>                             
+                            <li>
+                                <div class="form_grid_12">
+                                    <div class="form_input">
+                                        <?php $name = Session::get('adminname'); ?>
+                                        <?php if($name=="demo"): ?>
+                                        <a class="inline cboxElement btn_small btn_blue" href="#inline_content" style="line-height: 28px !important;color: #fff;">Update</a>
+                                        <?php else: ?>
+                                        <button type="submit" class="btn_small btn_blue"><span>Update</span></button>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="clear"></span>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

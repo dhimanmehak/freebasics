@@ -1,0 +1,1683 @@
+@extends('layouts.mainlayout')
+@section('content')
+
+
+<div class="tab-content fb-goal-tab-content">
+   
+      <div class="fb-scroll-to-list">
+        <ul class="nav navbar-nav" role="tablist" id="nav-one">
+            <li class="current">
+                <a class="page-scroll" href="#body">
+                  <span class="fb-stl-line"></span>
+                  <span class="fb-stl-detail">
+                    <span class="fb-stl-section-title">Sustainable Development Goals</span>
+                    <span class="fb-stl-section-description">End world poverty by 2030’ through the UN’s 17 Sustainable Development Goals</span>
+                  </span>
+                </a>
+            </li>
+            <li>
+                <a class="page-scroll" href="#section2">
+                  <span class="fb-stl-line"></span>
+                  <span class="fb-stl-detail">
+                    <span class="fb-stl-section-title">Global Goals</span>
+                    <span class="fb-stl-section-description">There are 17 Sustainable Development Goal by the UN which you can align yourself with</span>
+                  </span>
+                </a>
+            </li>
+            <li>
+                <a class="page-scroll" href="#section3">
+                  <span class="fb-stl-line"></span>
+                  <span class="fb-stl-detail">
+                    <span class="fb-stl-section-title">Global Revolution</span>
+                    <span class="fb-stl-section-description">Be a part of the revolution across the earth by showing your support and standing beside millions of others who are alreadya part of this revolution</span>
+                  </span>
+                </a>
+            </li>
+            <li>
+                <a class="page-scroll" href="#section4">
+                  <span class="fb-stl-line"></span>
+                  <span class="fb-stl-detail">
+                    <span class="fb-stl-section-title">Global Platform</span>
+                    <span class="fb-stl-section-description">We provide you with the world’s first smart funding platform that aligns with each of these 17 Sustainable Development Goals</span>
+                  </span>
+                </a>
+            </li>
+            <li>
+                <a class="page-scroll" href="#section5">
+                  <span class="fb-stl-line"></span>
+                  <span class="fb-stl-detail">
+                    <span class="fb-stl-section-title">The UNSDGs can’t work without YOU</span>
+                    <span class="fb-stl-section-description">Align with a goal, show your support and share your voice</span>
+                  </span>
+                </a>
+            </li>
+            <li>
+                <a class="page-scroll" href="#section6">
+                  <span class="fb-stl-line"></span>
+                  <span class="fb-stl-detail">
+                    <span class="fb-stl-section-title">Goals in the news</span>
+                    <span class="fb-stl-section-description">News from around the globe about the 17 Sustainable Development Goals</span>
+                  </span>
+                </a>
+            </li>
+            <li>
+                <a class="page-scroll" href="#section7">
+                  <span class="fb-stl-line"></span>
+                  <span class="fb-stl-detail">
+                    <span class="fb-stl-section-title">Voices from around the World</span>
+                    <span class="fb-stl-section-description">See what FreeBasics Citizens have to say</span>
+                  </span>
+                </a>
+            </li>
+
+        </ul>
+      </div>
+      <section class="section fb-home-first-fold" id="section1">
+        <div class="container">
+          <div class="fb-low-poly-globe-wrapper wow bounceIn" data-wow-delay="0.2s">
+            <!-- <img src="images/low-poly-globe.png" alt="low poly globe" /> -->
+            <!-- <aside class="icosahedron visible"></aside> -->
+            <div id="container"></div>
+            <!-- <div id="host"></div> -->
+          </div>
+          <div class="fb-home-first-fold-content-wrapper wow fadeInRight" data-wow-delay="0.6s">
+            <div id="fb-text-slider" class="carousel slide carousel-fade" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#fb-text-slider" data-slide-to="0" class="active"></li>
+                <li data-target="#fb-text-slider" data-slide-to="1"></li>
+                <li data-target="#fb-text-slider" data-slide-to="2"></li>
+                <li data-target="#fb-text-slider" data-slide-to="3"></li>
+                <li data-target="#fb-text-slider" data-slide-to="4"></li>
+                <li data-target="#fb-text-slider" data-slide-to="5"></li>
+                <li data-target="#fb-text-slider" data-slide-to="6"></li>
+              </ol>
+              <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                  <h4 class="fb-hff-grey-head">You can</h4>
+                  <h1 class="fb-hff-black-text">End poverty Protect the planet Ensure prosperity By 2030</h1>
+                  <!-- <h5 class="fb-hff-grey-head without-top-line">to transform our world</h5> -->
+                </div>
+                <div class="item">
+                  <h4 class="fb-hff-grey-head">The UNSDGs</h4>
+                  <h1 class="fb-hff-black-text">17 important initiatives
+193 countries
+800 weeks
+Make them count
+</h1>
+                  
+                </div>
+                <div class="item">
+                  <h4 class="fb-hff-grey-head">Needed: 3 trillion USD</h4>
+                  <h1 class="fb-hff-black-text">Per year
+Every year
+Till 2030
+To achieve the	 SDGs
+ </h1>
+                
+                </div>
+
+                  <div class="item">
+                  <h4 class="fb-hff-grey-head">The 5 Ps of SDGs</h4>
+                  <h1 class="fb-hff-black-text">People Planet Peace Prosperity
+Partnership
+With you
+</h1>
+                
+                </div>
+
+                <div class="item">
+                  <h4 class="fb-hff-grey-head">Team UNSDG</h4>
+                  <h1 class="fb-hff-black-text">Governments
+Private enterprise
+Charity organisations
+And YOU!
+
+</h1>
+                
+                </div>
+
+
+                <div class="item">
+                  <h4 class="fb-hff-grey-head">The SDG Agenda </h4>
+                  <h1 class="fb-hff-black-text">No one left behind
+Because
+Everyone matters
+We can make it happen!
+</h1>
+                
+                </div>
+
+
+
+                <div class="item">
+                  <h4 class="fb-hff-grey-head">The BIG question</h4>
+                  <h1 class="fb-hff-black-text">What’s
+Your
+Global Goal?
+Know more. Act now
+</h1>
+                
+                </div>
+
+
+
+
+              </div>
+            </div>
+            <a href="{{URL::to('align/goal')}}" class="fb-primary-action-btn fb-take-action-btn"><i class="icon-right-arrow"></i> <span>TAKE ACTION</span></a>
+          </div>
+          <span class="fb-learn-more-btn-wrap">
+            <a href="javascript:void(0)">
+              <!-- <span class="fb-learn-more-text">learn more</span> -->
+              <span class="fb-learn-more-btn-icon">
+                <i class="icon-down-arrow"></i>
+                <i class="icon-down-arrow"></i>
+                <i class="icon-down-arrow"></i>
+              </span>
+            </a>
+          </span>
+        </div>
+      </section>
+      <section class="section fb-home-second-fold" id="section2">
+        <div class="fb-section-head-wrap fb-hsf-section-head-wrap">
+          <h3 class="fb-section-head">Global Goal</h3>
+          <p class="fb-section-head-para">There are 17 Sustainable Goals of the UN which you can align yourself.</p>
+        </div>
+        <div class="fb-hsf-content-left">
+          <div class="triangle-masked-image wow rollIn">
+            <img src="{{URL::asset('main/images/triangle.svg');}}" alt="triangle"  class="fb-triangle-mask"/>
+          </div>
+        </div>
+        <div class="fb-hsf-content-right">
+          <ul class="fb-parallellogram-grid-list wow fadeInRight" data-wow-delay="0.3s">
+            <li>
+              <span class="fb-parallellogram-grid-content-skew">
+                <h3 class="fb-parallellogram-grid-head"><span class="counter">52.1</span> percent</h3>
+                <p class="fb-parallelogram-grid-description">of the rural population still defecates in the open in India</p>
+              </span>
+            </li>
+            <li>
+              <span class="fb-parallellogram-grid-content-skew">
+                <h3 class="fb-parallellogram-grid-head"><span class="counter">300</span> million</h3>
+                <p class="fb-parallelogram-grid-description">in India have no access to electricity</p>
+              </span>
+            </li>
+            <li>
+              <span class="fb-parallellogram-grid-content-skew">
+                <h3 class="fb-parallellogram-grid-head"><span class="counter">22</span> %</h3>
+                <p class="fb-parallelogram-grid-description">of India’s population is under the official poverty limit</p>
+              </span>
+            </li>
+            <li>
+              <span class="fb-parallellogram-grid-content-skew">
+                <h3 class="fb-parallellogram-grid-head"><span class="counter">1</span> out 4 school</h3>
+                <p class="fb-parallelogram-grid-description">age children have either dropped out or are not in school in India</p>
+              </span>
+            </li>
+          </ul>
+          <div class="fb-gg-learn-more-wrap">
+            <a class="fb-gg-learn-more-btn" role="button" data-toggle="collapse" href="#gg-learn-more-collapse" aria-expanded="false" aria-controls="gg-learn-more-collapse">Learn More >> </a>
+          </div>
+          <div class="collapse" id="gg-learn-more-collapse">
+            <a class="twitter-timeline"  href="https://twitter.com/hashtag/design" data-widget-id="852452511894179841" data-width="100%" data-height="400" data-chrome="noheader, nofooter, noborders, transparent, noscrollbar" data-tweet-limit="3">#design Tweets</a>
+          </div>
+        </div>
+        <div class="fb-second-fold-connector">
+          <img src="{{URL::asset('main/images/global-revolution-connector-web.svg');}}" alt="global revolution connector web"/>
+        </div>
+      </section>
+      <section class="section fb-home-third-fold" id="section3">
+        <div class="fb-global-revolution-map-wrapper">
+          <div class="fb-section-head-wrap wow fadeInUp" data-wow-delay="0.8s">
+            <h3 class="fb-section-head">Global Revolution</h3>
+            <p class="fb-section-head-para">Be a part of the revolution across the earth by showing your support and standing beside millions of others who are already a part of this revolution (If sentence is too long, please change to: Take part in a global revolution to change the world for the better and make it a better place)</p>
+          </div>
+          <div class="fb-gr-map-image-wrapper">
+            <img src="{{URL::asset('main/images/global-revolution-map.svg');}}" alt="global revolution map" class="fb-gr-map-image"/>
+          </div>
+        </div>
+        <div class="fb-hsf-square-masked-image wow fadeInUp" data-wow-delay="0.2s">
+          <img src="{{URL::asset('main/images/global-revolution.jpg');}}" alt="global revolution"/>
+        </div>
+      </section>
+      <div class="fb-third-fold-connector">
+        <img src="{{URL::asset('main/images/platform-connector-web.svg');}}" alt="platform connector web"/>
+      </div>
+      <section class="section fb-home-fourth-fold" id="section4">
+        <div class="fb-hff-content-right">
+          <div class="fb-section-head-wrap fb-hff-section-head">
+            <h3 class="fb-section-head">Global Platform</h3>
+            <p class="fb-section-head-para">We provide you the world’s first smart funding platform that aligns with those goals</p>
+          </div>
+          <ul class="fb-polygon-grid-list wow fadeInRight" data-wow-delay="0.4s">
+            <li>
+              <span class="fb-polygon-grid-content-wrap">
+                <h3 class="fb-polygon-grid-head"><span class="counter">52.1</span> percent</h3>
+                <p class="fb-polygon-grid-description">of the rural population still defecates in the open in India</p>
+              </span>
+            </li>
+            <li>
+              <span class="fb-polygon-grid-content-wrap">
+                <h3 class="fb-polygon-grid-head"><span class="counter">300</span> million</h3>
+                <p class="fb-polygon-grid-description">in India have no access to electricity</p>
+              </span>
+            </li>
+            <li>
+              <span class="fb-polygon-grid-content-wrap">
+                <h3 class="fb-polygon-grid-head"><span class="counter">22</span> %</h3>
+                <p class="fb-polygon-grid-description">of India’s population is under the official poverty limit</p>
+              </span>
+            </li>
+            <li>
+              <span class="fb-polygon-grid-content-wrap">
+                <h3 class="fb-polygon-grid-head"><span class="counter">1</span> out 4</h3>
+                <p class="fb-polygon-grid-description">school age children have either dropped out or are not in school in India</p>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="fb-hff-content-left">
+          <div class="polygon-masked-image wow fadeInLeft" data-wow-delay="0.4s">
+            <img src="{{URL::asset('main/images/polygon.svg');}}" alt="triangle"  class="fb-triangle-mask"/>
+          </div>
+        </div>
+      </section>
+      <section class="section fb-home-fifth-fold" id="section5">
+        <div class="fb-section-head-wrap">
+          <h3 class="fb-section-head">The UNSDGs can’t work without U</h3>
+        </div>
+        <div class="fb-fifth-fold-content-wrap">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4 col-xs-12">
+                <div class="fb-ff-content-grid wow fadeInUp" data-wow-delay="0.3s">
+                  <span class="fb-ff-content-grid-image">
+                    <img src="{{URL::asset('main/images/align-with-goal.svg');}}" alt="align with goal" />
+                  </span>
+                  <h3 class="fb-ff-content-head">Take a Pledge</h3>
+                  <p class="fb-ff-content-para">Align yourself with a goal to make a difference for people, planet and prosperity</p>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="fb-ff-content-grid wow fadeInUp" data-wow-delay="0.6s">
+                  <span class="fb-ff-content-grid-image">
+                    <img src="{{URL::asset('main/images/show-your-support.svg');}}" alt="show your support" />
+                  </span>
+                  <h3 class="fb-ff-content-head">Extend your Support</h3>
+                  <p class="fb-ff-content-para">Contribute what you can to support projects under each goal</p>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="fb-ff-content-grid wow fadeInUp" data-wow-delay="0.9s">
+                  <span class="fb-ff-content-grid-image">
+                    <img src="{{URL::asset('main/images/share-your-voice.svg');}}" alt="share your voice" />
+                  </span>
+                  <h3 class="fb-ff-content-head">Spread the Word</h3>
+                  <p class="fb-ff-content-para">Spread the word. Make a difference</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section fb-sixth-fold wow fadeInUp" id="section6">
+        <div class="fb-section-head-wrap">
+          <h3 class="fb-section-head">Goals in the News</h3>
+        </div>
+        <div class="fb-sixth-fold-content-wrap">
+          <div class="fb-sixth-fold-header-section">
+            <div class="container">
+              <h5 class="fb-news-section-small-head">The front page for the 17 SDGs</h5>
+              <div class="fb-sixth-fold-header-right">
+                <select class="fb-news-category-selector">
+                  <option value="">Global Goals</option>
+                  <option value="news-sdg1">SDG1: No Poverty</option>
+                  <option value="news-sdg2">SDG2: Zero Hunger</option>
+                  <option value="news-sdg3">SDG3: Good Health And Well-Being</option>
+                  <option value="news-sdg4">SDG4: Quality Education</option>
+                  <option value="news-sdg5">SDG5: Gender Equality</option>
+                  <option value="news-sdg6">SDG6: Clean Water And Sanitation</option>
+                  <option value="news-sdg7">SDG7: Affordable And Clean Energy</option>
+                  <option value="news-sdg8">SDG8: Decent Work And Economic Growth</option>
+                  <option value="news-sdg9">SDG9: Industry Innovation And Infrastructure</option>
+                  <option value="news-sdg10">SDG10: Reduced Inequalities</option>
+                  <option value="news-sdg11">SDG11: Sustainable Cities And Communities</option>
+                  <option value="news-sdg12">SDG12: Responsible Consumption And Production</option>
+                  <option value="news-sdg13">SDG13: Climate Action</option>
+                  <option value="news-sdg14">SDG14: Life Below Water</option>
+                  <option value="news-sdg15">SDG15: Life on Land</option>
+                  <option value="news-sdg16">SDG16: Peace, Justice And Strong Institutions</option>
+                  <option value="news-sdg17">SDG17: Partnership For The Goals</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="fb-news-tab-wrapper">
+            <div class="container">
+              <ul class="fb-news-tab-trigger" role="tablist">
+                <li role="presentation" class="active"><a href="#news-sdg1" aria-controls="news-sdg1" role="tab" data-toggle="tab">1</a></li>
+                <li role="presentation"><a href="#news-sdg2" aria-controls="news-sdg2" role="tab" data-toggle="tab">2</a></li>
+                <li role="presentation"><a href="#news-sdg3" aria-controls="news-sdg3" role="tab" data-toggle="tab">3</a></li>
+                <li role="presentation"><a href="#news-sdg4" aria-controls="news-sdg4" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg5" aria-controls="news-sdg5" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg6" aria-controls="news-sdg6" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg7" aria-controls="news-sdg7" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg8" aria-controls="news-sdg8" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg9" aria-controls="news-sdg9" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg10" aria-controls="news-sdg10" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg11" aria-controls="news-sdg11" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg12" aria-controls="news-sdg12" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg13" aria-controls="news-sdg13" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg14" aria-controls="news-sdg14" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg15" aria-controls="news-sdg15" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg16" aria-controls="news-sdg16" role="tab" data-toggle="tab">4</a></li>
+                <li role="presentation"><a href="#news-sdg17" aria-controls="news-sdg17" role="tab" data-toggle="tab">4</a></li>
+              </ul>
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="news-sdg1">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+<span class="fb-news-grid-image" style="background-image:url({{URL::asset('main/images/news-grid-image-1.jpeg');}})"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url({{URL::asset('main/images/news-grid-image-2.jpeg');}})"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('{{URL::asset('main/images/news-grid-image-3.jpeg');}}')"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('{{URL::asset('main/images/news-grid-image-4.jpeg');}}')"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('{{URL::asset('main/images/news-grid-image-5.jpeg');}}')"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('{{URL::asset('main/images/news-grid-image-1.jpeg');}}')"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('{{URL::asset('main/images/news-grid-image-2.jpeg');}}"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('{{URL::asset('main/images/news-grid-image-3.jpeg');}}"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('{{URL::asset('main/images/news-grid-image-4.jpeg');}}');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg2">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('{{URL::asset('main/images/news-grid-image-4.jpeg');}}')"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg3">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg4">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg5">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg6">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg7">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg8">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg9">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg10">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sd11">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="news-sdg12">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-5.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-1.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-2.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-3.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                      <a href="#" class="fb-news-grid">
+                        <span class="fb-news-grid-image" style="background-image: url('images/news-grid-image-4.jpeg');"></span>
+                        <span class="fb-news-grid-content-wrap">
+                          <h3 class="fb-news-grid-head">Help save Charlie's life</h3>
+                          <p class="fb-news-grid-description">How? It is as simple as aligning and supporting.</p>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="fb-news-more-btn-wrapper">
+                <a href="#" class="fb-news-more-btn">Load more</a>
+              </div>
+            </div>
+          </div>
+
+ 
+        </div>
+      </section>
+      <section class="section fb-seventh-fold wow fadeInUp" id="section7">
+        <div class="fb-section-head-wrap">
+          <h3 class="fb-section-head">FreeBasics Citizens say</h3>
+        </div>
+        <div class="fb-twitter-feeds-section">
+          <div class="container" id="twitter-container">
+          <!--  <a class="twitter-timeline"  href="https://twitter.com/hashtag/design" data-widget-id="852452511894179841" data-width="100%" data-height="400" data-chrome="noheader, nofooter, noborders, transparent, noscrollbar" data-tweet-limit="3">#design Tweets</a> -->
+       <a class="twitter-timeline" href="https://twitter.com/Freebasics" data-width="100%" data-chrome="noheader, nofooter, noborders, transparent, noscrollbar" data-tweet-limit="3">Tweets by @{Freebasics}</a>
+                  
+       
+
+          </div>
+        </div>
+      </section>
+
+
+ 
+    <!--- client section starts-->
+
+   
+   <div class="modal fade fb-modal fb-cp-success-modal" id="alignSuccessModal" tabindex="-1" role="dialog" aria-labelledby="alignSuccessModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="icon-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="fb-create-project-success-modal-content">
+            <span class="fb-create-project-success-modal-icon"><i class="icon-checked"></i></span>
+            <h4 class="fb-create-project-success-modal-head">Congrats!</h4>
+            <p class="fb-create-project-success-modal-para"><strong>You have successfully aligned yourself to this goal!</strong></p>
+            <p class="fb-asModal-light-para">6 of your friends have done the same. Spread the joy!</p>
+            <div class="fb-asModal-btns-wrapper">
+              <a href="donate.html" type="button" class="fb-cpsm-thanks-btn">Support this Goal</a>
+              <a href="project-detailed-view.html" type="button" class="fb-read-about-goal-btn">Read about the Goal</a>
+            </div>
+            <ul class="fb-modal-share-list">
+              <li>
+                <span>Share:</span>
+              </li>
+              <li><a href="#"><i class="icon-facebook"></i></a></li>
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-google-plus"></i></a></li>
+              <li><a href="#"><i class="icon-linkedin"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="{{URL::asset('main/js/bootstrap.min.js');}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+        disableOn: 700,
+        type: 'iframe',
+        mainClass: 'mfp-fade',
+        removalDelay: 160,
+        preloader: false,
+
+        fixedContentPos: false
+    });
+});
+</script>
+<!-- <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> -->
+<script src="{{URL::asset('main/js/customize-twitter-1.1.min.js');}}" type="text/javascript"></script>
+<script src="{{URL::asset('main/js/jquery.easing.min.js');}}"></script>
+<!-- <script src="js/globe.js"></script> -->
+<script src="{{URL::asset('main/js/jquery.nav.js');}}"></script>
+<!-- <script src="js/three.min.js"></script> -->
+<script src="http://threejs.org/build/three.js"></script>
+<script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>
+<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<script>
+var $container = $('#container');
+var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true });
+var camera = new THREE.PerspectiveCamera(80,1,0.1,10000);
+var scene = new THREE.Scene();
+var Ico;
+
+scene.add(camera);
+renderer.setSize(576, 576);
+
+// Making the canvas responsive
+function onWindowResize(){
+
+    var screenWidth = $(window).width();
+    if (screenWidth <= 479){
+      renderer.setSize( 300, 300 );
+    }
+    else if (screenWidth <= 767){
+      renderer.setSize( 400, 400 );
+    }
+    else if (screenWidth <= 991){
+      renderer.setSize( 500, 500 );
+    }
+    else if (screenWidth <= 1200){
+      renderer.setSize( 450, 450 );
+    }
+    else if (screenWidth <= 1366){
+      renderer.setSize( 550, 550 );
+    }
+    camera.updateProjectionMatrix();
+
+}
+onWindowResize();
+window.addEventListener( 'resize', onWindowResize, false );
+
+// renderer.setSize($container.innerWidth, $container.innerHeight);
+
+$container.append(renderer.domElement);
+
+// Camera
+camera.position.z = 200;
+
+// Material
+var greyMat = new THREE.MeshPhongMaterial({
+color      :  new THREE.Color("rgb(125,127,129)"),
+emissive   :  new THREE.Color("rgb(125,127,129)"),
+specular   :  new THREE.Color("rgb(125,127,129)"),
+shininess  :  "100000000",
+shading    :  THREE.FlatShading,
+transparent: 1,
+opacity    : 1
+});
+
+var L2 = new THREE.PointLight( );
+L2.position.z = 1900;
+L2.position.y = 1850;
+L2.position.x = 1000;
+scene.add(L2);
+camera.add(L2);
+
+var Ico = new THREE.Mesh(new THREE.IcosahedronGeometry(125, 1), greyMat);
+Ico.rotation.z = 0.5;
+scene.add(Ico);
+var trackballControl = new THREE.TrackballControls(camera, renderer.domElement);
+trackballControl.rotateSpeed = 1.0; // need to speed it up a little
+trackballControl.noZoom = true;
+
+function update(){
+ Ico.rotation.x+=2/500;
+ Ico.rotation.y+=2/500;
+}
+
+// Render
+function render() {
+trackballControl.update();
+requestAnimationFrame(render);
+renderer.render(scene, camera);
+update();
+}
+render();
+</script>
+
+<script src="{{URL::asset('main/js/owl.carousel.min.js');}}"></script> <!-- owl carousel -->
+<script>
+$(document).ready(function() {
+  jQuery("#featured-projects-slider").owlCarousel({
+    nav:true,
+    navText:["<i class='icon-secondary-left-arrow'></i>","<i class='icon-secondary-right-arrow'></i>"],
+    autoPlay: 3000,
+    // items : 1,
+    // itemsDesktop : [1199, 3],
+    // itemsDesktopSmall : [979, 3],
+    responsive:{
+        0:{
+            items:1
+        },
+        768:{
+            items:2
+        },
+        992:{
+            items:3
+        }
+    },
+    margin: 20,
+  });
+
+});
+</script>
+
+<script src="{{URL::asset('main/js/amcharts.js');}}" type="text/javascript"></script>
+<script src="{{URL::asset('main/js/serial.js');}}" type="text/javascript"></script>
+<script src="{{URL::asset('main/js/wow.js');}}" type="text/javascript"></script>
+<script>
+  new WOW().init();
+</script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+<script src="{{URL::asset('main/js/jquery.counterup.min.js');}}"></script>
+<script src="{{URL::asset('main/js/jquery-ui.min.js');}}"></script>
+<script>
+    jQuery(document).ready(function( $ ) {
+        jQuery('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
+    });
+</script>
+
+<script src="{{URL::asset('main/js/custom.js');}}"></script>
+<script src="{{URL::asset('main/js/home.js');}}"></script>
+<script src="{{URL::asset('main/js/jquery.nav.js');}}"></script>
+
+
+<script>
+  jQuery(document).ready(function() {
+    
+    jQuery('#nav-one').onePageNav();
+
+
+
+
+});
+  
+ 
+</script>
+
+
+    @stop
+	
+	

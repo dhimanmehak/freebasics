@@ -1,0 +1,110 @@
+@extends('layouts.mainlayout')
+@section('content')
+
+<section class="fb-signup-section">
+    <div class="container">
+    
+       @if(Session::has('success'))
+        <div class="alert-message success">
+            {{Session::get('success');}}
+        </div>
+        @endif
+        @if(Session::has('failed'))
+        <div class="alert alert-warning text-center">
+            {{Session::get('failed');}}
+        </div>
+        @endif
+		
+		
+		
+	 
+      <div class="fb-login-box">
+        <div class="fb-signup-right">
+          <!-- <p class="fb-signup-top-text">Be the first of your friends to join the global revolution. <strong>Sign up now!</strong></p> -->
+          <div class="fb-section-head-wrap fb-signup-head-wrap">
+            <h3 class="fb-section-head">LOGIN</h3>
+          </div>
+          <div class="fb-signup-form-wrapper">
+            <form action="{{URL::to('dologin');}}"  method="post" id="formzip">
+              <ul class="fb-signup-form-list">
+			   <li class="fb-signup-btn-wrapper">
+                       <a href="{{URL::to('/signup')}}" class="fb-signup-btn">New User Sign up here!</a>
+                </li>
+				 <li class="fb-facebook-signup-btn-wrapper">
+                  <a href="#" class="fb-facebook-signup-btn existing_user">Existing User? Click here</a>
+                </li>
+				
+                <li class="hidsign">
+                  <input type="text" class="fb-input-text" placeholder="Email" required="required" id="Email" name="email"/>
+                  @if ($errors->has('email')) <p class="help-block">{{ $errors->first('email') }}</p> @endif
+                </li>
+                <li class="hidsign">
+                  <input type="password" class="fb-input-text" placeholder="Password" required="required" id="password" name="password"/>
+                </li>
+                <li class="fb-signup-btn-wrapper hidsign">
+                  <button class="fb-signup-btn">
+                    <p>I'm ready to start. Log in!</p>
+                    <i class="icon-checked"></i>
+                  </button>
+                </li>
+				<li>
+                  <span class="fb-alredy-member-text"><a href="{{URL::to('user/forgotpassword')}}">Forgot Password?</a></span>
+                </li>
+                <li>
+                  <span class="fb-signup-or-text"><i>or</i></span>
+                </li>
+                <li class="fb-facebook-signup-btn-wrapper">
+                  <a href="{{URL::to('facebook/login')}}" class="fb-facebook-signup-btn">Sign in with Facebook</a>
+                </li>
+                <li style="display:none;">
+                  <span class="fb-alredy-member-text">Want to be a FreeBasics Member? <a href="{{URL::to('/signup')}}">Sign Up</a></span>
+                </li>
+				
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="{{url::asset('main/js/bootstrap.min.js');}}"></script>
+<script src="{{url::asset('main/js/jquery-ui.min.js');}}"></script>
+<?php $baseurl = url(); ?>
+ <script>
+
+ $('a.existing_user').click(function(){
+	 
+	$('.hidsign').toggle('slow');
+ });
+  $('.FAB').on('click', function () {
+  $(this).closest('.user-input').toggleClass('show-input');
+  $(this).find(".icon-add").toggleClass("rotate");
+});
+
+   
+        $('#currencyselect').on('selectmenuchange', function () {
+            var url = '<?php echo $baseurl; ?>';
+            dataString = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: url + "/setcurrencysession",
+                data: "currency=" + dataString,
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        });
+
+    </script>
+
+      <script>
+        setInterval(function () {
+            //alert("Hello"); 
+        }, 86400000);
+    </script>
+
+
+
+@stop

@@ -1,0 +1,135 @@
+<?php $__env->startSection('content'); ?>
+
+		
+<section class="bdr-top">
+<div class="col-md-12 text-center">
+<div class="stepwizard">
+ <div class="stepwizard-row setup-panel">
+ 
+ 
+      <div class="stepwizard-step">
+        <a href="#step-1" type="button" class="btn btn-primary btn-circle active">1</a>
+        <p>Project Type</p>
+      </div>
+      <div class="stepwizard-step">
+        <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+        <p>Project Details</p>
+      </div>
+      <div class="stepwizard-step">
+        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+        <p>Incentives to supporters</p>
+      </div>
+	  <div class="stepwizard-step">
+        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+        <p>Social Impact</p>
+      </div>
+	  <div class="stepwizard-step">
+        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+        <p>Submit</p>
+      </div>
+    </div>
+	
+	</div>
+	
+<ul class="project_circle" style="display:none;">
+  <li class="active"><a href="#">1</a><span>Project Type</span></li>
+  <li><a href="#">2</a><span>Project Details</span></li>
+  <li><a href="#">3</a><span>Incentives to supporters</span></li>
+  <li><a href="#">4</a><span>Social Impact</span></li>
+  <li><a href="#">5</a><span>Submit</span></li>
+  
+</ul>     
+</div>
+
+    <div class="step" style="width:840px;">
+
+        <?php if(Session::has('failed')): ?>
+        <div class="alert-message error">
+            <?php echo Session::get('failed');; ?>
+
+        </div>
+        <?php endif; ?>
+		
+
+        <span class="creatd"><?php echo trans('messages.whattocreate'); ?>? </span>
+		
+		
+
+        <ul class="stater">
+
+            <form action='<?php echo URL::to('poststart'); ?>' method='post'>
+                <li>
+                    <p><?php echo trans('messages.wanttostart'); ?></p>
+
+                    <select style="height: 44px;font-size: 14px; color: #999;width:375px;" name='category' required="">
+                        <?php foreach($categories as $category): ?>
+                        <option value="<?php echo $category->id; ?>"><?php echo $category->categoryname; ?></option>          
+                        <?php endforeach; ?>
+                    </select>
+                    <p style='display:inline;'><?php echo trans('messages.projectcalled'); ?></p>
+
+                </li>
+                <input type="hidden" value="<?php echo Session::get('locale'); ?>" name="language" id="language">
+                <li style='width:85%;margin-left:7%;'>
+                    <input  class="text <?php if($errors->has('title')): ?> has-error <?php endif; ?>" type="text" name='title' placeholder="<?php echo trans('messages.title'); ?>..." value="<?php echo Input::old('title'); ?>" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required="">
+                    <?php if($errors->has('title')): ?> <p class="help-block"><?php echo $errors->first('title'); ?></p> <?php endif; ?>
+                </li>
+                <li style='width:86%;margin-left:6%;'>
+                    <p style='float:left; line-height: 1.3;'> <?php echo trans('messages.in'); ?> <?php echo trans('messages.smallcountry'); ?></p>
+
+                    <select class="sect-strt <?php if($errors->has('title')): ?> has-error <?php endif; ?>" style='width: 47%; font-size:13px;color: #7d7d7d !important;' name='country' value="<?php echo Input::old('country'); ?>" oninvalid="InvalidCountry(this);" oninput="InvalidCountry(this);" required="true">
+                        <option value=''><?php echo trans('messages.selectcountry'); ?></option>
+                        <?php foreach($countries as $country): ?>
+                        <option value="<?php echo $country->id; ?>"><?php echo $country->countryname; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php if($errors->has('country')): ?> <p class="help-block"><?php echo $errors->first('country'); ?></p> <?php endif; ?>
+                </li>
+
+                <li  style='width:86%;margin-left:6%;'>
+
+                    <!--                    <?php echo HTML::image(URL::to('simplecaptcha'),'Captcha'); ?>
+
+                                        <input type="text" name="project-captcha" style="margin-top: -68px; margin-left: 20px; padding: 10px;" class=" <?php if($errors->has('project-captcha')): ?> has-error <?php endif; ?>" placeholder="Enter text" required="">-->
+                    <input class="start-btn" type="submit" value="<?php echo trans('messages.start'); ?>" name="commit" style="margin-top: -83px;">
+                    <?php if($errors->has('project-captcha')): ?> <p class="help-block"><?php echo $errors->first('project-captcha'); ?></p> <?php endif; ?>
+                </li>
+            </form>
+            <?php if(Config::get('adminconfig.listingfee')!=0): ?>
+            <span class="notes-areas"><label>Note:</label><span>You need to pay $<?php echo Config::get('adminconfig.listingfee'); ?> to list your project in Fundstarter.</span>
+            </span>
+            <?php endif; ?>
+        </ul>
+
+    </div> 
+
+</section>
+<script>
+    function InvalidMsg(textbox) {
+    var lang = $('#language').val();
+    if(lang){
+        if (textbox.value == '') {
+            textbox.setCustomValidity('<?php echo trans("messages2.required"); ?>');
+        }
+        else {
+            textbox.setCustomValidity('');
+        }
+        return true;
+    }
+}
+function InvalidCountry(textbox) {
+    var lang = $('#language').val();
+    if(lang){
+        if (textbox.value == '') {
+            textbox.setCustomValidity('<?php echo trans("messages2.requiredcountry"); ?>');
+        }
+        else {
+            textbox.setCustomValidity('');
+        }
+        return true;
+    }
+}
+</script>    
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

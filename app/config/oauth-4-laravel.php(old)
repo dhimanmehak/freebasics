@@ -1,0 +1,42 @@
+<?php
+return array( 
+	
+	/*
+	|--------------------------------------------------------------------------
+	| oAuth Config
+	|--------------------------------------------------------------------------
+	*/
+
+	/**
+	 * Storage
+	 */
+	'storage' => 'Session', 
+
+	/**
+	 * Consumers
+	 */
+	'consumers' => array(
+
+		/**
+		 * Facebook
+		 */
+		'Facebook' => array(
+		    'client_id'     => '161163067777348',
+		    'client_secret' => '65721d506b5cdb4eeae5c668124f0cf9',
+            'scope'         => array('email'),
+		),
+          
+'Google' => array(
+    'client_id'     => '102439103889-jv1d8cacenk4h1p70388hcss8cb82gjo.apps.googleusercontent.com',
+    'client_secret' => 'QU8UQQ8NtCKovl7iOZ3J85pl',
+    'scope'         => array('userinfo_email', 'userinfo_profile'),
+),			  
+'Twitter' => array(
+    'client_id'     => 'vksYfesW5IjhetONl2qhAyXCT',
+    'client_secret' => 'd73ed3d8M9mJ3J86pMEvcLsrFTtt6nwdnWvNFBxodsQJ0LHCY0',
+	'scope' => array(),
+    // No scope - oauth1 doesn't need scope
+),
+	)
+
+);

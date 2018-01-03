@@ -1,0 +1,278 @@
+<div class="user-input fb-floating-buzz-feed-btn">
+  <section class="user-input--modal" id="fb-buzz-feed-content-wrap">
+    <div class="user-input--form">
+     <!-- <a class="twitter-timeline"  href="https://twitter.com/hashtag/FreeBasics" data-widget-id="852452511894179841" data-width="100%" data-height="400" data-chrome="noheader, nofooter, noborders, transparent, noscrollbar" data-tweet-limit="20">#FreeBasics Tweets</a> -->
+
+
+
+      <a class="twitter-timeline" href="https://twitter.com/FreeBasics">Tweets by FreeBasics</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+  </section>
+  <button class="FAB" title="Buzz Feed">
+    <i class="icon-add"></i>
+  </button>
+</div>
+<header class="fb-header">
+  <div class="fb-header-container">
+    <div class="fb-logo-hamburger-conatiner">
+      <a href="<?php echo URL::to(''); ?>" class="fb-logo">
+        <img src="<?php echo URL::asset('main/images/free-basics-logo.png');; ?>" alt="free basics logo" />
+      </a>
+      <button class="fb-hamburger-button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    
+    <?php if(Session::has('userid')): ?>
+
+    
+    <?php $projects = app('project'); ?>
+                            <?php $headerlinks = app('headerlinks'); ?>
+                            <?php $submenu = app('submenu'); ?>
+    <ul class="fb-header-right-list">
+      <li class="fb-header-donated-amount-link-wrapper fb-has-submenu" style="display:none;">
+        <a href="javascript:void(0)" class="fb-flip-container"><span class="fb-placeholder-points">5943</span><span class="fb-front">5943</span> <span class="fb-hrl-link-label fb-back">Points</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-points-dropdown">
+          <ol class="fb-hrl-points-list">
+            <li>
+              <span class="fb-hrl-pld-label">Donated to</span>
+              <a href="project-detailed-view.html" class="fb-hrl-points-list-details">
+                <span class="fb-hrl-pld-left">'No Poverty'</span>
+                <i class="fb-hrl-pld-right">3000</i>
+              </a>
+            </li>
+            <li>
+              <span class="fb-hrl-pld-label">Donated to</span>
+              <a href="project-detailed-view.html" class="fb-hrl-points-list-details">
+                <span class="fb-hrl-pld-left">'Quality Education'</span>
+                <i class="fb-hrl-pld-right">2000</i>
+              </a>
+            </li>
+          </ol>
+        </div>
+      </li>
+      <li class="fb-header-notification-link-wrapper fb-has-submenu">
+        <a href="javascript:void(0)">
+		<?php if( $projecttype['draftcount'] > 0 || $projecttype['pendingcount'] > 0 ): ?>
+			<i class="icon-notifications blink"></i>
+		<?php else: ?>
+		<i class="icon-notifications"></i>
+		<?php endif; ?>
+		
+		<span class="fb-hrl-link-label">Notifications</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-notifications-dropdown">
+          <ol class="fb-hrl-notifications-list">
+            <li>
+              <span class="fb-hrl-notifications-label">View Updates</span>
+              <span class="fb-hrl-notifications-list-details">
+                <ul class="fb-hrln-inner-list">
+                  <li>
+
+                
+
+                    <a href="<?php echo URL::to('discover'); ?>#supported-projects">Supported projects <span class="fb-count">0</a>
+
+
+                  </li>
+                  <li style="display:none;">
+                    <a href="<?php echo URL::to('discover'); ?>#interested-projects">Interested projects<span class="fb-count">2</span></a>
+                  </li>
+                  <li><a href="<?php echo URL::to('createdprojects'); ?>" style="cursor:pointer;"><?php echo trans('messages.draftprojects'); ?><span class="fb-count"> <?php echo $projecttype['draftcount']; ?></span></a>
+                 
+                  <?php if($projecttype['draftcount']==0): ?>
+                <p style='font-size: 12px;padding-bottom: 12px;color: #888;'><?php echo trans('messages.noprojectsfound'); ?>.</p>                
+                <?php else: ?>
+                <ul>
+                    <?php $i = 1; ?>
+                    <?php foreach($projects as $project): ?>
+                    <?php if($project->projectverified == 0): ?>
+                    <li class="project-title">
+                        <a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>">
+                            <img class="project-thumb" src="<?php echo URL::asset(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::asset('main/images/projectdefault.png'); ?>'" alt="" width="40" height="40">
+                            <?php echo e($project->title); ?>
+
+                        </a>
+                    </li>
+                    <?php if ($i++ == 2) break; ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+                  
+                  </li>
+
+                 <li>
+                   <a href="<?php echo URL::to('createdprojects'); ?>"><?php echo trans('messages.pendingprojects'); ?><span class="fb-count"><?php echo $projecttype['pendingcount']; ?></span></a>
+                   <?php if($projecttype['pendingcount']==0): ?>
+                <p style='font-size: 12px;padding-bottom: 12px;color: #888;'><?php echo trans('messages.noprojectsfound'); ?>.</p>                
+                <?php else: ?>
+                <ul>
+                    <?php $i = 1; ?>
+                    <?php foreach($projects as $project): ?>
+                    <?php if($project->projectverified == 1): ?>
+                    <li class="project-title">
+                        <a href="<?php echo URL::to('project/basic'); ?>/<?php echo Crypt::encrypt($project->id); ?>">
+                            <img class="project-thumb" src="<?php echo URL::asset(''); ?>/<?php echo $project->projectimage; ?>" onerror="this.src='<?php echo URL::asset('main/images/projectdefault.png'); ?>'" alt="" width="40" height="40">
+                            <?php echo e($project->title); ?>
+
+                        </a>
+                    </li>
+                    <?php if ($i++ == 2) break; ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+
+                   </li>
+                </ul>
+              </span>
+            </li>
+            <li style="display:none;">
+              <span class="fb-hrl-notifications-label">View Comments</span>
+              <span class="fb-hrl-notifications-list-details">
+                <ul class="fb-hrln-inner-list">
+                  <li>
+                    <a href="project-detailed-view.html">
+                      <span class="fb-notification-card">
+                        <span class="fb-notification-card-thumbnail"><img src="<?php echo URL::asset('main/images/testimonial-image-2.jpeg');; ?>"  alt="testimonial image 2"/></span>
+                        <span class="fb-notification-card-content">
+                          <h6 class="fb-notification-card-head">Help Save Charlie's life</h6>
+                          <p class="fb-notification-card-description">5 new comments</p>
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="project-detailed-view.html">
+                      <span class="fb-notification-card">
+                        <span class="fb-notification-card-thumbnail"><img src="<?php echo URL::asset('main/images/testimonial-image-2.jpeg');; ?>"  alt="testimonial image 2"/></span>
+                        <span class="fb-notification-card-content">
+                          <h6 class="fb-notification-card-head">Help Save Charlie's life</h6>
+                          <p class="fb-notification-card-description">5 new comments</p>
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </span>
+            </li>
+          </ol>
+        </div>
+      </li>
+      <li class="fb-header-projects-link-wrapper fb-has-submenu">
+        <a href="javascript:void(0)"><i class="icon-add"></i> <span class="fb-hrl-link-label">Projects</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-projects-dropdown">
+          <p class="fb-hrld-projects-para">Interested in starting new project aligning with the UN's goals? Here is your chance!</p>
+          <ol class="fb-hrl-projects-btn-list">
+            <li>
+              <a href="<?php echo URL::to('project/start'); ?>" class="fb-hrl-projects-btn fb-hrl-create-project-btn">Create a new Project</a>
+            </li>
+            <li>
+              <a href="<?php echo URL::to('discover'); ?>" class="fb-hrl-projects-btn fb-hrl-explore-project-btn">No, I just want to explore projects</a>
+            </li>
+          </ol>
+        </div>
+      </li>
+      <li class="fb-header-profile-link-wrapper fb-has-submenu">
+        <a href="javascript:void(0)">
+          
+		<?php
+$img_value = Session::get('image');
+if($img_value !='')
+{
+    ?>
+   
+
+			<img src="<?php echo URL::to(''); ?>/<?php echo Session::get('image');; ?>" style="width:30px;height:30px;border-radius:50%;margin-left:8px;"><br/>
+			<span class="text-center hidden-xs" style="text-align: center;font-size: 15px;float: left;padding-top: 6px;padding-left:-6px;width: 100%;"><?php echo Session::get('name');; ?></span>
+<?php
+}
+else
+{
+  ?>
+<i class="icon-user"></i><br/>
+<span class="text-center hidden-xs" style="text-align: center;font-size: 15px;float: left;padding-top: 6px;width: 100%;padding-left:-6px;"><?php echo Session::get('name');; ?></span>
+
+<?php } ?>
+    
+    <span class="fb-hrl-link-label">Profile</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-points-dropdown">
+          <ol class="fb-hrl-profile-list">
+            <li><a href="<?php echo URL::to('myaccount'); ?>"><?php echo trans('messages.account'); ?></a></li>
+            <li><a href="<?php echo URL::to('stripesettings'); ?>"><?php echo trans('messages.stripesettings'); ?></a></li>
+            <li><a href="<?php echo URL::to('discover'); ?>">Projects</a></li>
+			<li><a href="<?php echo URL::to('userlogout'); ?>">Not <b><?php echo Session::get('name');; ?></b> ? Logout</a></li>
+           
+          </ol>
+        </div>
+	
+	
+		
+      </li>
+    </ul>
+	
+	
+    <?php else: ?>
+
+    <ul class="fb-header-right-list">
+    
+  <li class="fb-header-notification-link-wrapper"><a href="<?php echo URL::to('login'); ?>">Login</a></li>
+  <!-- <li class="fb-header-notification-link-wrapper"><a href="<?php echo URL::to('project/start'); ?>">Start a project </a></li> -->
+  
+    <li class="fb-header-projects-link-wrapper fb-has-submenu">
+        <a href="javascript:void(0)"><i class="icon-add"></i> <span class="fb-hrl-link-label">Projects</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-projects-dropdown">
+          <p class="fb-hrld-projects-para">Interested in starting new project aligning with the UN's goals? Here is your chance!</p>
+          <ol class="fb-hrl-projects-btn-list">
+            <li>
+              <a href="<?php echo URL::to('project/start'); ?>" class="fb-hrl-projects-btn fb-hrl-create-project-btn">Create a new Project</a>
+            </li>
+            <li>
+              <a href="<?php echo URL::to('discover'); ?>" class="fb-hrl-projects-btn fb-hrl-explore-project-btn">No, I just want to explore projects</a>
+            </li>
+          </ol>
+        </div>
+      </li>
+   
+    </ul>
+	
+  	<?php endif; ?>
+    <ul class="fb-header-tab-trigger">
+      <li class="fb-un-goal-tab-trigger <?php echo Request::path() == '/' ? 'active' : ''; ?>"><a href="<?php echo URL::to('/'); ?>"><span class="fb-htt-number">01</span><h3 class="fb-htt-text">GLOBAL<br />GOALS</h3></a></li>
+      <li class="fb-align-with-goal-tab-trigger <?php echo Request::path() == 'align/goal' ? 'active' : ''; ?>"><a href="<?php echo URL::to('align/goal'); ?>"><span class="fb-htt-number">02</span><h3 class="fb-htt-text">ALIGN<br />WITH A GOAL</h3></a></li>
+      <li class="fb-start-project-tab-trigger <?php echo Request::path() == 'support/project' ? 'active' : ''; ?>"><a href="<?php echo URL::to('support/project'); ?>"><span class="fb-htt-number">03</span><h3 class="fb-htt-text">SUPPORT<br />A PROJECT</h3></a></li>
+    </ul>
+	
+		<?php if( Request::path() =="/" || Request::path() =="align/goal"  || Request::path() =="back/paymentdetails" ): ?>
+		
+<ul></ul>
+	
+		<?php else: ?>
+		<ul class="fb-header-right-list-currency">
+		<li class="fb-header-notification-link-wrapper">
+	   <select class="currency-select" id='currencyselect'>
+                                <?php if(Session::get('currency')==""): ?>
+                                <?php
+                                $currency = Config::get('adminconfig.currency');
+                                Session::put('currency', $currency);
+                                ?>
+                                <?php endif; ?>
+                                <?php foreach($currencies as $currency): ?>
+                                <option value="<?php echo $currency->currencytype; ?>"  <?php if((Session::has('currency'))&&(Session::get('currency')==$currency->currencytype)): ?>selected="selected" <?php elseif((Session::get('currency')=="")&&("USD"==$currency->currencytype)): ?>selected="selected" <?php else: ?> <?php endif; ?>><?php echo $currency->currencytype; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+	  </li>
+	  
+	  </ul>
+	
+	
+	<?php endif; ?>
+		
+ 
+ </header>
+<main class="fb-main-content">
+
+
+

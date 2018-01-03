@@ -1,0 +1,46 @@
+<?php $__env->startSection('content'); ?>
+
+<div class="border-top" id="content-wrap">
+    <div class="container" id="content">
+        <div class="NS_projects__cancel">
+            <?php if(Session::has('failed')): ?>
+            <div class="alert-message error">
+                <?php echo Session::get('failed');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="grey-frame grey-frame-narrow">
+                <div class="grey-frame-inner">
+                    <div id="cancel_project">
+                        <h3><?php echo trans('messages.deleteproject'); ?></h3>
+                        <p>
+                            <?php echo trans('messages.areyousuredelete1'); ?> <strong><?php echo $project->title; ?></strong> <?php echo trans('messages.areyousuredelete2'); ?>
+
+                        </p>
+                        <form accept-charset="UTF-8" action="<?php echo URL::to('project/postdelete'); ?>" method="post">
+                            <fieldset>
+                                <label for="password"><?php echo trans('messages.passwordforverification'); ?>:</label>
+                                <input type='hidden' value='<?php echo $project->userid; ?>' name='userid'>
+                                <input type='hidden' value='<?php echo $project->id; ?>' name='projectid'>
+                                <div class="left">
+                                    <input class="password <?php if($errors->has('password')): ?> has-error <?php endif; ?>" name="password" type="password" >
+                                    <?php if($errors->has('password')): ?> <p class="help-block"><?php echo $errors->first('password'); ?></p> <?php endif; ?>
+                                </div>
+                            </fieldset>                            
+                            <fieldset>
+                                <div class="left"><input class="button button_outline_grey submit" type="submit" value="<?php echo trans('messages.deleteproject'); ?>"></div>
+                                <div class="left"><a class="cancel" href="<?php echo URL::to('project/preview'); ?>/<?php echo Crypt::encrypt($project->id); ?>"><?php echo trans('messages.nonevermind'); ?></a></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div id="forgot_password">
+                        <h5><?php echo trans('messages.forgotyourpassword'); ?>?</h5>
+                        <a accept-charset="UTF-8" class="button button_green submit" href="<?php echo URL::to('user/forgotpassword'); ?>" style='margin-top: 15px;'><?php echo trans('messages.sendresetemail'); ?></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

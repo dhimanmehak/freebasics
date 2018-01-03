@@ -1,0 +1,218 @@
+<div class="user-input fb-floating-buzz-feed-btn">
+  <section class="user-input--modal" id="fb-buzz-feed-content-wrap">
+    <div class="user-input--form">
+     <!-- <a class="twitter-timeline"  href="https://twitter.com/hashtag/FreeBasics" data-widget-id="852452511894179841" data-width="100%" data-height="400" data-chrome="noheader, nofooter, noborders, transparent, noscrollbar" data-tweet-limit="20">#FreeBasics Tweets</a> -->
+
+
+
+      <a class="twitter-timeline" href="https://twitter.com/FreeBasics">Tweets by FreeBasics</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+  </section>
+  <button class="FAB" title="Buzz Feed">
+    <i class="icon-add"></i>
+  </button>
+</div>
+<header class="fb-header">
+  <div class="fb-header-container">
+    <div class="fb-logo-hamburger-conatiner">
+      <a href="{{URL::to('')}}" class="fb-logo">
+        <img src="{{URL::asset('main/images/free-basics-logo.png');}}" alt="free basics logo" />
+      </a>
+      <button class="fb-hamburger-button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    
+    @if(Session::has('userid'))
+
+    
+    <?php $projects = app('project'); ?>
+                            <?php $headerlinks = app('headerlinks'); ?>
+                            <?php $submenu = app('submenu'); ?>
+    <ul class="fb-header-right-list">
+      <li class="fb-header-donated-amount-link-wrapper fb-has-submenu">
+        <a href="javascript:void(0)" class="fb-flip-container"><span class="fb-placeholder-points">5943</span><span class="fb-front">5943</span> <span class="fb-hrl-link-label fb-back">Points</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-points-dropdown">
+          <ol class="fb-hrl-points-list">
+            <li>
+              <span class="fb-hrl-pld-label">Donated to</span>
+              <a href="project-detailed-view.html" class="fb-hrl-points-list-details">
+                <span class="fb-hrl-pld-left">'No Poverty'</span>
+                <i class="fb-hrl-pld-right">3000</i>
+              </a>
+            </li>
+            <li>
+              <span class="fb-hrl-pld-label">Donated to</span>
+              <a href="project-detailed-view.html" class="fb-hrl-points-list-details">
+                <span class="fb-hrl-pld-left">'Quality Education'</span>
+                <i class="fb-hrl-pld-right">2000</i>
+              </a>
+            </li>
+          </ol>
+        </div>
+      </li>
+      <li class="fb-header-notification-link-wrapper fb-has-submenu">
+        <a href="javascript:void(0)"><i class="icon-notifications"></i> <span class="fb-hrl-link-label">Notifications</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-notifications-dropdown">
+          <ol class="fb-hrl-notifications-list">
+            <li>
+              <span class="fb-hrl-notifications-label">View Updates</span>
+              <span class="fb-hrl-notifications-list-details">
+                <ul class="fb-hrln-inner-list">
+                  <li>
+                    <a href="{{URL::to('discover')}}#supported-projects">Supported projects <span class="fb-count">2</span></a>
+                  </li>
+                  <li>
+                    <a href="{{URL::to('discover')}}#interested-projects">Interested projects<span class="fb-count">2</span></a>
+                  </li>
+                  <li><a href="#" style="cursor:default;">{{trans('messages.draftprojects')}}<span class="fb-count"> {{$projecttype['draftcount']}}</span></a>
+                 
+                  @if($projecttype['draftcount']==0)
+                <p style='font-size: 12px;padding-bottom: 12px;color: #888;'>{{trans('messages.noprojectsfound')}}.</p>                
+                @else
+                <ul>
+                    <?php $i = 1; ?>
+                    @foreach($projects as $project)
+                    @if($project->projectverified == 0)
+                    <li class="project-title">
+                        <a href="{{URL::to('project/basic')}}/{{Crypt::encrypt($project->id)}}">
+                            <img class="project-thumb" src="{{URL::asset('')}}/{{$project->projectimage}}" onerror="this.src='{{URL::asset('main/images/projectdefault.png')}}'" alt="" width="40" height="40">
+                            {{{$project->title}}}
+                        </a>
+                    </li>
+                    <?php if ($i++ == 2) break; ?>
+                    @endif
+                    @endforeach
+                </ul>
+                @endif
+                  
+                  </li>
+
+                 <li>
+                   <a href="#">{{trans('messages.pendingprojects')}}<span class="fb-count">{{$projecttype['pendingcount']}}</span></a>
+                   @if($projecttype['pendingcount']==0)
+                <p style='font-size: 12px;padding-bottom: 12px;color: #888;'>{{trans('messages.noprojectsfound')}}.</p>                
+                @else
+                <ul>
+                    <?php $i = 1; ?>
+                    @foreach($projects as $project)
+                    @if ($project->projectverified == 1)
+                    <li class="project-title">
+                        <a href="{{URL::to('project/basic')}}/{{Crypt::encrypt($project->id)}}">
+                            <img class="project-thumb" src="{{URL::asset('')}}/{{$project->projectimage}}" onerror="this.src='{{URL::asset('main/images/projectdefault.png')}}'" alt="" width="40" height="40">
+                            {{{$project->title}}}
+                        </a>
+                    </li>
+                    <?php if ($i++ == 2) break; ?>
+                    @endif
+                    @endforeach
+                </ul>
+                @endif
+
+                   </li>
+                </ul>
+              </span>
+            </li>
+            <li>
+              <span class="fb-hrl-notifications-label">View Comments</span>
+              <span class="fb-hrl-notifications-list-details">
+                <ul class="fb-hrln-inner-list">
+                  <li>
+                    <a href="project-detailed-view.html">
+                      <span class="fb-notification-card">
+                        <span class="fb-notification-card-thumbnail"><img src="{{URL::asset('main/images/testimonial-image-2.jpeg');}}"  alt="testimonial image 2"/></span>
+                        <span class="fb-notification-card-content">
+                          <h6 class="fb-notification-card-head">Help Save Charlie's life</h6>
+                          <p class="fb-notification-card-description">5 new comments</p>
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="project-detailed-view.html">
+                      <span class="fb-notification-card">
+                        <span class="fb-notification-card-thumbnail"><img src="{{URL::asset('main/images/testimonial-image-2.jpeg');}}"  alt="testimonial image 2"/></span>
+                        <span class="fb-notification-card-content">
+                          <h6 class="fb-notification-card-head">Help Save Charlie's life</h6>
+                          <p class="fb-notification-card-description">5 new comments</p>
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </span>
+            </li>
+          </ol>
+        </div>
+      </li>
+      <li class="fb-header-projects-link-wrapper fb-has-submenu">
+        <a href="javascript:void(0)"><i class="icon-add"></i> <span class="fb-hrl-link-label">Projects</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-projects-dropdown">
+          <p class="fb-hrld-projects-para">Interested in starting new project aligning with the UN's goals? Here is your chance!</p>
+          <ol class="fb-hrl-projects-btn-list">
+            <li>
+              <a href="{{URL::to('project/start')}}" class="fb-hrl-projects-btn fb-hrl-create-project-btn">Create a new Project</a>
+            </li>
+            <li>
+              <a href="{{URL::to('discover')}}" class="fb-hrl-projects-btn fb-hrl-explore-project-btn">No, I just want to explore projects</a>
+            </li>
+          </ol>
+        </div>
+      </li>
+      <li class="fb-header-profile-link-wrapper fb-has-submenu">
+        <a href="javascript:void(0)">
+          
+		<?php
+$img_value = Session::get('image');
+if($img_value !='')
+{
+    ?>
+   
+
+			<img src="{{URL::to('')}}/{{Session::get('image');}}" style="width:30px;height:30px;border-radius:50%;">
+<?php
+}
+else
+{
+  ?>
+<i class="icon-user"></i>
+<?php } ?>
+    
+    <span class="fb-hrl-link-label">Profile</span> <i class="icon-secondary-right-arrow fb-hrl-link-arrow"></i></a>
+        <div class="fb-hrl-dropdown fb-points-dropdown">
+          <ol class="fb-hrl-profile-list">
+            <li><a href="{{URL::to('myaccount')}}">Account</a></li>
+            <li><a href="{{URL::to('discover')}}">Projects</a></li>
+			<li><a href="{{URL::to('userlogout')}}">Not <b>{{Session::get('name');}}</b> ? Logout</a></li>
+           
+          </ol>
+        </div>
+	
+	
+		
+      </li>
+    </ul>
+    @else
+
+    <ul class="fb-header-right-list">
+    
+  <li class="fb-header-notification-link-wrapper"><a href="{{URL::to('login')}}">Login</a></li>
+  <li class="fb-header-notification-link-wrapper"><a href="{{URL::to('signup')}}">Sign Up </a></li>
+    
+    </ul>
+	
+  	@endif
+    <ul class="fb-header-tab-trigger">
+      <li class="fb-un-goal-tab-trigger {{ Request::path() == '/' ? 'active' : '' }}"><a href="{{URL::to('/')}}"><span class="fb-htt-number">01</span><h3 class="fb-htt-text">GLOBAL<br />GOALS</h3></a></li>
+      <li class="fb-align-with-goal-tab-trigger {{ Request::path() == 'align/goal' ? 'active' : '' }}"><a href="{{URL::to('align/goal')}}"><span class="fb-htt-number">02</span><h3 class="fb-htt-text">ALIGN<br />WITH A GOAL</h3></a></li>
+      <li class="fb-start-project-tab-trigger {{ Request::path() == 'support/project' ? 'active' : '' }}"><a href="{{URL::to('support/project')}}"><span class="fb-htt-number">03</span><h3 class="fb-htt-text">SUPPORT<br />A PROJECT</h3></a></li>
+    </ul>
+  </div>
+ 
+ </header>
+<main class="fb-main-content">
+
+
+

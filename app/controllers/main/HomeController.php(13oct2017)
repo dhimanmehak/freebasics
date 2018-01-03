@@ -1,0 +1,504 @@
+<?php
+
+use fundstarter\storage\Category\CategoryRepository as CategoryRepository;
+use fundstarter\storage\Project\ProjectRepository as ProjectRepository;
+use fundstarter\storage\Reward\RewardRepository as RewardRepository;
+use fundstarter\storage\Update\UpdateRepository as UpdateRepository;
+use fundstarter\storage\Comment\CommentRepository as CommentRepository;
+use fundstarter\storage\User\UserRepository as UserRepository;
+use fundstarter\storage\Backing\BackingRepository as BackingRepository;
+use fundstarter\storage\Adminsetting\AdminsettingRepository as AdminsettingRepository;
+use fundstarter\storage\Newsletter\NewsletterRepository as NewsletterRepository;
+use fundstarter\storage\Starredproject\StarredprojectRepository as StarredprojectRepository;
+use fundstarter\storage\Country\CountryRepository as CountryRepository;
+use fundstarter\storage\Slider\SliderRepository as SliderRepository;
+use fundstarter\storage\Faq\FaqRepository as FaqRepository;
+use fundstarter\storage\Contact\ContactRepository as ContactRepository;
+use fundstarter\storage\Currency\CurrencyRepository as CurrencyRepository;
+use fundstarter\storage\Like\LikeRepository as LikeRepository;
+use fundstarter\storage\Follow\FollowRepository as FollowRepository;
+use fundstarter\storage\Followproject\FollowprojectRepository as FollowprojectRepository;
+use fundstarter\storage\Projectview\ProjectviewRepository as ProjectviewRepository;
+use fundstarter\storage\Prefooter\PrefooterRepository as PrefooterRepository;
+use Carbon\Carbon;
+
+class HomeController extends BaseController {
+
+    public function __construct(PrefooterRepository $prefooterRepository, ProjectviewRepository $projectviewRepository, FollowprojectRepository $followprojectRepository, FollowRepository $followRepository, LikeRepository $likeRepository, CurrencyRepository $currencyRepository, ContactRepository $contactRepository, FaqRepository $faqRepository, SliderRepository $sliderRepository, CountryRepository $countryRepository, StarredprojectRepository $starredprojectRepository, NewsletterRepository $newsletterRepository, AdminsettingRepository $adminsettingRepository, UserRepository $userRepository, BackingRepository $backingRepository, CategoryRepository $categoryRepository, CommentRepository $commentRepository, UpdateRepository $updateRepository, RewardRepository $rewardRepository, ProjectRepository $projectRepository) {
+        $this->category = $categoryRepository;
+        $this->project = $projectRepository;
+        $this->reward = $rewardRepository;
+        $this->update = $updateRepository;
+        $this->comment = $commentRepository;
+        $this->user = $userRepository;
+        $this->backing = $backingRepository;
+        $this->adminsetting = $adminsettingRepository;
+        $this->newsletter = $newsletterRepository;
+        $this->starredproject = $starredprojectRepository;
+        $this->country = $countryRepository;
+        $this->slider = $sliderRepository;
+        $this->faq = $faqRepository;
+        $this->contact = $contactRepository;
+        $this->currency = $currencyRepository;
+        $this->like = $likeRepository;
+        $this->follow = $followRepository;
+        $this->followproject = $followprojectRepository;
+        $this->projectview = $projectviewRepository;
+        $this->prefooter = $prefooterRepository;
+    }
+
+    public function index() {
+        $this->project->updatefeaturedifexpired();
+        $categories = $this->category->getallascending();
+         
+        $popularproject = $this->project->getprojectoftheday();
+        $projects = $this->project->getpopularprojects();
+        $sliders = $this->slider->getactivesliders();
+        $prefooters = $this->prefooter->getlimited();
+        $prefootercount = $this->prefooter->getcount();
+        $highestpledge = $this->backing->gethighestpledge();
+        $highestprojectfund = $this->project->gethighesttotalpledge();
+        $totalfund = $this->project->gettotalfund();
+        $categoryprojects = array();
+        foreach ($categories as $value) {
+            $id = $value->id;
+            $proj = $this->project->getfirstpopularbycateogory($id);
+            array_push($categoryprojects, $proj);
+        }
+        if (Input::get('referral')) {
+            $referralid = Input::get('referral');
+            $referralcookie = Cookie::make('referralcookie', $referralid, 24 * 60 * 60);
+            $view = View::make('mainviews.index', compact('highestpledge', 'highestprojectfund', 'totalfund', 'prefootercount', 'prefooters', 'sliders', 'categories', 'projects', 'categoryprojects', 'popularproject'));
+            return Response::make($view)->withCookie($referralcookie);
+        } else {
+            return View::make('mainviews.index', compact('highestpledge', 'highestprojectfund', 'totalfund', 'prefootercount', 'prefooters', 'sliders', 'categories', 'projects', 'categoryprojects', 'popularproject'));
+        }
+    }
+
+	
+	public function goal()
+	{
+
+         $categories = $this->category->getalldescending();
+        // print_r($categories);
+        $categoryprojects = array();
+        foreach ($categories as $value) {
+            $id = $value->id;
+            $proj = $value->categoryname;
+            array_push($categoryprojects, $proj);
+        }
+
+    		return View::make('mainviews.goal',compact('categories'));
+		 
+	}
+
+    public function getpledgecount($id)
+    {
+    $data=$id;
+    return $data;
+    }
+	public function advocacy()
+  {
+	  return View::make('mainviews.advocacy');
+  }
+  public function aboutus()
+  {
+	  return View::make('mainviews.aboutus');
+  }
+  
+  public function careers()
+  {
+	  return View::make('mainviews.careers');
+  }
+   public function faq()
+  {
+	  return View::make('mainviews.faq');
+  }
+  public function guidelines()
+  {
+	  return View::make('mainviews.guidelines');
+  }
+  
+  public function pricing()
+  {
+	  return View::make('mainviews.pricing');
+  }
+   
+  public function payouts()
+  {
+	  return View::make('mainviews.payouts');
+  }
+  
+  
+  
+   public function pledge()
+  {
+	  return View::make('mainviews.pledge');
+  }
+   public function nonprofit()
+  {
+	  return View::make('mainviews.nonprofit');
+  }
+  
+   public function corporates()
+  {
+	  return View::make('mainviews.corporates');
+  }
+   public function individuals()
+  {
+	  return View::make('mainviews.individuals');
+  }
+  
+   public function globalgoals()
+  {
+	  return View::make('mainviews.globalgoals');
+  }
+  
+    public function support()
+	{
+           $categories = $this->category->all();
+         
+           $projects = $this->project->getprojectsbycategory('all', 'desc');
+        $projectcount = $this->project->getcountbycategory('all');
+        $sliders = $this->slider->getactivesliders();
+          
+            return View::make('mainviews.support', compact('categories','projects','projectcount','sliders'));
+		
+		
+		 
+	}
+
+    public function discover() {
+        $this->project->updatefeaturedifexpired();
+        if (Config::get('adminconfig.listingfee') == 0) {
+            $categories = DB::table('categories')
+                    ->leftjoin('projects', 'projects.categoryid', '=', 'categories.id')
+                    ->select('categoryname', 'categories.id', DB::raw('count(categoryid) as total'))
+                    ->where('projects.fundinggoal', '!=', 0)
+                    ->where('projects.endingon', '>=', Carbon::now()->toDateString())
+                    ->where('projects.projectverified', '=', 2)
+                    ->where('categories.status', '=', 'active')
+                    ->groupBy('categoryname')
+                    ->orderBy('categoryname', 'asc')
+                    ->get();
+        } else {
+            $categories = DB::table('categories')
+                    ->leftjoin('projects', 'projects.categoryid', '=', 'categories.id')
+                    ->select('categoryname', 'categories.id', DB::raw('count(categoryid) as total'))
+                    ->where('projects.fundinggoal', '!=', 0)
+                    ->where('projects.endingon', '>=', Carbon::now()->toDateString())
+                    ->where('projects.projectverified', '=', 2)
+                    ->where('categories.status', '=', 'active')
+                    ->groupBy('categoryname')
+                    ->orderBy('categoryname', 'asc')
+                    ->get();
+        }
+        // print_r($categories);exit;
+        $projects = $this->project->getpopularprojects();
+        $newprojects = $this->project->getnewprojects();
+        $popularproject = $this->project->getprojectoftheday();
+        $allproject= $this->project->getallprojectsnew();
+
+       $email = Session::get('email');
+        if ($email != '') {
+          $id = $this->user->getidbyemail($email);
+       
+         $createdprojects = $this->project->getprojectsbyuserid($id);
+         $backedprojects = $this->backing->getbackingbyuserid($id);
+         
+        }
+        else
+        {
+        $createdprojects=[];
+        $backedprojects =[];
+        }
+        return View::make('mainviews.project.discover', compact('categories', 'projects', 'newprojects', 'popularproject','allproject','createdprojects','backedprojects'));
+    }
+
+     public function postsearch() {
+        //print_r(Input::get('search'));
+        $input = str_replace('/', '', Input::get('search'));
+        //print_r($input);
+        if ($input == '') {
+            return Redirect::to('/discover/category/all/new');
+        } else {
+            $projects = $this->project->getbysearchterm($input);
+            $selected = "all";
+            $selectedcountry = "all";
+            $sort = "magic";
+            $categories = $this->category->allactive();
+            $countries = $this->country->all();
+            return View::make('mainviews.project.search', compact('countries', 'selectedcountry', 'projects', 'categories', 'sort', 'input', 'selected'));
+        }
+    }
+
+    public function searchbycategory($id, $sort, $term, $countryid) {
+        $input = str_replace('/', '', $term);
+        $categories = $this->category->allactive();
+        $countries = $this->country->all();
+        if ($id != "all") {
+            if ($countryid != "all") {
+                $selected = $this->category->getfirst($id);
+                $selectedcountry = $this->country->getfirst($countryid);
+                $projectcount = $this->project->getcountbycategoryandcountry($id, $countryid);
+                $projects = $this->project->getprojectsearchbycategoryandcountry($id, $sort, $input, $countryid);
+                View::share('metatitle', $selected['metatitle']);
+                View::share('metakeyword', $selected['metakeyword']);
+                View::share('metadescription', $selected['metadescription']);
+            } else {
+                $selected = $this->category->getfirst($id);
+                $selectedcountry = "all";
+                $projectcount = $this->project->getprojectcount();
+                $projects = $this->project->getprojectsearchbycategoryandcountry($id, $sort, $input, $countryid);
+            }
+        } else {
+            if ($countryid != "all") {
+                "country not all cat all";
+                $selected = "all";
+                $selectedcountry = $this->country->getfirst($countryid);
+                $projectcount = $this->project->getcountbycategoryandcountry($id, $countryid);
+                $projects = $this->project->getprojectsearchbycategoryandcountry($id, $sort, $input, $countryid);
+            } else {
+                $selected = "all";
+                $selectedcountry = "all";
+                $projectcount = $this->project->getprojectcount();
+                $projects = $this->project->getprojectsearchbycategoryandcountry($id, $sort, $input, $countryid);
+            }
+        }
+        return View::make('mainviews.project.searchbycategory', compact('countries', 'selectedcountry', 'selected', 'categories', 'input', 'projects', 'sort'));
+    }
+
+    public function searchbycountry($name) {
+        $selected = $name;
+        $countries = $this->country->all();
+        $projects = $this->project->getprojectsearchbycountry($name);
+        return View::make('mainviews.project.searchbycountry', compact('projects', 'countries', 'selected'));
+    }
+
+    public function discoverbycategory($id, $sort) {
+        $categories = $this->category->allactive();
+        if ($id != "all") {
+            $selected = $this->category->getfirst($id);
+            $projectcount = $this->project->getcountbycategory($id);
+            $projects = $this->project->getprojectsbycategory($id, $sort);
+            // print_r($projects);exit;
+            $category = $this->category->getfirst($id);
+            View::share('metatitle', $category['metatitle']);
+            View::share('metakeyword', $category['metakeyword']);
+            View::share('metadescription', $category['metadescription']);
+        } else {
+            $selected = "all";
+            $id = "all";
+            $projectcount = $this->project->getprojectcount();
+            $projects = $this->project->getprojectsbycategory($id, $sort);
+        }
+
+        return View::make('mainviews.project.discoverbycategory', compact('selected', 'categories', 'projectcount', 'projects', 'sort'));
+    }
+
+    public function projectdetail($id) {
+        $project = $this->project->getbyprojectid($id);
+
+        $userid = $project['userid'];
+        $creatorbacked = $this->backing->creatorbackedprojects($userid);
+        $creatorcreated = $this->project->getallbyuser($userid);
+
+        $rewards = $this->reward->getbyprojectid($id);
+        $updates = $this->update->getbyprojectid($id);
+        $likes = $this->like->getcountbyprojectid($id);
+        $comments = $this->comment->getalldetailsbyprojectid($id);
+        $faqs = $this->faq->getbyprojectid($id);
+        View::share('metatitle', $project['metatitle']);
+        View::share('metakeyword', $project['metakeyword']);
+        View::share('metadescription', $project['metadescription']);
+        View::share('ogtitle', $project['title']);
+        View::share('ogimage', $project['projectimage']);
+        View::share('ogdescription', $project['shortblurb']);
+        $email = Session::get('email');
+        $project['website'] = $this->addhttp($project['weburl']);
+        if ($email == '') {
+            $userid = '';
+            // $status = '';
+            $starred = '';
+            $liked = '';
+            $followproject = '';
+        } else {
+            $liked = $this->like->isliked($email, $id);
+            $followproject = $this->followproject->isfollowing($email, $id);
+            $follow = $this->follow->isfollowing($email, $project->userid);
+            $userid = $this->user->getidbyemail($email);
+            //$status = $this->backing->checkexists($userid, $id);
+            $starred = $this->starredproject->getbyprojectid($userid, $id);
+        }
+        if (Input::get('referral')) {
+            $referralid = Input::get('referral');
+            $referralcookie = Cookie::make('referralcookie', $referralid, 24 * 60 * 60);
+            $view = View::make('mainviews.project.detail', compact('creatorcreated', 'followproject', 'creatorbacked', 'follow', 'liked', 'likes', 'faqs', 'project', 'rewards', 'updates', 'comments', 'userid', 'starred'));
+            return Response::make($view)->withCookie($referralcookie);
+        } else {
+            return View::make('mainviews.project.detail', compact('creatorcreated', 'followproject', 'creatorbacked', 'follow', 'liked', 'likes', 'faqs', 'project', 'rewards', 'updates', 'comments', 'userid', 'starred'));
+        }
+    }
+
+    public function addhttp($url) {
+        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+            $url = "http://" . $url;
+        }
+        return $url;
+    }
+
+    public function poststarred() {
+        $email = Session::get('email');
+        $selectedlanguage = Session::get('locale');
+        if ($email == '') {
+            return Redirect::to('login');
+        } else {
+            $input = Input::all();
+            $email = Session::get('email');
+            $userid = $this->user->getidbyemail($email);
+            $input['userid'] = $userid;
+            $projectid = $input['projectid'];
+            $created = $this->project->getprojectbyuser($userid, $projectid);
+            if ($created != '') {
+                Session::flash('failed', 'You cannot add your own project to wishlist.');
+                return Redirect::back();
+            } else {
+                $result = $this->starredproject->create($input);
+                if ($result == 1) {
+                    Session::flash('success', Lang::get('messages2.projectaddedtoyourwishlist', array(), $selectedlanguage));
+                } else {
+                    Session::flash('failed', Lang::get('messages2.projectremovedfromyourwishlist', array(), $selectedlanguage));
+                }
+                return Redirect::back();
+            }
+        }
+    }
+
+    public function starredprojects() {
+        $starredprojects = $this->project->getstarredprojects();
+        return View::make('mainviews.project.starred', compact('starredprojects'));
+    }
+
+    public function postcomment() {
+        $input = Input::all();
+        $this->comment->create($input);
+        $this->sendmailtocreator($input['projectid'], $input['userid']);
+        $selectedlanguage = Session::get('locale');
+        Session::flash('success', Lang::get('messages2.commentpostedsuccessfully', array(), $selectedlanguage));
+        return Redirect::back();
+    }
+
+    public function sendmailtocreator($projectid, $userid) {
+        $project = $this->project->getbasicdetailsbyid($projectid);
+        $projecttitle = $project->title;
+        $adminsettings = $this->adminsetting->getfirst();
+        $backername = $this->user->getusername($userid);
+        $logo = $adminsettings['logo'];
+        $title = $adminsettings['sitetitle'];
+        $templatename = "projectcomments";
+        $templatedetails = $this->newsletter->getbytemplatename($templatename);
+        $subject = $templatedetails['subject'];
+        $emails = $this->project->getfirstbyid($projectid);
+        if ($emails != '') {
+            $email = $emails['email'];
+            $data = array(
+                'name' => $emails['firstname'],
+                'backername' => $backername,
+                'email' => $email,
+                'logo' => $logo,
+                'title' => $title,
+                'projecttitle' => $projecttitle,
+                'projectid' => $projectid,
+                'subject' => $templatedetails['subject'],
+                'sendername' => $templatedetails['sendername'],
+                'senderemail' => $templatedetails['senderemail']
+            );
+            Mail::send('emails.newsletters.' . $templatename, $data, function($message)use ($email, $subject) {
+                $message->to($email)->subject($subject);
+            });
+        }
+    }
+
+    public function deletecomment($id) {
+        $this->comment->deletebyid($id);
+        $selectedlanguage = Session::get('locale');
+        Session::flash('success', Lang::get('messages2.deletedsuccessfully', array(), $selectedlanguage));
+        return Redirect::back();
+    }
+
+    public function userlogout() {
+		
+		
+		 Session::forget('name');
+        Session::forget('email');
+        Session::forget('userid');
+        Session::forget('image');
+        Session::flash('success', 'You are successfully logged out!');
+        return Redirect::to('/');
+    }
+
+    public function setsession() {
+        $locale = Input::get('locale');
+        Session::put('locale', $locale);
+    }
+
+    public function setcurrencysession() {
+        $currency = Input::get('currency');
+        //echo "<pre>";print_r($currency);"</pre>";exit;
+        Session::put('currency', $currency);
+    }
+
+    public function postfundstarter() {
+        $input = Input::all();
+        $this->contact->create($input);
+        Session::flash('success', 'Message sent successfully!');
+        return Redirect::back();
+    }
+
+    public function conversion($from, $to) {
+        return $this->currency->convertcurrency($from, $to);
+    }
+
+    public function likeproject($email, $projectid) {
+        $this->like->create($email, $projectid);
+        return Redirect::back();
+    }
+
+    public function followproject($email, $projectid) {
+        $userid = $this->user->getidbyemail($email);
+        $created = $this->project->getprojectbyuser($userid, $projectid);
+        $selectedlanguage = Session::get('locale');
+        if ($created != '') {
+            Session::flash('failed', 'You cannot follow your own project.');
+            return Redirect::back();
+        } else {
+            $message = $this->followproject->create($email, $projectid);
+            if ($message == 'You are following this project!') {
+                Session::flash('success', Lang::get('messages2.youarefollowingthisproject', array(), $selectedlanguage));
+                return Redirect::back();
+            } else {
+                Session::flash('failed', Lang::get('messages2.youstoppedfollowingthisproject', array(), $selectedlanguage));
+                return Redirect::back();
+            }
+        }
+    }
+
+    public function followcreator($followerid, $followingid) {
+        $message = $this->follow->create($followerid, $followingid);
+        if ($message == 'You are following the creator of this project!') {
+            Session::flash('success', Lang::get('messages2.youarefollowingthecreatorofthisproject'));
+        } else {
+            Session::flash('failed', Lang::get('messages2.youstoppedfollowingthecreatorofthisproject'));
+        }
+        return Redirect::back();
+    }
+
+    public function postprojectviews() {
+        $projectid = Input::get('projectid');
+        $ipaddr = Request::getClientIp();
+        return $this->projectview->create($projectid, $ipaddr);
+    }
+
+    
+
+}

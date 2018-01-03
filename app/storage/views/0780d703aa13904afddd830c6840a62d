@@ -1,0 +1,101 @@
+<?php $__env->startSection('content'); ?>  
+<section>
+    <div class="message-section">
+        <div class="container">
+
+            <div class="top-rowss">
+                <span></span>
+            </div>
+
+        </div>
+    </div>
+</section>
+<style>
+    .message-desc{
+        width: 60%;
+        text-overflow: ellipsis;
+    }
+	.meassages-bx
+{
+	margin-top:20px;
+	margin-bottom:20px;
+	
+}
+</style>
+
+<section>
+    <?php if(Session::has('success')): ?>
+    <div class="alert-message success">
+        <?php echo Session::get('success');; ?>
+
+    </div>
+    <?php endif; ?>
+
+    <div class="meassages-bx">
+        <div class="container">
+            <div class="top-rowss" >
+                <span class="mes-tile"><?php echo trans('messages.messages'); ?></span>
+            </div>      
+            <?php if($recievedmsgs=='[]'): ?>
+            <center><span class="cret-sub-til2" style='width:100%'><?php echo trans('messages.oopsmessage'); ?></span></center>
+            <?php else: ?>
+            
+<!--            <div class="mesg-area">
+                <input type="text" placeholder="<?php echo trans('messages.searchmessage'); ?>">
+                <input value="<?php echo trans('messages.search'); ?>" type="submit" class="src-btn">
+            </div>-->
+            <div  id="inbox">
+                <table class="table-bordered table-striped table-condensed" id='tableID'> 
+                    <tr><td style="padding: 15px; font-weight: bold;"><?php echo trans('messages.sno'); ?></td>
+                        <td style="padding: 15px; font-weight: bold;"><?php echo trans('messages.sendername'); ?></td>
+                        <td style="padding: 15px; font-weight: bold;"><?php echo trans('messages.message'); ?></td> 
+                        <td style="padding: 15px; font-weight: bold;"><?php echo trans('messages.sent'); ?></td>
+                        <td style="padding: 15px; font-weight: bold;"><?php echo trans('messages.action'); ?></td></tr>
+                    <?php foreach($recievedmsgs as $key=>$recievedmsg): ?>
+					<?php $inboxmsg	= Inboxmsg::where('senderid','=',$recievedmsg->senderid)->where('recieverid','=',$recievedmsg->recieverid)->where('status', '=', 0)->where('recieverstatus', '=', 'available')->count(); 
+					if($inboxmsg == 1) {?>
+					<tr style="color:#1db95c; ">
+                         <td style='display:none'><input type='text' value='<?php echo $recievedmsg->id; ?>' name='id'></td>
+                        <td><?php echo $key+1; ?></td>
+                        <td><?php echo $recievedmsg->firstname; ?> <?php echo $recievedmsg->lastname; ?></td>
+                        <td class="message-desc"><?php echo $recievedmsg->message; ?></td> 
+                        <td><?php echo $recievedmsg->date; ?></td>                        
+                        <td><a href="<?php echo URL::to('viewmessages'); ?>/<?php echo $recievedmsg->senderid; ?>"><?php echo trans('messages.view'); ?></a>
+                            <!--<a href="<?php echo URL::to('messages/inbox/delete'); ?>/<?php echo $recievedmsg->id; ?>"><?php echo trans('messages.delete'); ?></a></td>-->
+                    </tr> 
+					<?php } else { ?> 
+					<tr>
+                         <td style='display:none'><input type='text' value='<?php echo $recievedmsg->id; ?>' name='id'></td>
+                        <td><?php echo $key+1; ?></td>
+                        <td><?php echo $recievedmsg->firstname; ?> <?php echo $recievedmsg->lastname; ?></td>
+                        <td class="message-desc"><?php echo $recievedmsg->message; ?></td> 
+                        <td><?php echo $recievedmsg->date; ?></td>                        
+                        <td><a href="<?php echo URL::to('viewmessages'); ?>/<?php echo $recievedmsg->senderid; ?>"><?php echo trans('messages.view'); ?></a>
+                            <!--<a href="<?php echo URL::to('messages/inbox/delete'); ?>/<?php echo $recievedmsg->id; ?>"><?php echo trans('messages.delete'); ?></a></td>-->
+                    </tr> 
+					 <?php }?>                  
+                    <?php endforeach; ?>
+                </table>
+            </div>          
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $(".view").click(function () {
+            var $closestTr = $(this).closest('tr');
+            var x = $closestTr.find('td:eq(0)').find(':input').val();
+            var base = $(location).attr('href');
+            $.ajax({url: base + "/view/" + x, success: function (data) {
+                }});
+        });
+        $('.close').click(function () {
+            location.reload(true);
+        });
+    });
+</script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.mainlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

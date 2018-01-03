@@ -1,0 +1,154 @@
+<?php $__env->startSection('content'); ?>
+<section>
+    <div class="account">
+        <div class="container">
+            <div class="account-top">
+                <h3 class="seting col-md-12"><?php echo trans('messages.settings'); ?></h3>
+                <ul class="setig-li col-md-12">
+                    <li><a class="active" href="<?php echo URL::to('myaccount'); ?>"><?php echo trans('messages.account'); ?></a> </li>
+                    <li><a href="<?php echo URL::to('editprofile'); ?>"> <?php echo trans('messages.editprofile'); ?> </a></li>
+                    <li><a href="<?php echo URL::to('privacysettings'); ?>"> <?php echo trans('messages.privacysettings'); ?> </a></li>
+                    <li><a href="<?php echo URL::to('notifications'); ?>"> <?php echo trans('messages.notifications'); ?></a> </li>
+                    <li><a href="<?php echo URL::to('findfriends'); ?>"> <?php echo trans('messages.findfriends'); ?> </a></li>
+
+                </ul>
+
+                <div class="col-sm-6">
+                    <?php if(Session::has('success')): ?>
+                    <div class="alert-message success" style='margin-left:0px;width:80%;'>
+                        <?php echo Session::get('success');; ?>
+
+                    </div>
+                    <?php endif; ?>
+                    <?php if(Session::has('failed')): ?>
+                    <div class="alert-message error" style='margin-left:0px;width:80%;'>
+                        <?php echo Session::get('failed');; ?>
+
+                    </div>
+                    <?php endif; ?>
+                    <form method="post" action="postaccount" id="account">
+                        <ul class="email-pre">
+                            <li>
+                                <label><?php echo trans('messages.email'); ?></label>
+                                <input type="text" name="email" value="<?php echo Session::get('email'); ?>" readonly="">
+                            </li>
+
+                            <li>
+                                <label><?php echo trans('messages.currentpassword'); ?></label>
+                                <input type="password" name="current_password" class="input-text full-width js-auto_focus password <?php if(($errors->has('current_password'))): ?> has-error <?php endif; ?>" placeholder="<?php echo trans('messages.currentpassword'); ?>">
+                                <?php if( $errors->has('current_password')): ?> <p class="help-block"><?php echo $errors->first('current_password');; ?></p> <?php endif; ?>
+                            </li>                        
+                            <li>
+                                <label><?php echo trans('messages.newpassword'); ?></label>
+                                <input type="password" name="new_password" class="input-text full-width js-auto_focus password <?php if($errors->has('new_password')): ?> has-error <?php endif; ?>" placeholder="<?php echo trans('messages.newpassword'); ?>">
+                                <?php if($errors->has('new_password')): ?> <p class="help-block"><?php echo $errors->first('new_password'); ?></p> <?php endif; ?>
+                            </li>
+                            <li>
+                                <label><?php echo trans('messages.repassword'); ?></label>
+                                <input type="password" name="confirm_password" class="input-text full-width js-auto_focus password <?php if($errors->has('confirm_password')): ?> has-error <?php endif; ?>" placeholder="<?php echo trans('messages.repassword'); ?>">
+                                <?php if($errors->has('confirm_password')): ?> <p class="help-block"><?php echo $errors->first('confirm_password'); ?></p> <?php endif; ?>
+                            </li>
+
+                            <li>
+                                <input class="blus-btnl" value="<?php echo trans('messages.savesettings'); ?>" type="submit">
+
+                            </li>
+
+                        </ul>
+                    </form>
+                </div>
+                <input id="openoffset" type="hidden" value="0" name="openoffset">
+                <div class="account-botom">
+                    <h3 class="seting"><?php echo trans('messages.loginhistory'); ?></h3>
+
+                    <p class="featurs-area"><?php echo trans('messages.historyinfo'); ?> </p>
+
+                    <div class="table-cover">
+                        <table class="table" id="openupdates">
+                            <tr>
+                                <td><?php echo trans('messages.activity'); ?></td>
+                                <td><?php echo trans('messages2.time'); ?></td>
+                                <td><?php echo trans('messages.location'); ?></td>
+                                <td><?php echo trans('messages.ipaddress'); ?></td>
+                            </tr>
+                            <?php
+                            foreach ($userinfo as $historyvalue) {
+                                $logindate = date('F j Y H:i:s', strtotime($historyvalue->logindatetime));
+                                ?> 
+                                <tr>
+                                <input type="hidden" value="<?php echo $historyvalue->email ?>" name="email" id="email">
+                                <td><?php echo $historyvalue->status ?></td>
+                                <td><?php echo $logindate ?></td>
+                                <td><?php echo $historyvalue->location ?>   </td>
+                                <td> <?php echo $historyvalue->ipaddress ?> </td>
+                                </tr>
+<?php } ?>
+                            <tr></tr>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <ul class="face-bk">
+                        <li>
+                            <!--                            <label><?php echo trans('messages.facebook'); ?> </label>
+                                                        <a href="#" ><?php echo trans('messages.disconnectfacebook'); ?></a>-->
+                        </li>
+
+                        <li>
+                            <label><?php echo trans('messages.deleteaccount'); ?></label>
+                            <a href="<?php echo URL::to('account/delete');; ?>" ><?php echo trans('messages.deletemyaccount'); ?></a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+    $('.loadmore').click(function () {
+        var loadid = $(this).attr("id");
+        offset = parseInt($('#openoffset').val()) + 1;
+        $("#openoffset").val(offset);
+        offset = parseInt($('#openoffset').val());
+        email = $('#email').val();
+        if (loadid) {
+            $.ajax({
+                type: "POST",
+                url: "myaccount/loadmore",
+                data: {'offset': offset, 'email': email},
+                cache: false,
+                success: function (html) {
+                    //$("#loadmore").remove(); 
+                    $("#openupdates").append(html);
+                }
+            });
+        } else {
+            $(".btn-grey").html('The End');
+        }
+        return false;
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php
+/* $key="9dcde915a1a065fbaf14165f00fcc0461b8d0a6b43889614e8acdb8343e2cf15";
+  $ip= "208.115.219.10";
+  $url = "http://api.ipinfodb.com/v3/ip-city/?key=$key&ip=$ip&format=xml";
+  // load xml file
+  $xml = simplexml_load_file($url);
+  // print the name of the first element
+  echo $xml->getName() . "<br />";
+  // create a loop to print the element name and data for each node
+  foreach($xml->children() as $child)
+  {
+  echo $child->getName() . ": " . $child . "<br />";
+  } */
+?>
+  
+
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

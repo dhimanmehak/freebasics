@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+    <!-- head  -->
+    <?php echo $__env->make('includes.admin.head', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>  
+    <body id="theme-default" class="full_block">
+        <!-- sidebar  -->
+        <?php echo $__env->make('includes.admin.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+        <div id="container">
+            <!-- header -->
+            <?php echo $__env->make('includes.admin.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>    
+            <!--content -->
+            <?php echo $__env->yieldContent('content'); ?>
+        </div>
+    </body>
+</html>

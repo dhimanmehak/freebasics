@@ -1,0 +1,274 @@
+<?php $__env->startSection('content'); ?>
+<section>
+    <div class="search-page-section">
+        <div class="container">
+            <h3 class="h3-tags">                
+                <span  class="cats ar-flow"><p><?php if($selected=="all"): ?> <?php echo trans('messages.allcategories'); ?> <?php else: ?> <?php echo $selected->categoryname; ?> <?php endif; ?></p><i class="fa fa-angle-down"></i>
+                    <ul class="drp-arns catagrgi">
+                        <i class="hvr" style="left:110px;"></i>
+                        <a href="<?php echo URL::to('discover/category'); ?>/all/<?php echo $sort; ?>" style="color: #32a633;"> <?php echo trans('messages.allcategories'); ?></a>
+                        <?php foreach($categories as $category): ?>
+                        <li>
+                            <a href="<?php echo URL::to('discover/category'); ?>/<?php echo $category->id; ?>/<?php echo $sort; ?>"> <?php echo $category->categoryname; ?> </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </span>               
+                <span><?php echo trans('messages2.sortedby'); ?></span>
+                <?php if($sort=="magic"): ?>
+                <span class="magis ar-flow" style="width: 180px;"><p><?php echo trans('messages.magic'); ?></p><i class="fa fa-angle-down"></i>
+                    <?php elseif($sort=="popular"): ?>
+                    <span class="magis ar-flow" style="width: 180px;"><p><?php echo trans('messages.popularity'); ?></p><i class="fa fa-angle-down"></i>
+                        <?php elseif($sort=="new"): ?>
+                        <span class="magis ar-flow" style="width: 180px;"><p><?php echo trans('messages.newest'); ?></p><i class="fa fa-angle-down"></i>
+                            <?php elseif($sort=="enddate"): ?>
+                            <span class="magis ar-flow" style="width: 180px;"><p><?php echo trans('messages.enddate'); ?></p><i class="fa fa-angle-down"></i>
+                                <?php else: ?>
+                                <span class="magis ar-flow" style="width: 180px;"><p><?php echo trans('messages.mostfunded'); ?></p><i class="fa fa-angle-down"></i>
+                                    <?php endif; ?>
+                                    <ul class="drp-arns magds" style="left:-4px;">
+                                        <i class="hvr"></i>
+                                        <li>
+                                            <a href="<?php echo URL::to('discover/category'); ?>/<?php if ($selected == "all") { ?>all<?php } else { ?><?php echo $selected->id; ?><?php } ?>/magic"> <?php echo trans('messages.magic'); ?> </a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo URL::to('discover/category'); ?>/<?php if ($selected == "all") { ?>all<?php } else { ?><?php echo $selected->id; ?><?php } ?>/popular"> <?php echo trans('messages.popularity'); ?> </a>
+                                        </li>
+                                        <li>
+                                            <a class="" href="<?php echo URL::to('discover/category'); ?>/<?php if ($selected == "all") { ?>all<?php } else { ?><?php echo $selected->id; ?><?php } ?>/new"> <?php echo trans('messages.newest'); ?> </a>
+                                        </li>
+                                        <li>
+                                            <a class="" href="<?php echo URL::to('discover/category'); ?>/<?php if ($selected == "all") { ?>all<?php } else { ?><?php echo $selected->id; ?><?php } ?>/enddate"> <?php echo trans('messages.enddate'); ?> </a>
+                                        </li>
+                                        <li>
+                                            <a class="" href="<?php echo URL::to('discover/category'); ?>/<?php if ($selected == "all") { ?>all<?php } else { ?><?php echo $selected->id; ?><?php } ?>/funded"> <?php echo trans('messages.mostfunded'); ?> </a>
+                                        </li>
+                                    </ul>
+                                </span>
+                                </h3>
+                                </div>
+                                </div>
+                                </section>
+                                <section>
+                                    <div class="popular-section search-page">
+                                        <div class="container">
+                                            <div class="top-popular-are col-md-12">
+                                                <h3>
+                                                    <b><?php echo trans('messages.explore'); ?></b>
+                                                    <b class="color-gern"><?php echo count($projects); ?></b> <b><?php echo trans('messages.projects'); ?> <?php echo trans('messages.in'); ?> </b>                   
+                                                    <b class="color-gern"><?php if($selected=="all"): ?> <?php echo trans('messages.allcategories'); ?> <?php else: ?> <?php echo $selected->categoryname; ?> <?php endif; ?></b>
+                                                </h3>
+                                            </div>
+
+                                            <div class="section-middle-popular">
+
+                                                <?php foreach($projects as $project): ?>
+                                                                                             
+                                                <?php if(Config::get('adminconfig.listingfee')==0): ?>
+                                                <div class="col-sm-6 col-md-3">
+                                                    <div class="project-card project-card-tall-big" data-project="">
+                                                        <div class="project-thumbnail">
+                                                            <a href="<?php echo URL::to('project/detail'); ?>/<?php echo $project->id; ?>">
+                                                                <img onerror="this.src='<?php echo URL::to('main/images/projectdefault.png');; ?>'" class="project-thumbnail-img" width="100%" src="<?php echo URL::to(''); ?>/<?php echo $project->projectimage; ?>" alt="Project image">
+                                                            </a>
+                                                        </div>
+                                                        <div class="project-card-content">
+                                                            <h6 class="project-title">
+                                                                <a href="<?php echo URL::to('project/detail'); ?>/<?php echo $project->id; ?>"><?php echo e($project->title); ?></a>
+                                                            </h6>
+                                                            <p class="project-byline"><?php echo e($project->firstname); ?></p>
+                                                            <p class="project-blurb"> <?php echo e($project->shortblurb); ?> </p>
+                                                        </div>
+                                                        <div class="project-card-footer">
+                                                            <div class="project-location">
+                                                                <a target="" href="<?php echo URL::to('project/country'); ?>/<?php echo $project->countryname; ?>" data-location="">
+                                                                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                                    <span class="location-name"><?php echo $project->countryname; ?></span>
+                                                                </a>
+                                                                <span class="grey-dark" style='display: inline;margin-left: 20px;'><span class="fa fa-thumbs-up"> <?php echo $project->likes; ?></span></span>
+                                                            </div>
+                                                            <div class="project-stats-container">
+                                                                <?php if(round((($project->totalpledgeamount/$project->fundinggoal)*100)>=100)&&($project->dayscount<0)): ?>
+                                                                <div class="project-pledged-successful">
+                                                                    <strong><?php echo trans('messages.successfullyfunded'); ?>!</strong>
+                                                                </div>
+                                                                <?php elseif(round((($project->totalpledgeamount/$project->fundinggoal)*100)<100)&&($project->dayscount<0)): ?>
+                                                                <div class="project-pledged-successful">
+                                                                    <strong style="color:red;"><?php echo trans('messages.expired'); ?>!</strong>
+                                                                </div>
+                                                                <?php else: ?>
+                                                                <div class="project-progress-bar">
+                                                                    <div class="project-percent-pledged" style="width: <?php echo round(($project->totalpledgeamount/$project->fundinggoal)*100); ?>%"></div>
+                                                                </div>
+                                                                <?php endif; ?>
+                                                                <ul class="project-stats">
+                                                                    <li>
+                                                                        <div class="project-stats-value"><?php echo round(($project->totalpledgeamount/$project->fundinggoal)*100); ?>%</div>
+                                                                        <span class="project-stats-label"><?php echo trans('messages.smallfunded'); ?></span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="project-stats-value">
+                                                                            <span class="money usd no-code"><?php echo $project->currencysymbol; ?><?php echo round((($project->totalpledgeamount*$project->rate)*100)/100); ?></span>
+                                                                        </div>
+                                                                        <span class="project-stats-label"><?php echo trans('messages.pledged'); ?></span>
+                                                                    </li>
+                                                                    <li style="display: none;">
+                                                                        <div class="project-stats-value"><?php echo trans('messages.funded'); ?></div>
+                                                                        <span class="project-stats-label"> </span>
+                                                                    </li>  
+                                                                    <?php if(round((($project->totalpledgeamount/$project->fundinggoal)*100)>=100)&&($project->dayscount<0)): ?>
+                                                                    <li class="ksr_page_timer">
+                                                                        <div class="project-stats-value text" data-word="left"><?php echo trans('messages.bigfundedon'); ?></div>
+                                                                        <div class="project-stats-label">
+                                                                            <div class="num"><?php echo $project->enddate; ?></div>
+                                                                        </div>                                        
+                                                                    </li>
+                                                                    <?php elseif(round((($project->totalpledgeamount/$project->fundinggoal)*100)<100)&&($project->dayscount<0)): ?>
+                                                                    <li class="ksr_page_timer">
+                                                                        <div class="project-stats-value text " data-word="left"><?php echo trans('messages.expiredon'); ?></div>
+                                                                        <div class="project-stats-label">
+                                                                            <div class="num"><?php echo $project->enddate; ?></div>
+                                                                        </div>
+
+                                                                    </li>
+                                                                    <?php else: ?>
+                                                                    <li class="ksr_page_timer">
+                                                                        <div class="project-stats-value">
+                                                                            <div class="num"><?php echo $project->dayscount; ?></div>
+                                                                        </div>
+                                                                        <div class="project-stats-label text" data-word="left"><?php echo trans('messages.daystogo'); ?></div>
+                                                                    </li>
+                                                                    <?php endif; ?>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php else: ?>
+                                                <?php if($project->feerecieved==1): ?>
+                                                <div class="col-sm-6 col-md-3">
+                                                    <div class="project-card project-card-tall-big" data-project="">
+                                                        <div class="project-thumbnail">
+                                                            <a href="<?php echo URL::to('project/detail'); ?>/<?php echo $project->id; ?>">
+                                                                <img onerror="this.src='<?php echo URL::to('main/images/projectdefault.png');; ?>'" class="project-thumbnail-img" width="100%" src="<?php echo URL::to(''); ?>/<?php echo $project->projectimage; ?>" alt="Project image">
+                                                            </a>
+                                                        </div>
+                                                        <div class="project-card-content">
+                                                            <h6 class="project-title">
+                                                                <a href="<?php echo URL::to('project/detail'); ?>/<?php echo $project->id; ?>"><?php echo e($project->title); ?></a>
+                                                            </h6>
+                                                            <p class="project-byline"><?php echo e($project->firstname); ?></p>
+                                                            <p class="project-blurb"> <?php echo e($project->shortblurb); ?> </p>
+                                                        </div>
+                                                        <div class="project-card-footer">
+                                                            <div class="project-location">
+                                                                <a target="" href="<?php echo URL::to('project/country'); ?>/<?php echo $project->countryname; ?>" data-location="">
+                                                                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                                    <span class="location-name"><?php echo $project->countryname; ?></span>
+                                                                </a>
+                                                                <span class="grey-dark" style='display: inline;margin-left: 20px;'><span class="fa fa-thumbs-up"> <?php echo $project->likes; ?></span></span>
+                                                            </div>
+                                                            <div class="project-stats-container">
+                                                                <?php if(round((($project->totalpledgeamount/$project->fundinggoal)*100)>=100)&&($project->dayscount<0)): ?>
+                                                                <div class="project-pledged-successful">
+                                                                    <strong><?php echo trans('messages.successfullyfunded'); ?>!</strong>
+                                                                </div>
+                                                                <?php elseif(round((($project->totalpledgeamount/$project->fundinggoal)*100)<100)&&($project->dayscount<0)): ?>
+                                                                <div class="project-pledged-successful">
+                                                                    <strong style="color:red;"><?php echo trans('messages.expired'); ?>!</strong>
+                                                                </div>
+                                                                <?php else: ?>
+                                                                <div class="project-progress-bar">
+                                                                    <div class="project-percent-pledged" style="width: <?php echo round(($project->totalpledgeamount/$project->fundinggoal)*100); ?>%"></div>
+                                                                </div>
+                                                                <?php endif; ?>
+                                                                <ul class="project-stats">
+                                                                    <li>
+                                                                        <div class="project-stats-value"><?php echo round(($project->totalpledgeamount/$project->fundinggoal)*100); ?>%</div>
+                                                                        <span class="project-stats-label"><?php echo trans('messages.smallfunded'); ?></span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="project-stats-value">
+                                                                            <span class="money usd no-code"><?php echo $project->currencysymbol; ?><?php echo round((($project->totalpledgeamount*$project->rate)*100)/100); ?></span>
+                                                                        </div>
+                                                                        <span class="project-stats-label"><?php echo trans('messages.pledged'); ?></span>
+                                                                    </li>
+                                                                    <li style="display: none;">
+                                                                        <div class="project-stats-value"><?php echo trans('messages.funded'); ?></div>
+                                                                        <span class="project-stats-label"> </span>
+                                                                    </li>  
+                                                                    <?php if(round((($project->totalpledgeamount/$project->fundinggoal)*100)>=100)&&($project->dayscount<0)): ?>
+                                                                    <li class="ksr_page_timer">
+                                                                        <div class="project-stats-value text" data-word="left"><?php echo trans('messages.bigfundedon'); ?></div>
+                                                                        <div class="project-stats-label">
+                                                                            <div class="num"><?php echo $project->enddate; ?></div>
+                                                                        </div>                                        
+                                                                    </li>
+                                                                    <?php elseif(round((($project->totalpledgeamount/$project->fundinggoal)*100)<100)&&($project->dayscount<0)): ?>
+                                                                    <li class="ksr_page_timer">
+                                                                        <div class="project-stats-value text " data-word="left"><?php echo trans('messages.expiredon'); ?></div>
+                                                                        <div class="project-stats-label">
+                                                                            <div class="num"><?php echo $project->enddate; ?></div>
+                                                                        </div>
+
+                                                                    </li>
+                                                                    <?php else: ?>
+                                                                    <li class="ksr_page_timer">
+                                                                        <div class="project-stats-value">
+                                                                            <div class="num"><?php echo $project->dayscount; ?></div>
+                                                                        </div>
+                                                                        <div class="project-stats-label text" data-word="left"><?php echo trans('messages.daystogo'); ?></div>
+                                                                    </li>
+                                                                    <?php endif; ?>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php endif; ?>
+                                                <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            </div>
+
+<!--                                            <div class="load-div">
+                                                <a class="load" href="#"><?php echo trans('messages.loadmore'); ?></a>
+                                            </div>-->
+
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <script>
+                                    $(document).ready(function () {
+                                        $('.cats').click(function (event) {
+                                            event.stopPropagation();
+                                            $(".catagrgi").slideToggle("fast");
+                                        });
+                                        $(".catagrgi").on("click", function (event) {
+                                            event.stopPropagation();
+                                        });
+                                    });
+
+                                    $(document).on("click", function () {
+                                        $(".catagrgi").hide();
+                                    });
+
+
+                                    $(document).ready(function () {
+                                        $('.magis').click(function (event) {
+                                            event.stopPropagation();
+                                            $(".magds").slideToggle("fast");
+                                        });
+                                        $(".magds").on("click", function (event) {
+                                            event.stopPropagation();
+                                        });
+                                    });
+
+                                    $(document).on("click", function () {
+                                        $(".magds").hide();
+                                    });
+                                </script>  
+                                <?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

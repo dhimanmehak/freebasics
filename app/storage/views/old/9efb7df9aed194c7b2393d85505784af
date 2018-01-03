@@ -1,0 +1,539 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div class="page_title">
+    <span class="title_icon"><span class="computer_imac"></span></span>
+    <h3>User Dashboard</h3>   
+</div>
+<div id="content">
+    <div class="grid_container">    
+        <div class="social_activities">
+            <a href="<?php echo URL::to('userlist?user=new'); ?>"><div class="activities_s thems1">
+                <div class="block_label">
+                    New Users<span><?php echo count($newusers); ?></span>
+                </div>
+                <span class="badge_icon user_sl"></span>
+            </div>
+            <a href="<?php echo URL::to('referral'); ?>"><div class="activities_s thems6">
+                    <div class="block_label">
+                        Referral Users<span><?php echo count($referredusers); ?></span>
+                    </div>
+                    <span class="badge_icon communication_sl"></span>
+                </div></a>
+            <a href="<?php echo URL::to('userlist?user=active'); ?>"><div class="activities_s thems2">
+                    <div class="block_label">
+                        Active Users<span><?php echo $activeusers; ?></span>
+                    </div>
+                    <span class="badge_icon lightbulb_sl"></span>
+                </div></a>
+
+            <a href="<?php echo URL::to('userlist?user=inactive'); ?>"><div class="activities_s thems3" >
+                    <div class="block_label">
+                        Inactive Users<span><?php echo $inactiveusers; ?></span>
+                    </div>
+                    <span class="badge_icon administrative_docs_sl"></span>
+                </div></a>
+            <a href="<?php echo URL::to('userlist'); ?>"><div class="activities_s thems4">
+                    <div class="block_label">
+                        Total Users<span><?php echo $usercount; ?></span>
+                    </div>
+                    <span class="badge_icon customers_sl"></span>
+                </div></a>
+
+        </div>        
+        <div class="grid_12">
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>User Engagement</h6>
+                </div>
+                <div class="widget_content">
+                    <div class="stat_chart">
+                        <div class="pie_chart" style="width:25%">
+                            <span class="inner_circle"><?php echo $idlecount; ?>/<?php echo $usercount; ?></span>
+                            <span class="pie"><span style="display: none;"><?php echo $idlecount; ?>/<?php echo $usercount; ?></span><canvas width="150" height="150"></canvas></span>
+                            <span>Idle Users</span>
+                        </div>
+                        
+                         <div class="pie_chart" style="width:25%">
+                            <span class="inner_circle"><?php echo $backerscount; ?>/<?php echo $usercount; ?></span>
+                            <span class="pie"><span style="display: none;"><?php echo $backerscount; ?>/<?php echo $usercount; ?></span><canvas width="150" height="150"></canvas></span>
+                            <span>Backers</span>
+                         </div>
+                        
+                         <div class="pie_chart" style="width:25%">
+                            <span class="inner_circle"><?php echo $creatorscount; ?>/<?php echo $usercount; ?></span>
+                            <span class="pie"><span style="display: none;"><?php echo $creatorscount; ?>/<?php echo $usercount; ?></span><canvas width="150" height="150"></canvas></span>
+                            <span>Creators</span>
+                         </div>
+                        
+                        <div class="pie_chart" style="width:25%">
+                            <span class="inner_circle"><?php echo $inactiveusers; ?>/<?php echo $usercount; ?></span>
+                            <span class="pie"><span style="display: none;"><?php echo $inactiveusers; ?>/<?php echo $usercount; ?></span><canvas width="150" height="150"></canvas></span>
+                            <span>Inactive Users</span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Recent users</h6>
+                </div>
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>                                                            
+                                <th>
+                                    Last Login IP
+                                </th>
+                                <th>
+                                    Last Login On
+                                </th>
+                                <th>
+                                    Email Status
+                                </th>
+                                <th>
+                                    Status
+                                </th>                                
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($recents as $key=>$recent): ?>
+                            <tr>
+                                <td>
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td>
+                                    <?php echo $recent->firstname; ?>
+
+                                    <?php echo $recent->lastname; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $recent->email; ?>
+
+                                </td>                                
+                                <td class="center sdate">
+                                    <?php echo $recent->lastloginip; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo substr($recent->lastlogindate, 0,10); ?>
+
+                                   
+                                </td>
+                                <td class="sdate center">
+                                    <?php if($recent->emailstatus=='1'): ?>
+                                    <span class="badge_style b_done">active</span>
+                                    <?php else: ?>
+                                    <span class="badge_style b_pending">inactive</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center sdate">
+                                    <?php if($recent->status=='active'): ?>
+                                    <span class="badge_style b_done"><?php echo $recent->status; ?></span>
+                                    <?php else: ?>
+                                    <span class="badge_style b_pending"><?php echo $recent->status; ?></span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center"> 
+                                    <?php if($priv == 'all' || in_array('0', $User)): ?>
+                                    <span><a class="action-icons c-approve" href="<?php echo URL::to('viewuser?id='); ?><?php echo $recent->id; ?>" title="View">View</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('2', $User)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('edituser?id='); ?><?php echo $recent->id; ?>" target="_blank" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?> 
+                                    <?php if($priv == 'all' || in_array('3', $User)): ?>
+                                    <span><a class="action-icons c-delete" onclick="confirmation('<?php echo $recent->id; ?>');" href="#" title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>                                
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>                                                             
+                                <th>
+                                    Last Login IP
+                                </th>
+                                <th>
+                                    Last Login On
+                                </th>
+                                <th>
+                                    Email Status
+                                </th>  
+                                <th>
+                                    Status
+                                </th>                                
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid_12">
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>New users</h6>
+                </div>
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>                                                            
+                                <th>
+                                    Last Login IP
+                                </th>
+                                <th>
+                                    Created On
+                                </th>
+                                <th>
+                                    Email Status
+                                </th>
+                                <th>
+                                    Status
+                                </th>                                
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($newusers as $key=>$newuser): ?>
+                            <tr>
+                                <td>
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td>
+                                    <?php echo $newuser->firstname; ?>
+
+                                    <?php echo $newuser->lastname; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $newuser->email; ?>
+
+                                </td>                                
+                                <td class="center sdate">
+                                    <?php echo $newuser->lastloginip; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo $newuser->createdon; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php if($newuser->emailstatus=='1'): ?>
+                                    <span class="badge_style b_done">active</span>
+                                    <?php else: ?>
+                                    <span class="badge_style b_pending">inactive</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center sdate">
+                                    <?php if($newuser->status=='active'): ?>
+                                    <span class="badge_style b_done"><?php echo $newuser->status; ?></span>
+                                    <?php else: ?>
+                                    <span class="badge_style b_pending"><?php echo $newuser->status; ?></span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('0', $User)): ?>
+                                    <span><a class="action-icons c-approve" href="<?php echo URL::to('viewuser?id='); ?><?php echo $newuser->id; ?>" title="View">View</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('2', $User)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('edituser?id='); ?><?php echo $newuser->id; ?>" target="_blank" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php if($name=="demo"): ?>                                    
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <?php if($priv == 'all' || in_array('3', $User)): ?>
+                                    <span><a class="action-icons c-delete" onclick="confirmation('<?php echo $newuser->id; ?>');" href="#" title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>                                
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>                                                             
+                                <th>
+                                    Last Login IP
+                                </th>
+                                <th>
+                                    Created On
+                                </th>
+                                <th>
+                                    Email Status
+                                </th>  
+                                <th>
+                                    Status
+                                </th>                                
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>      
+
+        <div class="grid_12">
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Referral users</h6>
+                </div>
+                <div class="widget_content">
+
+                    <table class="display data_tbl">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>                                                            
+                                <th>
+                                    Last Login IP
+                                </th>
+                                <th>
+                                    Last Login On
+                                </th>
+                                <th>
+                                    Email Status
+                                </th>
+                                <th>
+                                    Status
+                                </th>                                
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($referredusers as $key=>$refer): ?>
+                            <tr>
+                                <td>
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td>
+                                    <?php echo $refer->firstname; ?>
+
+                                    <?php echo $refer->lastname; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $refer->email; ?>
+
+                                </td>                                
+                                <td class="center sdate">
+                                    <?php echo $refer->lastloginip; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo $refer->lastlogindate; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php if($refer->emailstatus=='1'): ?>
+                                    <span class="badge_style b_done">active</span>
+                                    <?php else: ?>
+                                    <span class="badge_style b_pending">inactive</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center sdate">
+                                    <?php if($refer->status=='active'): ?>
+                                    <span class="badge_style b_done"><?php echo $refer->status; ?></span>
+                                    <?php else: ?>
+                                    <span class="badge_style b_pending"><?php echo $refer->status; ?></span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('0', $User)): ?>
+                                    <span><a class="action-icons c-approve" href="<?php echo URL::to('viewuser?id='); ?><?php echo $refer->id; ?>" title="View">View</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('2', $User)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('edituser?id='); ?><?php echo $refer->id; ?>" target="_blank" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <?php if($priv == 'all' || in_array('3', $User)): ?>
+                                    <span><a class="action-icons c-delete" onclick="confirmation('<?php echo $refer->id; ?>');" href="#" title="delete">Delete</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>                                
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>                                                             
+                                <th>
+                                    Last Login IP
+                                </th>
+                                <th>
+                                    Last Login On
+                                </th>
+                                <th>
+                                    Email Status
+                                </th>  
+                                <th>
+                                    Status
+                                </th>                                
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="clear"></span>
+</div>
+<script type="text/javascript">
+                            function confirmation(id) {
+                            var answer = confirm("Are you sure to delete this record?")
+                                    if (answer){
+                            location.href = 'deleteuser?id=' + id;
+                            }
+                            else{
+                            return false;
+                            }
+                            }
+</script>
+<script>
+
+                    /*=================
+                     CHART 8
+                     ===================*/
+                    $(function(){
+                    var plot2 = $.jqplot ('chart8', [[3, 7, 9, 1, 5, 3, 8, 2, 5]], {
+                    // Give the plot a title.
+                    title: 'Plot With Options',
+                            // You can specify options for all axes on the plot at once with
+                            // the axesDefaults object.  Here, we're using a canvas renderer
+                            // to draw the axis label which allows rotated text.
+                            axesDefaults: {
+                            labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                            },
+                            // Likewise, seriesDefaults specifies default options for all
+                            // series in a plot.  Options specified in seriesDefaults or
+                            // axesDefaults can be overridden by individual series or
+                            // axes options.
+                            // Here we turn on smoothing for the line.
+                            seriesDefaults: {
+                            shadow: false, // show shadow or not.
+                                    rendererOptions: {
+                                    smooth: true
+                                    }
+                            },
+                            // An axes object holds options for all axes.
+                            // Allowable axes are xaxis, x2axis, yaxis, y2axis, y3axis, ...
+                            // Up to 9 y axes are supported.
+                            axes: {
+                            // options for each axis are specified in seperate option objects.
+                            xaxis: {
+                            label: "X Axis",
+                                    // Turn off "padding".  This will allow data point to lie on the
+                                    // edges of the grid.  Default padding is 1.2 and will keep all
+                                    // points inside the bounds of the grid.
+                                    pad: 0
+                            },
+                                    yaxis: {
+                                    label: "Y Axis"
+                                    }
+                            },
+                            grid: {
+                            borderColor: '#ccc', // CSS color spec for border around grid.
+                                    borderWidth: 2.0, // pixel width of border around grid.
+                                    shadow: false               // draw a shadow for grid.
+                            }
+                    });
+                    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,143 @@
+<?php $__env->startSection('content'); ?>
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Countries List</h6>
+                </div>
+                <div class="widget_content">
+                    <table class="display data_tbl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Country Name
+                                </th>
+                                <th>
+                                    Country Code
+                                </th>
+                                <th>
+                                    Mobile Code
+                                </th>
+<!--                                <th>
+                                    States 
+                                </th>-->
+                                <th>
+                                    Status
+                                </th>                                
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($countries as $country): ?>
+                            <tr>
+                                <td  class="center">
+                                    <?php echo $country->id; ?>
+
+                                </td>
+                                <td  class="center">
+                                    <?php echo $country->countryname; ?>
+
+                                </td>
+                                <td  class="center">
+                                    <?php echo $country->countrycode; ?>
+
+                                </td>
+                                <td  class="center">
+                                    <?php echo $country->countrymobilecode; ?>
+
+                                </td>
+<!--                                <td class="center">
+                                    <a href="<?php echo URL::to('statelist?id='); ?><?php echo $country->id; ?>">View States</a>
+                                </td>-->
+                                <td class="center">
+                                    <?php if($country->status=='active'): ?>
+                                    <a title="Click to inactive" class="tip_top" href="javascript:confirm_status('countrystatus/<?php echo $country->id; ?>/<?php echo $country->status; ?>');">
+                                        <span class="badge_style b_done"><?php echo $country->status; ?></span></a>
+                                    <?php else: ?>
+                                    <a title="Click to active" class="tip_top" href="javascript:confirm_status('countrystatus/<?php echo $country->id; ?>/<?php echo $country->status; ?>');">
+                                        <span class="badge_style b_pending"><?php echo $country->status; ?></span></a>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center">
+                                    <?php if($priv == 'all' || in_array('2', $Country)): ?>
+                                    <span><a class="action-icons c-edit" href="<?php echo URL::to('editcountry?id='); ?><?php echo $country->id; ?>" title="Edit">Edit</a></span>
+                                    <?php endif; ?>
+                                    <?php if($priv == 'all' || in_array('3', $Country)): ?>
+                                    <?php $name = Session::get('adminname'); ?>
+                                    <?php if($name=="demo"): ?>
+                                    <span><a class="inline cboxElement action-icons c-delete" href="#inline_content">Delete</a></span>
+                                    <?php else: ?>
+                                    <span><a class="action-icons c-delete" href="#"  onclick="confirmation('<?php echo $country->id; ?>');" title="delete">Delete</a></span><span><a class="action-icons c-approve" href="<?php echo URL::to('viewcountry?id='); ?><?php echo $country->id; ?>" title="view">View</a></span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Country Name
+                                </th>
+                                <th>
+                                    Country Code
+                                </th>
+                                <th>
+                                    Mobile Code
+                                </th>
+<!--                                <th>
+                                    States 
+                                </th>-->
+                                <th>
+                                    Status
+                                </th>                                
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+            function confirmation(id) {
+            var answer = confirm("Are you sure to delete this record?")
+                    if (answer) {
+            location.href = 'deletecountry?id=' + id;
+            }
+            else {
+            return false;
+            }
+            }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

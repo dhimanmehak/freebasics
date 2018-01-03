@@ -1,0 +1,314 @@
+<?php
+
+use fundstarter\storage\User\UserRepository as UserRepository;
+use fundstarter\storage\History\HistoryRepository as HistoryRepository;
+use fundstarter\storage\Adminsetting\AdminsettingRepository as AdminsettingRepository;
+use fundstarter\storage\Newsletter\NewsletterRepository as NewsletterRepository;
+use fundstarter\storage\Subscription\SubscriptionRepository as SubscriptionRepository;
+use fundstarter\storage\Project\ProjectRepository as ProjectRepository;
+use fundstarter\storage\Country\CountryRepository as CountryRepository;
+use fundstarter\storage\Backing\BackingRepository as BackingRepository;
+use fundstarter\storage\Reward\RewardRepository as RewardRepository;
+use fundstarter\storage\Currency\CurrencyRepository as CurrencyRepository;
+use Cartalyst\Stripe\Stripe;
+
+
+
+
+class StripeController extends BaseController {
+
+    public function __construct(CurrencyRepository $currencyRepository, RewardRepository $rewardRepository, BackingRepository $backingRepository, CountryRepository $countryrRepository, ProjectRepository $projectRepository, UserRepository $userRepository, HistoryRepository $historyRepository, AdminsettingRepository $adminsettingRepository, NewsletterRepository $newsletterRepository, SubscriptionRepository $subscriptionRepository) {
+        $this->user = $userRepository;
+        $this->backing = $backingRepository;
+        $this->history = $historyRepository;
+        $this->adminsetting = $adminsettingRepository;
+        $this->newsletter = $newsletterRepository;
+        $this->subscription = $subscriptionRepository;
+        $this->project = $projectRepository;
+        $this->country = $countryrRepository;
+        $this->reward = $rewardRepository;
+        $this->currency = $currencyRepository;
+    }
+
+    public function stripepayment() {
+        return View::make('mainviews.stripepayment');
+    }
+
+    public function postback() {
+		
+        $rules = array(
+            'reward' => 'required',
+            'pledge_amount' => 'required|numeric|min:1',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        $projectid = Input::get('projectid');
+        $projectdetail = $this->project->getbyprojectid($projectid);
+        if ($validator->fails()) {
+            return Redirect::to('back/reward/' . $projectid)
+                            ->withInput()->withErrors($validator);
+        } else {
+            $input = Input::all();
+            $pledgeamount = $input['pledge_amount'];
+            $rewardid = $input['reward'];
+            $email = Session::get('email');
+            $countries = $this->country->all();
+            $userid = $this->user->getidbyemail($email);
+            if ($input['reward'] != 0) {
+                $temppledgeamount = $this->reward->checkpledge($input['reward']);
+                $selectedpledgeamount = round(($temppledgeamount * $projectdetail->rate) * 100) / 100;
+                if ($pledgeamount < $selectedpledgeamount) {
+                    Session::flash('failed', 'Selected reward less than or equal to pledge amount you entered!!!');
+                    return Redirect::back();
+                } else {
+                    $backingdetail = array('countries' => $countries, 'projectdetail' => $projectdetail, 'rewardid' => $rewardid, 'userid' => $userid, 'pledgeamount' => $pledgeamount);
+                    Session::put('backingdetail', $backingdetail);
+                    return Redirect::to('back/paymentdetails');
+                }
+            } else {
+                $backingdetail = array('countries' => $countries, 'projectdetail' => $projectdetail, 'rewardid' => $rewardid, 'userid' => $userid, 'pledgeamount' => $pledgeamount);
+                Session::put('backingdetail', $backingdetail);
+                return Redirect::to('back/paymentdetails');
+            }
+        }
+    }
+
+    public function paymentdetails() {
+
+        $backingdetail = Session::get('backingdetail');
+    
+        $projectdetail = $backingdetail['projectdetail'];
+        $countries = $backingdetail['countries'];
+        $rewardid = $backingdetail['rewardid'];
+        $userid = $backingdetail['userid'];
+        $pledgeamount = $backingdetail['pledgeamount'];
+        return View::make('mainviews.backing.payment', compact('countries', 'projectdetail', 'rewardid', 'userid', 'pledgeamount'));
+    }
+
+//    public function poststripepayment() {
+//        $input = Input::all();
+//        $credentials = $this->getstripecredentials();
+//        $apikey = $credentials['secretkey'];
+//        $stripe = Stripe::make($apikey);
+//        $token = $stripe->tokens()->create([
+//            'card' => [
+//                'number' => Input::get('cardnumber'),
+//                'exp_month' => Input::get('month'),
+//                'exp_year' => Input::get('year'),
+//                'cvc' => Input::get('cvv'),
+//            ],
+//        ]);
+//        $input['stripetoken'] = $token['id'];
+//
+//        $customer = $stripe->customers()->create([
+//            'email' => Session::get('email'),
+//            'card' => $token['id'],
+//        ]);
+//        $input['stripecustomerid'] = $customer['id'];
+//        $this->backing->create($input);
+//        $this->user->updatebackedcount($input['userid']);
+//        $this->sendmailtocreator($input['projectid'], $input['userid']);
+//        $this->project->updatetotalbacking($input['projectid'], $input['pledgeamount']);
+//        Session::forget('backingdetail');
+//        Session::flash('success', 'Backing successfull.If the project is successfully funded,You will be charged');
+//        return Redirect::to('project/detail/' . $input['projectid']);
+//    }
+
+    public function poststripepayment() {
+		
+        $input = Input::all();
+        $selectedlanguage = Session::get('locale');
+        if (Session::has('currency')) {
+            $fromcurrency = Session::get('currency');
+            $rate = $this->currency->converttodefault($fromcurrency);
+        } else {
+            $rate = 1;
+        }
+        if ($rate != 0) {
+            $input['pledgeamount'] = $input['pledgeamount'] / $rate;
+        }
+        $credentials = $this->getstripecredentials();
+        $apikey = $credentials['secretkey'];
+        $stripe = Stripe::make($apikey);
+		
+	$card_name=$input['name'];
+		
+        try {
+            $token = $stripe->tokens()->create([
+                'card' => [
+                    'number' => Input::get('cardnumber'),
+                    'exp_month' => Input::get('month'),
+                    'exp_year' => Input::get('year'),
+                    'cvc' => Input::get('cvv'),
+					'name' =>$card_name
+                ],
+            ]);
+			
+		
+            $input['stripetoken'] = $token['id'];
+            $customer = $stripe->customers()->create([
+                'email' => Session::get('email'),
+                'card' => $token['id'],
+            ]);
+			
+			
+			
+			
+            $input['stripecustomerid'] = $customer['id'];
+			
+			$customerid=$input['stripecustomerid'];
+			
+			/* code for payment*/
+			/* $charge = $stripe->charges()->create(
+                        ['customer' => $customerid,
+                            'currency' => "USD", 'receipt_email' => $creatoremail,
+                            'amount' => $pledgeamount, 'application_fee' => $commcharge,
+                            'destination' => $creatoraccount]);	*/
+		
+						
+            $this->backing->create($input);
+            if ($input['rewardid'] != 0) {
+                $this->reward->updatebackercount($input['rewardid']);
+            }
+            $this->user->updatebackedcount($input['userid']);
+            $this->sendmailtocreator($input['projectid'], $input['userid']);
+
+            $backingdetails = $this->backing->getbackingdetailsbyuserid($input['userid'], $input['projectid']);
+            $this->sendmailtobacker($backingdetails);
+            $this->project->updatetotalbacking($input['projectid'], $input['pledgeamount']);
+            Session::forget('backingdetail');
+            
+            if (Input::has('admin')) {
+                Session::flash('success', Lang::get('messages2.backingsuccessfullyouwillbecharged',array(),$selectedlanguage));
+                return Redirect::to('projectpreview?id=' . $input['projectid']);
+            } else {
+                Session::flash('success', Lang::get('messages2.backingsuccessfullyouwillbecharged',array(),$selectedlanguage));
+                return Redirect::to('project/detail/' . $input['projectid']);
+            }
+        } catch (Stripe_CardError $e) {
+            $messageTitle = 'Card Declined';
+            // Since it's a decline, Stripe_CardError will be caught
+            $body = $e->getJsonBody();
+            $err = $body['error'];
+            $message = $err['message'];
+        } catch (Stripe_InvalidRequestError $e) {
+            // Invalid parameters were supplied to Stripe's API
+            $messageTitle = 'Oops...';
+            $message = 'It looks like my payment processor encountered an error with the payment information.';
+        } catch (Stripe_AuthenticationError $e) {
+            // Authentication with Stripe's API failed
+            // (maybe you changed API keys recently)
+            $messageTitle = 'Oops...';
+            $message = 'It looks like my payment processor API encountered an error.';
+        } catch (Stripe_ApiConnectionError $e) {
+            // Network communication with Stripe failed
+            $messageTitle = 'Oops...';
+            $message = 'It looks like my payment processor encountered a network error.';
+        } catch (Stripe_Error $e) {
+            // Display a very generic error to the user, and maybe send
+            // yourself an email
+            $messageTitle = 'Oops...';
+            $message = 'It looks like my payment processor encountered an error.';
+        } catch (Exception $e) {
+            // Something else happened, completely unrelated to Stripe
+            $messageTitle = trans('messages2.oops');
+            $message = trans('messages2.tryagainwithvalidcredentials');
+        }
+        if ($messageTitle != '') {
+            $result = $messageTitle . ',' . $message;
+            Session::flash('failed', Lang::get($result));
+            return Redirect::back()->withInput();
+        }
+    }
+
+    public function getstripecredentials() {
+        $paymentgateways = Config::get('paymentconfig');
+		//echo "<pre>";print_r($paymentgateways);exit;
+        foreach ($paymentgateways as $payment) {
+            $paymentgateway = unserialize($payment);
+            if ($paymentgateway['id'] == 2) {   // stripe in id 2
+                $setting = $paymentgateway['settings'];
+            }
+        }
+        $stripesettings = unserialize($setting);
+        $mode = $stripesettings['mode'];
+        $gatewayname = $stripesettings['gatewayname'];
+        $secretkey = $stripesettings['Secret_Key'];
+        $publishablekey = $stripesettings['Publish_Key'];
+        $clientid = $stripesettings['Client_ID'];
+        return array('mode' => $mode, 'gatewayname' => $gatewayname, 'secretkey' => $secretkey, 'publishablekey' => $publishablekey, 'clientid' => $clientid);
+    }
+
+    public function sendmailtocreator($projectid, $userid) {
+        $project = $this->project->getbasicdetailsbyid($projectid);
+        $projecttitle = $project->title;
+        $creatorid = $project->userid;
+        $adminsettings = $this->adminsetting->getfirst();
+        $backername = $this->user->getusername($userid);
+        $creatorname = $this->user->getusername($creatorid);
+        $logo = $adminsettings['logo'];
+        $title = $adminsettings['sitetitle'];
+        $templatename = "projectbacking";
+        $templatedetails = $this->newsletter->getbytemplatename($templatename);
+       // $subject = $templatedetails['subject'];
+        $subject = "Great news! Your project has been funded!";
+        $emails = $this->project->getbyprojectidforpledge($projectid);
+        if ($emails != '') {
+            $email = $emails['email'];
+            $data = array(
+                'name' => $emails['name'],
+                'backername' => $backername,
+                'creatorname' => $creatorname,
+                'email' => $email,
+                'logo' => $logo,
+                'title' => $title,
+                'projecttitle' => $projecttitle,
+                'projectid' => $projectid,
+                'subject' => $templatedetails['subject'],
+                'sendername' => $templatedetails['sendername'],
+                'senderemail' => $templatedetails['senderemail']
+            );
+            Mail::send('emails.newsletters.' . $templatename, $data, function($message)use ($email, $subject) {
+                $message->to($email)->subject($subject);
+            });
+        }
+    }
+
+    public function sendmailtobacker($backingdetails) {
+        $projecttitle = $backingdetails->title;
+        $adminsettings = $this->adminsetting->getfirst();
+        $backer = $backingdetails->firstname . ' ' . $backingdetails->lastname;
+        $logo = $adminsettings['logo'];
+        $title = $adminsettings['sitetitle'];
+        $templatename = "backingsuccessful";
+        $templatedetails = $this->newsletter->getbytemplatename($templatename);
+        //$subject = $templatedetails['subject'];
+		$subject ="Acknowledgment of transaction done on FreeBasics";
+        $email = Session::get('email');
+        if ($email != '') {
+            $data = array(
+                'backer' => $backer,
+                'email' => $email,
+                'logo' => $logo,
+                'title' => $title,
+                'projecttitle' => $projecttitle,
+                'subject' => $templatedetails['subject'],
+                'sendername' => $templatedetails['sendername'],
+                'senderemail' => $templatedetails['senderemail']
+            );
+            Mail::send('emails.newsletters.' . $templatename, $data, function($message)use ($email, $subject) {
+                $message->to($email)->subject($subject);
+            });
+        }
+    }
+
+    public function adminpaymentdetails() {
+        $backingdetail = Session::get('backingdetail');
+        $projectdetail = $backingdetail['projectdetail'];
+        $countries = $backingdetail['countries'];
+        $rewardid = $backingdetail['rewardid'];
+        $userid = $backingdetail['userid'];
+        $pledgeamount = $backingdetail['pledgeamount'];
+        return View::make('adminviews.backing.paymentdetails', compact('countries', 'projectdetail', 'rewardid', 'userid', 'pledgeamount'));
+    }
+
+}

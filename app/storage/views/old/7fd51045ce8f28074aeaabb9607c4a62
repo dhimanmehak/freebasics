@@ -1,0 +1,411 @@
+<?php $__env->startSection('content'); ?>
+
+
+
+<?php
+$admintype = Session::get('admintype');
+$previleges = Session::get('previleges');
+if ($previleges == "all") {
+    $priv = "all";
+} else {
+    $priv = unserialize($previleges);
+    extract($priv);
+}
+?>
+
+
+
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+             <?php if(Session::has('success')): ?>
+            <div class="login_success">
+                <span class="icon"></span> <?php echo Session::get('success');; ?>
+
+            </div>
+            <?php endif; ?>
+             <?php if(Session::has('error')): ?>
+            <div class="login_invalid">
+                <span class="icon"></span> <?php echo Session::get('error');; ?>
+
+            </div>
+            <?php endif; ?>
+            
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Project of the day (Maximum 1 project allowed)</h6>
+                </div>
+				
+                <div class="widget_content">                   
+                    <table class="display data_tbl" id="projecttable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Category 
+                                </th>
+                                <th>
+                                    Creator Name
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>
+                                <th>
+                                    Pledge Amount
+                                </th>
+                                <th>
+                                    Expires In
+                                </th>
+                                <th>
+                                    View
+                                </th>
+                                <th>
+                                    Project of the day
+                                </th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            <?php foreach($projectoftheday as $key=>$project): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td class="center"> 
+                                    <?php echo e($project->title); ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo e($project->categoryname); ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo e($project->firstname); ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo e($project->fundinggoal); ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo e($project->totalpledgeamount); ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php if($project->dayscount < 0): ?>
+                                    <span class="badge_style b_pending">Expired</span> 
+                                    <?php else: ?>
+                                    <?php echo $project->dayscount; ?> days
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <span><a target="_blank" class="badge_style b_low" href="<?php echo URL::to('viewproject?id='); ?><?php echo $project->id; ?>" original-title="View">View</a></span>
+                                </td>
+                                 <td class="center">
+                                    <?php if($project->projectoftheday==1): ?>
+                                    <a title="Click to remove" class="tip_top" href="javascript:confirmation('<?php echo $project->id; ?>','<?php echo $project->projectoftheday; ?>','projectoftheday');">
+                                        <span class="badge_style b_done">Yes</span></a>
+                                    <?php else: ?>
+                                    <a title="Click to add" class="tip_top" href="javascript:confirmation('<?php echo $project->id; ?>','<?php echo $project->projectoftheday; ?>','projectoftheday');">
+                                        <span class="badge_style b_pending">No</span></a>
+                                    <?php endif; ?>
+                                </td>
+                                
+                            </tr>   
+                            <?php endforeach; ?>
+                        </tbody>
+						 
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Category 
+                                </th>
+                                <th>
+                                    Creator Name
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>
+                                <th>
+                                    Pledge Amount
+                                </th>
+                                <th>
+                                    Expires In
+                                </th>
+                                <th>
+                                    View
+                                </th>
+                                <th>
+                                    Project of the day
+                                </th>
+                            </tr> 
+                        </tfoot>
+                    </table>
+                </div>
+            </div>    
+            
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>Popular Projects (Maximum 3 project allowed)</h6>
+                </div>
+                <div class="widget_content">                   
+                    <table class="display data_tbl" id="projecttable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Category 
+                                </th>
+                                <th>
+                                    Creator Name
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>
+                                <th>
+                                    Pledge Amount
+                                </th>
+                                <th>
+                                    Expires In
+                                </th>
+                                <th>View</th>
+                                <th>
+                                    Popular
+                                </th>
+                            </tr> 
+                        </thead>
+                       
+                        <tbody>
+                            <?php foreach($popularprojects as $key=>$project): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td class="center"> 
+                                    <?php echo $project->title; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $project->categoryname; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $project->firstname; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $project->fundinggoal; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo $project->totalpledgeamount; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php if($project->dayscount < 0): ?>
+                                    <span class="badge_style b_pending">Expired</span> 
+                                    <?php else: ?>
+                                    <?php echo $project->dayscount; ?> days
+                                    <?php endif; ?>
+                                </td>
+                                <td class="center sdate">
+                                  <span><a target="_blank" class="badge_style b_low" href="<?php echo URL::to('viewproject?id='); ?><?php echo $project->id; ?>" original-title="View">View</a></span>
+                                </td>
+                                 <td class="center">
+                                    <?php if($project->popular==1): ?>
+                                    <a title="Click to remove" class="tip_top" href="javascript:confirmation('<?php echo $project->id; ?>','<?php echo $project->popular; ?>','popular');">
+                                        <span class="badge_style b_done">Yes</span></a>
+                                    <?php else: ?>
+                                    <a title="Click to add" class="tip_top" href="javascript:confirmation('<?php echo $project->id; ?>','<?php echo $project->popular; ?>','popular');">
+                                        <span class="badge_style b_pending">No</span></a>
+                                    <?php endif; ?>
+                                </td>                                
+                            </tr>   
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Category 
+                                </th>
+                                <th>
+                                    Creator Name
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>
+                                <th>
+                                    Pledge Amount
+                                </th>
+                                <th>
+                                    Expires In
+                                </th>
+                                <th>
+                                    View
+                                </th>
+                                <th>
+                                    Popular
+                                </th>
+                            </tr> 
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            
+                         <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon blocks_images"></span>
+                    <h6>New and Noteworthy (Maximum 3 project allowed)</h6>
+                </div>
+                <div class="widget_content">                   
+                    <table class="display data_tbl" id="projecttable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Category 
+                                </th>
+                                <th>
+                                    Creator Name
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>
+                                <th>
+                                    Pledge Amount
+                                </th>
+                                <th>
+                                    Expires In
+                                </th>
+                                <th>View</th>
+                                <th>
+                                    New and Noteworthy
+                                </th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            <?php foreach($newandnoteworthyprojects as $key=>$project): ?>
+                            <tr>
+                                <td class="center">
+                                    <?php echo $key+1; ?>
+
+                                </td>
+                                <td class="center"> 
+                                    <?php echo $project->title; ?>
+
+                                </td>
+                                <td class="sdate center">
+                                    <?php echo $project->categoryname; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $project->firstname; ?>
+
+                                </td>
+                                <td class="center">
+                                    <?php echo $project->fundinggoal; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php echo $project->totalpledgeamount; ?>
+
+                                </td>
+                                <td class="center sdate">
+                                    <?php if($project->dayscount < 0): ?>
+                                    <span class="badge_style b_pending">Expired</span> 
+                                    <?php else: ?>
+                                    <?php echo $project->dayscount; ?> days
+                                    <?php endif; ?>
+                                </td>
+                                  <td class="center sdate">
+                                  <span><a target="_blank" class="badge_style b_low" href="<?php echo URL::to('viewproject?id='); ?><?php echo $project->id; ?>" original-title="View">View</a></span>
+                                </td>
+                                 <td class="center">
+                                    <?php if($project->newandnoteworthy==1): ?>
+                                    <a title="Click to remove" class="tip_top" href="javascript:confirmation('<?php echo $project->id; ?>','<?php echo $project->newandnoteworthy; ?>','newandnoteworthy');">
+                                        <span class="badge_style b_done">Yes</span></a>
+                                    <?php else: ?>
+                                    <a title="Click to add" class="tip_top" href="javascript:confirmation('<?php echo $project->id; ?>','<?php echo $project->newandnoteworthy; ?>','newandnoteworthy');">
+                                        <span class="badge_style b_pending">No</span></a>
+                                    <?php endif; ?>
+                                </td>                               
+                            </tr>   
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Category 
+                                </th>
+                                <th>
+                                    Creator Name
+                                </th>
+                                <th>
+                                    Funding Goal
+                                </th>
+                                <th>
+                                    Pledge Amount
+                                </th>
+                                <th>
+                                    Expires In
+                                </th>
+                                <th>
+                                    View
+                                </th>
+                                <th>
+                                    New and Noteworthy
+                                </th>
+                            </tr> 
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function confirmation(id,status,featured) {
+        var answer = confirm("Are you sure to change the status of the project?")
+        if (answer) {
+            location.href = 'updatefeatured?id=' + id+'&&status='+status+'&&feature='+featured;
+        }
+    }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,65 @@
+<?php $__env->startSection('content'); ?>
+<div id="content">
+    <div class="grid_container">
+        <div class="grid_12">
+            <?php if(Session::has('failed')): ?>
+            <div class="login_invalid">
+                <span class="icon"></span> <?php echo Session::get('failed');; ?>
+
+            </div>
+            <?php endif; ?>
+            <div class="widget_wrap">
+                <div class="widget_top">
+                    <span class="h_icon list"></span>
+                    <h6>Add Comment</h6>
+                </div>
+                <div class="widget_content">
+                    <form id="form103" autocomplete="off" method="post" action="<?php echo URL::to('adminpostcomment'); ?>" class="form_container left_label">
+                        <input type="hidden" value="<?php echo $projectid; ?>" name="projectid">
+                        <ul>
+                            <li>
+                                <div class="form_grid_12">
+                                    <label class="field_title">Project Name<span class="req">*</span></label>
+                                    <div class="form_input">
+                                        <input type="text" name="title"  maxlength="100" class="large required" value="<?php echo $projecttitle; ?>"/>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="form_grid_12">
+                                    <label class="field_title">Username<span class="req">*</span></label>
+                                    <div class="form_input">
+                                        <select name="userid">
+                                            <?php foreach($users as $user): ?>
+                                            <option value="<?php echo $user->id; ?>"><?php echo $user->email; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li> 
+                            <li>
+                                <div class="form_grid_12">
+                                    <label class="field_title">Comment<span class="req">*</span></label>
+                                    <div class="form_input">                                           
+                                        <textarea class="large required" name='comment' ></textarea>
+                                    </div>
+                                </div>
+                            </li>                          
+
+                            <li>
+                                <div class="form_grid_12">
+                                    <div class="form_input">
+                                        <input type="submit" value="submit" class="btn_small btn_blue" >
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="clear"></span>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.adminlayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

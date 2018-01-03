@@ -1,0 +1,505 @@
+<?php
+
+use fundstarter\storage\Category\CategoryRepository as CategoryRepository;
+use fundstarter\storage\Project\ProjectRepository as ProjectRepository;
+use fundstarter\storage\Reward\RewardRepository as RewardRepository;
+use fundstarter\storage\User\UserRepository as UserRepository;
+use fundstarter\storage\Country\CountryRepository as CountryRepository;
+use fundstarter\storage\Comment\CommentRepository as CommentRepository;
+use fundstarter\storage\Update\UpdateRepository as UpdateRepository;
+use fundstarter\storage\Subscription\SubscriptionRepository as SubscriptionRepository;
+use fundstarter\storage\Adminsetting\AdminsettingRepository as AdminsettingRepository;
+use fundstarter\storage\Newsletter\NewsletterRepository as NewsletterRepository;
+
+
+
+class SettingsController extends BaseController {
+
+    public function __construct(NewsletterRepository $newsletterRepository, AdminsettingRepository $adminsettingRepository, SubscriptionRepository $subscriptionRepository, CountryRepository $countryRepository, CommentRepository $commentRepository, UpdateRepository $updateRepository, CategoryRepository $categoryRepository, RewardRepository $rewardRepository, ProjectRepository $projectRepository, UserRepository $userRepository) {
+        $this->category = $categoryRepository;
+        $this->project = $projectRepository;
+        $this->reward = $rewardRepository;
+        $this->user = $userRepository;
+        $this->country = $countryRepository;
+        $this->comment = $commentRepository;
+        $this->update = $updateRepository;
+        $this->subscription = $subscriptionRepository;
+        $this->adminsetting = $adminsettingRepository;
+        $this->newsletter = $newsletterRepository;
+    }
+
+    public function myaccount() {
+        $email = Session::get('email');
+        $userinfo = History::orderBy('logindatetime', 'DESC')->where('email', '=', $email)->take(5)->get();
+        $lasthid = '';
+        foreach ($userinfo as $postvalue) {
+            $lasthid = $postvalue['id'];
+        }
+        //echo  $lasthid;exit;
+        $loaderid = $lasthid;
+        $loaderExist = History::where('email', '=', $email)->where('id', '>', $loaderid)->take(5)->get();
+        $loaderExistcount = History::where('email', '=', $email)->where('id', '>', $loaderid)->count();
+        //echo  $loaderExistcount;exit;
+        if ($loaderExistcount >= 1) {
+            $flag = 'Yes';
+        } else {
+            $flag = 'No';
+        }
+
+        if ($email == '') {
+            return Redirect::to('login');
+        } else {
+            return View::make('mainviews.settings.account')->with('userinfo', $userinfo)->with('flag', $flag);
+        }
+    }
+
+    public function loadmore() {
+        //print_r($_POST);exit;
+        $offset = $_POST['offset'];
+        $email = $_POST['email'];
+        if ($offset == 0) {
+            $offset = 1;
+        }
+        $offsetcount = $offset * 2;
+        if ($offsetcount) {
+            $loaderProcess = History::where('email', '=', $email)->skip($offsetcount)->take(5)->get();
+            foreach ($loaderProcess as $loaderValue) {
+                $lastId = $loaderValue['id'];
+            }
+            $historyId = $lastId;
+            $loaderExist = History::where('email', '=', $email)->where('id', '>', $historyId)->take(2)->get();
+            $loaderExistcount = History::where('email', '=', $email)->where('id', '>', $historyId)->count();
+
+            if ($loaderExistcount >= 1) {
+                $flag = 'Yes';
+            } else {
+                $flag = 'No';
+            }
+        }
+        $historyinfo = History::where('email', '=', $email)->skip($offsetcount)->take(2)->get();
+        foreach ($historyinfo as $value) {
+            $historyid = $value['id'];
+        }
+        return View::make('mainviews.settings.loadmore', compact('historyinfo'))->with('historyid', $historyid)->with('flag', $flag);
+    }
+
+    public function postaccount() {
+        $rules = array(
+            'current_password' => 'required',
+            'new_password' => 'required|alphaNum|min:6',
+            'confirm_password' => 'required|same:new_password' // required and has to match the password field
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::to('myaccount')
+                            ->withErrors($validator);
+        } else {
+            $selectedlanguage = Session::get('locale');
+            $email = Input::get('email');
+            $password = Input::get('current_password');
+            $newpassword = Input::get('new_password');
+            $result = $this->user->checklogin($email, $password);
+            if ($result == 1) {
+                $this->user->savenewpassword($email, $newpassword);
+                Session::flash('success', Lang::get('messages2.passwordchangedsuccessfully',array(),$selectedlanguage));
+                return Redirect::to('myaccount');
+            } else {
+                Session::flash('failed', Lang::get('messages2.currentpassworddonotmatch',array(),$selectedlanguage));
+                return Redirect::to('myaccount');
+            }
+        }
+    }
+
+    public function editprofile() {
+        $email = Session::get('email');
+        if ($email == '') {
+            return Redirect::to('login');
+        } else {
+            $countries = $this->country->all();
+            $id = $this->user->getidbyemail($email);
+            $details = $this->user->getfirstbyid($id);
+            return View::make('mainviews.settings.editprofile', compact('details', 'countries'));
+        }
+    }
+
+    public function posteditprofile() {
+        $email = Session::get('email');
+        $rules = array(
+            'image' => 'image|mimes:jpg,jpeg,bmp,gif,png|max:5000',
+            'vanityurl' => 'unique:users|min:3|max:20',
+            'city' => 'required_if:verify,1',
+            'state' => 'required_if:verify,1',
+            'country' => 'required_if:verify,1',
+            'prooftype' => 'required_if:verify,1',
+            'identityproof' => 'image|mimes:jpg,jpeg,bmp,gif,png|max:5000',
+            'question' => 'required',
+            'answer' => 'required'
+//            'identityproof' => 'required_if:verify,1'
+        );
+        $messages = array(
+            'image' => 'You can upload only jpeg and png images.',
+            'required_if' => 'This field is required to submit for verification.'
+        );
+        $validator = Validator::make(Input::all(), $rules, $messages);
+         $selectedlanguage = Session::get('locale');
+        if ($validator->fails()) {
+            return Redirect::to('editprofile')->withInput()
+                            ->withErrors($validator);
+        } else {
+            $destinationPath = 'uploads/images/users';
+            $input = Input::all();
+            if (Input::has('vanityurl') == 1) {
+                if (Input::get('vanityurl') != '') {
+                    $input['vanityurl'] = URL::to(Input::get('vanityurl'));
+                }
+            } else {
+                $input['vanityurl'] = '';
+            }
+            $image = Input::file('image');
+            if ($image != '') {
+                $imagemimetype = $image->getClientOriginalExtension();
+                $file = $email . '.' . $imagemimetype;
+                $image->move($destinationPath, $file);
+                $imglink = $destinationPath . '/' . $file;
+                $input['image'] = $imglink;
+            } else {
+                $input['image'] = '';
+            }
+            $identityproof = Input::file('identityproof');
+            if ($identityproof != '') {
+                $identityproofmimetype = $identityproof->getClientOriginalExtension();
+                $file = 'idproof' . '.' . $identityproofmimetype;
+                $identityproof->move($destinationPath, $file);
+                $identityprooflink = $destinationPath . '/' . $file;
+                $input['identityproof'] = $identityprooflink;
+            } else {
+                $input['identityproof'] = '';
+            }
+            if (Input::has('verify')) {
+                if ($input['verify'] == "3") {
+                    $input['verify'] = 1;
+                } else if ($input['verify'] == "0") {
+                    $input['verify'] = 1;
+                } else {
+                    $input['verify'] = $input['verify'];
+                }
+            } else {
+                $input['verify'] = 0;
+            }
+            $this->user->updateprofile($input);
+            Session::flash('success', Lang::get('messages2.profilesuccessfullyedited',array(),$selectedlanguage));
+            return Redirect::to('editprofile');
+        }
+    }
+
+    public function deleteaccount() {
+        return View::make('mainviews.settings.deleteaccount');
+    }
+
+    public function unsubscribeemails() {
+        if (Session::has('email') == "") {
+            return Redirect::to('login');
+        } else {
+            $email = Session::get('email');
+            $id = $this->subscription->getidbyemail($email);
+            if ($id != '') {
+                $this->subscription->unsubscribe($id);
+            }
+            Session::flash('success', 'You are successfully unsubscribed from recieving newsletter from fundstarter.');
+            return Redirect::back();
+        }
+    }
+
+    public function postdeleteaccount() {
+        $rules = array(
+            'password' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::to('account/delete')
+                            ->withErrors($validator);
+        } else {
+            $email = Session::get('email');
+            $password = Input::get('password');
+            $result = $this->user->checklogin($email, $password);
+            if ($result == '') {
+                Session::flash('failed', 'Authentication failed!!!');
+                return Redirect::back();
+            } else {
+                $email = Session::get('email');
+                //make account inactive and delete nonfunded projects
+                $id = $this->user->getidbyemail($email);
+                $this->user->updateuserasinactive($id);
+                $projects = $this->project->getunlaunchedprojectbyuserid($id);
+                foreach ($projects as $project) {
+                    $projectid = $project->id;
+                    $this->comment->deletebyprojectid($projectid);
+                    $this->update->deletebyprojectid($projectid);
+                    $this->reward->deletebyprojectid($projectid);
+                    $this->project->deletebyid($projectid);
+                }
+                Session::flash('success', 'Delete successfull!!!');
+                Session::forget('email');
+                return Redirect::to('login');
+            }
+        }
+    }
+
+    public function findfriends() {
+        return View::make('mainviews.settings.findfriends');
+    }
+
+    public function notifications() {
+        $email = Session::get('email');
+        if ($email == '') {
+            return Redirect::to('login');
+        } else {
+            $notification = $this->user->getnotificationbyid();
+            return View::make('mainviews.settings.notifications', compact('notification'));
+        }
+    }
+
+    public function postnotifications() {
+        $email = Session::get('email');
+        if ($email == '') {
+            return Redirect::to('login');
+        } else {
+            $input = Input::all();
+            if (!Input::has('staffpick')) {
+                $input['staffpick'] = 0;
+            } else {
+                $input['staffpick'] = 1;
+            }
+            if (!Input::has('happening')) {
+                $input['happening'] = 0;
+            } else {
+                $input['happening'] = 1;
+            }
+            if (!Input::has('newsandevents')) {
+                $input['newsandevents'] = 0;
+            } else {
+                $input['newsandevents'] = 1;
+            }
+            if (!Input::has('backerupdates')) {
+                $input['backerupdates'] = 0;
+            } else {
+                $input['backerupdates'] = 1;
+            }
+            if (!Input::has('creatorcomments')) {
+                $input['creatorcomments'] = 0;
+            } else {
+                $input['creatorcomments'] = 1;
+            }
+            if (!Input::has('creatorpledges')) {
+                $input['creatorpledges'] = 0;
+            } else {
+                $input['creatorpledges'] = 1;
+            }
+            if (!Input::has('newlikes')) {
+                $input['newlikes'] = 0;
+            } else {
+                $input['newlikes'] = 1;
+            }
+            if (!Input::has('friendactivity')) {
+                $input['friendactivity'] = 0;
+            } else {
+                $input['friendactivity'] = 1;
+            }
+            if (!Input::has('newfollowers')) {
+                $input['newfollowers'] = 0;
+            } else {
+                $input['newfollowers'] = 1;
+            }
+            $this->user->savenotifications($input);
+            if ($input['staffpick'] == 0 && $input['happening'] == 0 && $input['newsandevents'] == 0) {
+                $this->subscription->userchangeinactive($email);
+            } else {
+                $this->subscription->userchangeactive($email);
+            }
+            Session::flash('success', Lang::get('messages2.settingssuccessfullysaved'));
+            return Redirect::to('notifications');
+        }
+    }
+
+    public function privacysettings() {
+        $email = Session::get('email');
+        $privilege = User::where('email', '=', $email)->pluck('privilege');
+        return View::make('mainviews.settings.privacy')->with('userprivilege', $privilege);
+    }
+
+    public function postprivacy() {
+        $email = Session::get('email');
+        $privArr = array();
+        foreach (Input::all() as $key => $val) {
+            $privArr[$key] = $val;
+        }
+        $privilege = serialize($privArr);
+        $updatepri = User::where('email', '=', $email)->first();
+        $updatepri->privilege = $privilege;
+        $updatepri->save();
+        Session::flash('success', Lang::get('messages2.privacysettingsuccessfullysaved'));
+        return Redirect::back();
+    }
+
+    public function stripesettings() {
+        $email = Session::get('email');
+       // echo $email;
+        if ($email == '') {
+            return Redirect::to('login');
+        } else {
+            $gateway = $this->getstripecredentials();
+            $clientid = $gateway['clientid'];
+            $mode = $gateway['mode'];
+            $authorize_request_body = array(
+                'response_type' => 'code',
+                'scope' => 'read_write',
+                'client_id' => $clientid
+            );
+			
+			
+			
+         
+            $stripeauthorizeurl = 'https://connect.stripe.com/oauth/authorize?' . http_build_query($authorize_request_body);
+
+            $id = $this->user->getidbyemail($email);
+            $userdetail = $this->user->getuserbyid($id);
+            return View::make('mainviews.settings.stripeconnect', compact('userdetail', 'mode', 'stripeauthorizeurl'));
+        }
+    }
+
+    public function getstripecredentials() {
+        $paymentgateways = Config::get('paymentconfig');
+
+        
+        foreach ($paymentgateways as $payment) {
+            $paymentgateway = unserialize($payment);
+           
+            if ($paymentgateway['id'] == 2) {   // stripe in id 2
+                $setting = $paymentgateway['settings'];
+            }
+        }
+        $stripesettings = unserialize($setting);
+        $mode = $stripesettings['mode'];
+        $gatewayname = $stripesettings['gatewayname'];
+       $secretkey = $stripesettings['Secret_Key'];
+        $publishablekey = $stripesettings['Publish_Key'];
+       $clientid = $stripesettings['Client_ID'];
+       // $secretkey = 'sk_test_2grop285oeOxl4PfeSpO6vS2';
+        //$publishablekey = 'pk_test_gIlGMJkZbwuLxXXa9djenk9d';
+        //$clientid = 'ca_BMNawSWYIRYmFRfbAHjc4TnTgS124DcN';
+		
+		/*echo $mode;
+		echo '<br>';
+		echo $gatewayname;
+		echo '<br>';
+		echo $secretkey;
+		echo '<br>';
+		echo $publishablekey;
+		echo '<br>';
+		echo  $clientid;
+		
+		exit;*/
+        return array('mode' => $mode, 'gatewayname' => $gatewayname, 'secretkey' => $secretkey, 'publishablekey' => $publishablekey, 'clientid' => $clientid);
+    }
+
+    public function gettoken() {
+        $gateway = $this->getstripecredentials();
+        if (Input::get('code')) {
+            $code = Input::get('code');
+            $token_request_body = array(
+                'grant_type' => 'authorization_code',
+                'client_id' => $gateway['clientid'],
+                'code' => $code,
+                'client_secret' => $gateway['secretkey']
+            );
+            $req = curl_init('https://connect.stripe.com/oauth/token');
+            curl_setopt($req, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($req, CURLOPT_POST, true);
+            curl_setopt($req, CURLOPT_POSTFIELDS, http_build_query($token_request_body));
+            // TODO: Additional error handling
+            curl_getinfo($req, CURLINFO_HTTP_CODE);
+            $resp = json_decode(curl_exec($req), true);
+            curl_close($req);
+			
+            $this->updatestripedetails($resp);
+            $this->sendmailtoadmin();
+            Session::flash('success', 'Successfully Updated Stripe Connect');
+        } elseif (isset($_GET['error'])) {
+            Session::flash('failed', $_GET['error_description']);
+        }
+        return Redirect::to('stripesettings');
+    }
+
+  public function payumoney()
+	{
+
+        $amount= $_REQUEST['amount'];
+        
+        
+       
+$parameters = [
+      
+        'tid' => '1233221223322',
+        
+        'order_id' => '1232212',
+        
+        'amount' => $amount,
+
+        'firstname' => 'bhupinder',
+            'email' => 'test@gmail.com',
+            'phone' => '9876543210',
+         'productinfo' => 'donation',
+        
+      ];
+
+
+      
+    
+  //   $order = Indipay::gateway('PayUMoney')->prepare($parameters);
+        return Indipay::purchase($parameters);
+    
+    
+    
+    }  
+     public function payumoneyresponse(Request $request)
+     {
+//$response = Indipay::response($request);
+
+        dd($request);
+        echo 'ds';
+        exit;
+     }
+    public function updatestripedetails($response) {
+        $email = Session::get('email');
+        $id = $this->user->getidbyemail($email);
+        $gateway = $this->getstripecredentials();
+        $mode = $gateway['mode'];
+        $this->user->updatestripecredentials($id, $mode, $response);
+    }
+
+    public function sendmailtoadmin() {
+        $email = Session::get('email');
+        $id = $this->user->getidbyemail($email);
+        $name = $this->user->getusername($id);
+        $adminsettings = $this->adminsetting->getfirst();
+        $templatename = "stripeconnect";
+        $templatedetails = $this->newsletter->getbytemplatename($templatename);
+        $logo = $adminsettings['logo'];
+        $title = $adminsettings['sitetitle'];
+        $subject = $templatedetails['subject'];
+        $data = array(
+            'email' => $email,
+            'logo' => $logo,
+            'title' => $title,
+            'name' => $name,
+            'subject' => $templatedetails['subject'],
+            'sendername' => $templatedetails['sendername'],
+            'senderemail' => $templatedetails['senderemail']
+        );
+        Mail::send('emails.newsletters.' . $templatename, $data, function($message)use ($email, $subject) {
+            $message->to($email)->subject($subject);
+        });
+    }
+
+}

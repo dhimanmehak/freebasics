@@ -1,0 +1,61 @@
+<?php $__env->startSection('content'); ?>
+<section>
+    <div class="login">
+        <?php if(Session::has('success')): ?>
+        <div class="alert-message success">
+            <?php echo Session::get('success');; ?>
+
+        </div>
+        <?php endif; ?>
+        <?php if(Session::has('failed')): ?>
+        <div class="alert-message error">
+            <?php echo Session::get('failed');; ?>
+
+        </div>
+        <?php endif; ?>
+
+        <div class="login-container col-md-4">
+            <div class="holder">               
+                <form method="post" action="<?php echo URL::to('postresetforgotpwd');; ?>">
+
+                    <h2 class="title-log"><?php echo trans('messages.resetpassword'); ?></h2>    
+                    <input type="hidden" value="<?php echo $id; ?>" name="id">
+                    <ol class="login-form">
+                        <li class="li1 relative">
+                            <div class="relative">
+                                <input class="input-text full-width js-auto_focus" type="text" name='username' value="<?php echo $email; ?>" readonly>
+                            </div>
+                        </li>
+                        <li class="li1 relative">
+                            <div class="relative">
+                                <input id="pass1" class="input-text full-width js-auto_focus password <?php if($errors->has('password')): ?> has-error <?php endif; ?>" type="password" placeholder="<?php echo trans('messages.password'); ?>" name='password'>
+                                <?php if($errors->has('password')): ?> <p class="help-block"><?php echo $errors->first('password'); ?></p> <?php endif; ?>
+                            </div>
+                        </li>
+                        <li class="li1 relative">
+                            <div class="relative">
+                                <input id="pass2" class="input-text full-width js-auto_focus password <?php if($errors->has('confirm_password')): ?> has-error <?php endif; ?>" type="password" placeholder="<?php echo trans('messages.repassword'); ?>" name='confirm_password'>
+                                <?php if($errors->has('confirm_password')): ?> <p class="help-block"><?php echo $errors->first('confirm_password'); ?></p> <?php endif; ?>
+                            </div>
+                        </li>                      
+                        <li class="clearfix restlv">
+
+                            <div class="center">
+                                <input class="button button_green submit" type="submit" value="<?php echo trans('messages.submit'); ?>" name="commit">
+                            </div>
+                        </li>
+                    </ol>
+                </form>
+
+            </div>
+
+            <div class="footer-bootom">
+                <?php echo trans('messages.haveaccount'); ?>?
+                <a class="bold" href="<?php echo URL::to('login'); ?>"><?php echo trans('messages.login'); ?>!</a>
+            </div>
+        </div>
+    </div>
+</section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.mainlayoutold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
